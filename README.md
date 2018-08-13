@@ -10,8 +10,8 @@ The first coordinate is the start and the last is for the end.
 
 EXAMPLE:
 2       // medium difficulty
-150 250 150 // grass colour, do not make the last value greater than 245
-210 200 100 // path colour
+220 240 120 // grass colour, do not make any values less than 20
+230 200 110 // path colour
 0 2     // start
 4 2     // corner
 4 5     // corner

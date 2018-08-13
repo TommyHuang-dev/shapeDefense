@@ -21,6 +21,7 @@ def draw_grid(start_x, start_y, l, h, space, col, border, offset_l=0, offset_h=0
     if l < 0 or h < 0 or space < 0:
         raise ValueError('draw_grid was called with less than 0 for length, height, or spacing!')
 
+    screen.lock()  # lock then unlock screen after drawing for more efficiency
     end_x = start_x + l
     end_y = start_y + h
     # vertical lines
@@ -34,13 +35,16 @@ def draw_grid(start_x, start_y, l, h, space, col, border, offset_l=0, offset_h=0
     # border
     if border:
         pygame.draw.rect(screen, col, (start_x, start_y, l, h), 1)
+    screen.unlock()
 
 
 # draws the path based on a list of corners, uses lines for the path, circles to fill in corners
 def draw_path(corner_list, col):
+    screen.lock()  # lock then unlock screen after drawing for more efficiency
     pygame.draw.lines(screen, col, False, corner_list, 45)
     for i in range(len(corner_list)):
         pygame.gfxdraw.filled_circle(screen, corner_list[i][0], corner_list[i][1], 22, col)
+    screen.unlock()
 
 
 # ---- SETUP (only ran once) ----
@@ -62,8 +66,8 @@ pygame.display.set_caption("Shape Defense")
 # - MAP STUFF -
 # available and selected map info (difficulty, colours, corner)
 mapList = ["easy, med, hard"]
-selectedMap = ["med"]
-pathCorners = mapParse.parseCoords("med")
+selectedMap = "easy"
+pathCorners = mapParse.parseCoords(selectedMap)
 # convert grid info to pixel coords
 pathCoords = []
 for i in range(3, len(pathCorners), 1):
@@ -77,7 +81,7 @@ print("score multiplier: ", scoreMulti)
 # colours, grass, path, and grid colours are based off the map file
 colGrass = pathCorners[1]
 colPath = pathCorners[2]
-colGrid = [colGrass[0] - 10, colGrass[1] - 30, colGrass[2] + 10]
+colGrid = [colGrass[0] - 20, colGrass[1] - 20, colGrass[2] - 20]
 colPurchaseMenu = [160, 190, 240]
 
 # delete unnecessary path corners info
