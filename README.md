@@ -36,10 +36,9 @@ range       // range, in number of tiles
 proj_spd    // projectile speed of the shot, in tiles per second
 piercing    // how many enemies one shot can hit
 special     // special effect (e.g. slowing enemies)
+special_val // value for the special effect
 upgradeA1   // top upgrade
 upgradeA2   // top upgrade 2
-upgradeB1   // bot upgrade
-upgradeB2   // bot upgrade 2
 sprite_base     // base sprite
 sprite_turret   // turret sprite
 sprite_bullet   // bullet sprite

@@ -17,4 +17,3 @@ def parseCoords(file_name):
             corners.append([int(cur_line[0]), int(cur_line[1]), int(cur_line[2])])
 
     return corners
-
