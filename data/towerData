@@ -1,3 +1,42 @@
-Tower
-name Darter
+name basic turret
+type turret
+cost 150
+sprite_base basic
+damage 2 3 4 5
+rate 1.0 1.5 2.25 3.0
+range 2.0 3.0 4.0 5.0
+proj_spd 5.0 6.0 7.0 8.0
+up_cost 50
+up_cost_inc 25
+max_level 10
+sprite_turret basic_turret
+sprite_proj basic_shot
+hit_sound basic_hit
 
+name damage module
+type booster
+cost 300
+sprite_base module_damage
+boost_type damage
+boost_value 0.25
+
+name rate module
+type booster
+cost 300
+sprite_base module_rate
+boost_type rate
+boost_value 0.25
+
+name range module
+type booster
+cost 300
+sprite_base module_damage
+boost_type range
+boost_value 0.5
+
+name projectile module
+type booster
+cost 300
+sprite_base module_projectile
+boost_type proj_spd
+boost_value 0.5
