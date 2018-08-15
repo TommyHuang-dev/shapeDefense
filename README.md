@@ -58,6 +58,9 @@ Booster tower attributes:
 boost_type STR // what stat to boost (damage, rate, range, proj_spd)
 boost_value INT // % of the stat to boost, stacks additively with other boosters
 
+the last line should always be:
+end
+
 
 CORES (WIP):
 Equipped by turrets to boost stats or change their attack. Each turret can equip one.

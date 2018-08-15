@@ -10,6 +10,7 @@ class Turret:
 
         # keeping track of tower and stat levels
         # initialize stats
+        self.name = name
         self.towerLevel = 1
         self.dmgLevel = 1
         self.rateLevel = 1
@@ -51,7 +52,7 @@ class Turret:
         self.damage = self.stats['damage'][dmgl] * (1 + self.dmgBoost)
         self.rate = self.stats['rate'][ratel] * (1 + self.rateBoost)
         self.range = self.stats['range'][rangel] * (1 + self.rangeBoost)
-        self.projSpd = self.stats['projSpd'][rangel] * (1 + self.projBoost)
+        self.projSpd = self.stats['proj_spd'][rangel] * (1 + self.projBoost)
 
     def calc_boost(self, adjTowerList):
         self.dmgBoost = 0

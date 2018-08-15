@@ -1,5 +1,9 @@
 from functions import mapParse
 from functions import components
+from classes import core
+from classes import enemy
+from classes import projectile
+from classes import tower
 import savefiles
 import classes
 import data
@@ -8,6 +12,7 @@ import time
 import pygame
 from pygame import gfxdraw
 import sys
+
 
 def load_pics(folder, name):
     location = folder + name + ".png"
@@ -19,7 +24,9 @@ def load_pics(folder, name):
 # Made by Tommy H
 # Project started 2018-08-12
 # music: main menu wii music!! ingame atlas plug
-# easy: -10% speed on enemies, med: nothing, hard: +10% speed on enemies
+# easy: -15% speed on enemies, long path, -25% score
+# med: no speed modification, normal path, normal score
+# hard: +15% speed on enemies, short path, +25% score
 
 
 # ---- SETUP (only ran once) ----
@@ -64,6 +71,36 @@ for i in range(len(mapList)):
 
 # load hardcoded images
 titlePic = load_pics("images/UI/", "title")
+
+# ---- LOAD CLASSES ----
+# towers (turrets + boosters)
+towerNames = ['basic turret']
+boosterNames = []
+# list of towers and boosters available for purchase, taken from towerNames and boosterNames
+towerList = []
+boosterList = []
+# UI button initialization
+buttonListTowers = []
+buttonListBoosters = []
+
+# create tower buttons and add the tower classes
+for i in range(len(towerNames)):
+    towerList.append(tower.Turret(towerNames[i]))
+    if i % 2 == 0:
+        buttonListTowers.append(pygame.Rect(100, 75 + (i // 2) * 75, 50, 50))
+    else:
+        buttonListTowers.append(pygame.Rect(100, 175 + (i // 2) * 75, 50, 50))
+
+# create booster buttons and add the booster classes
+for i in range(len(boosterList)):
+    if i % 2 == 0:
+        buttonListTowers.append(pygame.Rect(300, 75 + (i // 2) * 75, 50, 50))
+    else:
+        buttonListTowers.append(pygame.Rect(300, 175 + (i // 2) * 75, 50, 50))
+
+# placeholder tower
+basicTurretImg = load_pics("images/towers/", "basic")
+
 
 # ---- OUTER LOOP ----
 while True:
@@ -114,39 +151,23 @@ while True:
 
     # convert grid info to pixel coords
     pathCoords = []
-    obstacleCoords = []
     for i in range(3, len(pathCorners), 1):
         pathCoords.append([pathCorners[i][0] * 50 - 25, pathCorners[i][1] * 50 - 25])
-    for i in range(1, len(obstacleLoc), 1):
-        obstacleCoords.append([obstacleLoc[i][0] * 50 - 25, obstacleLoc[i][1] * 50 - 25])
 
     # change score multiplier based on first pathCorners value (the map difficulty)
     # easy = 0.75x, med = 1x, hard = 1.25x
     scoreMulti = (pathCorners[0] + 2) / 4
-    print("score multiplier: ", scoreMulti)
 
     # Colours of various objects
     colGrass = pathCorners[1]
     colPath = pathCorners[2]
     colGrid = [colGrass[0] - 20, colGrass[1] - 20, colGrass[2] - 20]
     colPurchaseMenu = [200, 200, 220]
-    colObs = obstacleLoc[0]
 
     # delete unnecessary path corners info
     del(pathCorners[0])
     del(pathCorners[1])
     del(pathCorners[2])
-    del(obstacleLoc[0])
-
-    # towers (turrets + boosters)
-    towerList = ['placeholder']
-
-    # tower buttons
-    turretButtonList = [pygame.Rect(disLength - 200, 100, 100, 100), pygame.Rect(disLength - 200, 250, 100, 100)]
-    boosterButtonList = []
-
-    # placeholder tower
-    basicTurretImg = load_pics("images/towers/", "basic")
 
     # ---- GAME LOOP ----
     while not intro:
@@ -154,9 +175,6 @@ while True:
         screen.fill(colGrass)
         components.draw_grid(screen, 0, 0, disLength - 300, disHeight, 50, colGrid, False)
         components.draw_path(screen, pathCoords, colPath)
-        # obstacles
-        for i in range(len(obstacleLoc)):
-            pygame.draw.circle(screen, colObs, (obstacleCoords[i][0], obstacleCoords[i][1]), 21)
 
         # ---- UI ELEMENTS ----
         # ui background and borders
@@ -165,13 +183,9 @@ while True:
         pygame.draw.line(screen, (0, 0, 0), (disLength - 300, 0), (disLength - 300, disHeight), 3)
 
         # purchase towers
-        for i in range(len(turretButtonList)):
-            pygame.draw.rect(screen, (50, 50, 50), (turretButtonList[i]), 2)
-            screen.blit(pygame.transform.scale(basicTurretImg, (100, 100)), (disLength - 200, 100))
-            screen.blit(pygame.transform.scale(basicTurretImg, (100, 100)), (disLength - 200, 250))
+        for i in range(len(towerList)):
+            print(towerList[i].towerLevel)
 
-        for i in range(len(boosterButtonList)):
-            pass
         # update display!
         pygame.display.update()
 

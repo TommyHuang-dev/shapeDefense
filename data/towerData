@@ -12,6 +12,7 @@ max_level 10
 sprite_turret basic_turret
 sprite_proj basic_shot
 hit_sound basic_hit
+end
 
 name damage module
 type booster
@@ -19,6 +20,7 @@ cost 300
 sprite_base module_damage
 boost_type damage
 boost_value 0.25
+end
 
 name rate module
 type booster
@@ -26,6 +28,7 @@ cost 300
 sprite_base module_rate
 boost_type rate
 boost_value 0.25
+end
 
 name range module
 type booster
@@ -33,6 +36,7 @@ cost 300
 sprite_base module_damage
 boost_type range
 boost_value 0.5
+end
 
 name projectile module
 type booster
@@ -40,3 +44,4 @@ cost 300
 sprite_base module_projectile
 boost_type proj_spd
 boost_value 0.5
+end
