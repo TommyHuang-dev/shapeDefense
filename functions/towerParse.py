@@ -12,9 +12,7 @@ def get_stats(name):
                 cur_line = line.split()
                 # stop reading when reaching a blank line
                 if cur_line[0] == "end":
-                    print(stat_list)
                     return stat_list
-                print(cur_line)
                 stat_key = cur_line[0]
                 stat_val = cur_line[1:]
                 stat_list[str(stat_key)] = stat_val

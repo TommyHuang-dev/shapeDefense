@@ -24,9 +24,9 @@ def load_pics(folder, name):
 # Made by Tommy H
 # Project started 2018-08-12
 # music: main menu wii music!! ingame atlas plug
-# easy: -15% speed on enemies, long path, -25% score
-# med: no speed modification, normal path, normal score
-# hard: +15% speed on enemies, short path, +25% score
+# easy: -25% hp on enemies, long path (87), -25% score
+# med: no speed modification, normal path (72), normal score
+# hard: +25% hp on enemies, short path (57), +25% score
 
 
 # ---- SETUP (only ran once) ----
@@ -47,7 +47,7 @@ pygame.display.set_caption("Shape Defense")
 intro = True
 
 # font stuff
-menuScreenButtonFont = pygame.font.SysFont('Arial', 35,  False)
+menuScreenButtonFont = pygame.font.SysFont('Arial', 30,  False)
 menuScreenHeaderFont = pygame.font.SysFont('Arial', 45,  True)
 menuScreenHeaderFont.set_underline(True)  # sets underline for a font
 
@@ -63,29 +63,33 @@ colBackground = [200, 225, 255]
 buttons = []
 buttonsCol = []
 
-# create list of buttons and their colour
+# create list of level select buttons and their colour
 for i in range(len(mapList)):
     colours = mapParse.parse_coords(mapList[i])
     buttonsCol.append(colours[1])
-    buttons.append(pygame.Rect(400, 300 + i * 125, 500, 100))
+    buttons.append(pygame.Rect(400, 350 + i * 100, 500, 75))
 
 # load hardcoded images
 titlePic = load_pics("images/UI/", "title")
+circlePic = load_pics("images/UI/", "dots")
+otherShapesPic = load_pics("images/UI/", "shapes")
+circleX = [0, 425, 850, 1275]
+shapesX = [-400, 25, 450, 875]
 
 # ---- LOAD CLASSES ----
 # towers (turrets + boosters)
-towerNames = ['basic turret']
+turretNames = ['basic turret']
 boosterNames = []
 # list of towers and boosters available for purchase, taken from towerNames and boosterNames
-towerList = []
+turretList = []
 boosterList = []
 # UI button initialization
 buttonListTowers = []
 buttonListBoosters = []
 
 # create tower buttons and add the tower classes
-for i in range(len(towerNames)):
-    towerList.append(tower.Turret(towerNames[i]))
+for i in range(len(turretNames)):
+    turretList.append(tower.Turret(turretNames[i]))
     if i % 2 == 0:
         buttonListTowers.append(pygame.Rect(100, 75 + (i // 2) * 75, 50, 50))
     else:
@@ -108,7 +112,6 @@ while True:
     while intro:
         # background
         screen.fill(colBackground)
-        pygame.draw.rect(screen, (0, 0, 0), (0, 0, disLength, disHeight), 2)
 
         # draw the buttons
         for i in range(len(buttons)):
@@ -118,7 +121,7 @@ while True:
                                    mapNames[i], menuScreenButtonFont, (15, 15, 15))
 
         # draw prompt msg
-        components.create_text(screen, (disLength // 2, 250),
+        components.create_text(screen, (disLength // 2, 300),
                                "Choose a level", menuScreenHeaderFont, (0, 0, 0))
 
         # get mouse press on a button
@@ -132,8 +135,25 @@ while True:
                     selectedMap = mapList[i]
                     intro = False
 
-        # title name
-        screen.blit(titlePic, (0, 50))
+        # title text
+        screen.blit(titlePic, (250, 50))
+        # move circles using list comprehension
+        circleX = [x - 25 for x in circleX]
+        for i in range(len(circleX)):
+            if circleX[i] < - 425:
+                circleX[i] = 1275
+            # draw dot under title!
+            screen.blit(circlePic, (int(circleX[i]), 175))
+        # move other shapes using list comprehension
+        shapesX = [x + 1.5 for x in shapesX]
+        for i in range(len(shapesX)):
+            if shapesX[i] > 1325:
+                shapesX[i] = -400
+            # draw shapes!
+            screen.blit(otherShapesPic, (int(shapesX[i]), 225))
+
+        # border
+        pygame.draw.rect(screen, (0, 0, 0), (0, 0, disLength, disHeight), 2)
 
         # Pygame events
         for event in pygame.event.get():
@@ -162,7 +182,7 @@ while True:
     colGrass = pathCorners[1]
     colPath = pathCorners[2]
     colGrid = [colGrass[0] - 20, colGrass[1] - 20, colGrass[2] - 20]
-    colPurchaseMenu = [200, 200, 220]
+    colPurchaseMenu = [225, 225, 225]
 
     # delete unnecessary path corners info
     del(pathCorners[0])
@@ -177,14 +197,16 @@ while True:
         components.draw_path(screen, pathCoords, colPath)
 
         # ---- UI ELEMENTS ----
-        # ui background and borders
+        # ui background
         pygame.draw.rect(screen, colPurchaseMenu, (disLength - 300, 0, 300, disHeight), 0)
+
+        # borders
         pygame.draw.rect(screen, (0, 0, 0), (0, 0, disLength, disHeight), 3)
         pygame.draw.line(screen, (0, 0, 0), (disLength - 300, 0), (disLength - 300, disHeight), 3)
 
         # purchase towers
-        for i in range(len(towerList)):
-            print(towerList[i].towerLevel)
+        for i in range(len(turretList)):
+            pass
 
         # update display!
         pygame.display.update()
