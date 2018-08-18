@@ -18,6 +18,8 @@ def parse_coords(file_name):
         # colour scheme
         elif len(cur_line) == 3:
             map_info.append([int(cur_line[0]), int(cur_line[1]), int(cur_line[2])])
+        elif len(cur_line) == 1:
+            map_info.append(str(cur_line[0]))
 
     return map_info
 

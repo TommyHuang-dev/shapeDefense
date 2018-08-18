@@ -42,7 +42,10 @@ def create_button(display, rect, text, fontsize, back_col, text_col):
 
 
 # creates some text centered on an x y coordinate
-def create_text(display, location, text, font, col):
+def create_text(display, location, text, centered, font, col):
     display_text = font.render(str(text), True, col)
     text_rect = display_text.get_rect()
-    display.blit(display_text, (location[0] - text_rect[2] // 2, location[1] - text_rect[3] // 2))
+    if centered:
+        display.blit(display_text, (location[0] - text_rect[2] // 2, location[1] - text_rect[3] // 2))
+    else:
+        display.blit(display_text, (location[0], location[1] - text_rect[3] // 2))

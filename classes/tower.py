@@ -12,10 +12,9 @@ class Turret:
         # initialize stats
         self.name = name
         self.towerLevel = 1
-        self.dmgLevel = 1
-        self.rateLevel = 1
-        self.rangeLevel = 1  # also includes projectile speed
-        self.core = 'none'
+        self.dmgLevel = [1, len(self.stats['damage'])]
+        self.rateLevel = [1, len(self.stats['rate'])]
+        self.rangeLevel = [1, len(self.stats['range'])]  # also includes projectile speed
 
         # module effect stats
         self.dmgBoost = 0
@@ -24,35 +23,38 @@ class Turret:
         self.projBoost = 0
 
         # initialize stats from towerParse
-        self.cost = self.stats['cost']
-        self.initialUpCost = self.stats['up_cost']
-        self.upCostInc = self.stats['up_cost_inc']
-        self.finalUpCost = self.stats['up_cost']
+        self.cost = int(self.stats['cost'][0])
+        self.initialUpCost = int(self.stats['up_cost'][0])
+        self.upCostInc = int(self.stats['up_cost_inc'][0])
+        self.finalUpCost = int(self.stats['up_cost'][0])
+        self.special = self.stats['special'][0]
+        self.specialVal = self.stats['special_val'][0]
+        self.effRange = float(self.stats['effective_range'][0])  # range * effRange = how far the projectile actually goes
 
         # initialize tower stats
-        self.maxLevel = self.stats['max_level']
+        self.maxLevel = int(self.stats['max_level'][0])
         self.damage = 0  # array of tower damage by level
         self.rate = 0
-        self.range = 0
+        self.range = 0  # range that it will target enemies
         self.projSpd = 0
 
         # pictures and sounds
-        self.spriteBase = self.stats['sprite_base']
-        self.spriteTurret = self.stats['sprite_base']
-        self.spriteProjectile = self.stats['sprite_base']
-        self.hitSound = self.stats['hit_sound']
+        self.spriteBase = str(self.stats['sprite_base'][0])
+        self.spriteTurret = str(self.stats['sprite_base'][0])
+        self.spriteProjectile = str(self.stats['sprite_base'][0])
+        self.hitSound = str(self.stats['hit_sound'][0])
 
         # update all stats to match da level one
         self.update_stats(self.initialUpCost, self.upCostInc, self.towerLevel,
-                          self.dmgLevel, self.rateLevel, self.rangeLevel)
+                          self.dmgLevel[0], self.rateLevel[0], self.rangeLevel[0])
         self.placed = False  # becomes true after the tower is placed down
 
     def update_stats(self, init_up, inc_up, cur_level, dmgl, ratel, rangel):
-        self.finalUpCost = init_up + inc_up * (cur_level - 1)
-        self.damage = self.stats['damage'][dmgl] * (1 + self.dmgBoost)
-        self.rate = self.stats['rate'][ratel] * (1 + self.rateBoost)
-        self.range = self.stats['range'][rangel] * (1 + self.rangeBoost)
-        self.projSpd = self.stats['proj_spd'][rangel] * (1 + self.projBoost)
+        self.finalUpCost = int(init_up + inc_up * (cur_level - 1))
+        self.damage = int(self.stats['damage'][dmgl] * (1 + self.dmgBoost))
+        self.rate = float(self.stats['rate'][ratel] * (1 + self.rateBoost))
+        self.range = float(self.stats['range'][rangel] * (1 + self.rangeBoost))
+        self.projSpd = float(self.stats['proj_spd'][rangel] * (1 + self.projBoost))
 
     def calc_boost(self, adjTowerList):
         self.dmgBoost = 0
@@ -82,7 +84,7 @@ class Turret:
             self.rangeLevel += 1
 
         self.update_stats(self.initialUpCost, self.upCostInc, self.towerLevel,
-                          self.dmgLevel, self.rateLevel, self.rangeLevel)
+                          self.dmgLevel[0], self.rateLevel[0], self.rangeLevel[0])
 
     def fire_projectile(self):
         pass
