@@ -11,6 +11,8 @@ class Turret:
         # keeping track of tower and stat levels
         # initialize stats
         self.name = name
+        self.type = self.stats['type'][0]
+        self.targeting = self.stats['targeting'][0]
         self.towerLevel = 1
         self.dmgLevel = [1, len(self.stats['damage'])]
         self.rateLevel = [1, len(self.stats['rate'])]
@@ -29,7 +31,8 @@ class Turret:
         self.finalUpCost = int(self.stats['up_cost'][0])
         self.special = self.stats['special'][0]
         self.specialVal = self.stats['special_val'][0]
-        self.effRange = float(self.stats['effective_range'][0])  # range * effRange = how far the projectile actually goes
+        # range * effRange = how far the projectile actually goes
+        self.effRange = float(self.stats['effective_range'][0])
 
         # initialize tower stats
         self.maxLevel = int(self.stats['max_level'][0])
@@ -51,19 +54,19 @@ class Turret:
 
     def update_stats(self, init_up, inc_up, cur_level, dmgl, ratel, rangel):
         self.finalUpCost = int(init_up + inc_up * (cur_level - 1))
-        self.damage = int(self.stats['damage'][dmgl] * (1 + self.dmgBoost))
-        self.rate = float(self.stats['rate'][ratel] * (1 + self.rateBoost))
-        self.range = float(self.stats['range'][rangel] * (1 + self.rangeBoost))
-        self.projSpd = float(self.stats['proj_spd'][rangel] * (1 + self.projBoost))
+        self.damage = int(self.stats['damage'][dmgl - 1] * (1 + self.dmgBoost))
+        self.rate = float(self.stats['rate'][ratel - 1] * (1 + self.rateBoost))
+        self.range = float(self.stats['range'][rangel - 1] * (1 + self.rangeBoost))
+        self.projSpd = float(self.stats['proj_spd'][rangel - 1] * (1 + self.projBoost))
 
-    def calc_boost(self, adjTowerList):
+    def calc_boost(self, adj_tower_list):
         self.dmgBoost = 0
         self.rateBoost = 0
         self.rangeBoost = 0
         self.projBoost = 0
 
-        for i in range(len(adjTowerList)):
-            if type(adjTowerList[i]) == Booster:
+        for i in range(len(adj_tower_list)):
+            if type(adj_tower_list[i]) == Booster:
                 if Booster.type == "damage":
                     self.dmgBoost += Booster.val
                 if Booster.type == "rate":
@@ -89,11 +92,13 @@ class Turret:
     def fire_projectile(self):
         pass
 
-
     def upgrade_on_core(self):
         pass
+
 
 class Booster:
     type = "asdf"
     val = 0
 
+    def __init__(self, asdf):
+        pass

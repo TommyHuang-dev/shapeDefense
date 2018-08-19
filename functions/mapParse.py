@@ -4,42 +4,25 @@ from data import maps
 def parse_coords(file_name):
     # setup file and return list
     file = open("data/maps/" + file_name, "r")
-    map_info = []
-    # read first line for difficulty
-    cur_line = int(file.readline())
-    map_info.append(cur_line)
+    map_info = [[], [], []]  # colours, spawns, obstacles
+    # read first two lines for colour
+    cur_line = file.readline().split()
+    map_info[0].append(cur_line)
+    cur_line = file.readline().split()
+    map_info[0].append(cur_line)
+    # read rest for spawns and obstacles
+    cur_mode = "spawns"
     for line in file:
         cur_line = line.split()
         # corners
-        if cur_line[0] == "obstacles":
-            break
-        if len(cur_line) == 2:
-            map_info.append([int(cur_line[0]), int(cur_line[1])])
-        # colour scheme
-        elif len(cur_line) == 3:
-            map_info.append([int(cur_line[0]), int(cur_line[1]), int(cur_line[2])])
-        elif len(cur_line) == 1:
-            map_info.append(str(cur_line[0]))
+        if cur_line[0] == "spawns":
+            cur_mode = "spawns"
+        elif cur_line[0] == "obstacles":
+            cur_mode = "obstacles"
+        elif cur_mode == "spawns":
+            map_info[1].append(cur_line)
+        elif cur_mode == "obstacles":
+            map_info[2].append(cur_line)
 
     return map_info
 
-
-def parse_obstacles(file_name):
-    # setup file and return list
-    file = open("data/maps/" + file_name, "r")
-    ob_info = []
-    start_read = False
-    # read first line for difficulty
-    for line in file:
-        cur_line = line.split()
-        # corners
-        if cur_line[0] == "obstacles":
-            start_read = True
-        if start_read:
-            if len(cur_line) == 2:
-                ob_info.append([int(cur_line[0]), int(cur_line[1])])
-            # colour scheme
-            elif len(cur_line) == 3:
-                ob_info.append([int(cur_line[0]), int(cur_line[1]), int(cur_line[2])])
-
-    return ob_info

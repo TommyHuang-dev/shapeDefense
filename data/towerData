@@ -1,115 +1,41 @@
 name basic turret
 type turret
-cost 200
+cost 50
 sprite_base basic_base
-damage 3 4 5 6 8
-rate 1.0 1.4 1.8 2.4 3.0
-range 2.5 3.5 4.5
-proj_spd 10.0 12.5 15.0
+damage 3 5 8
+rate 1.0 2.0
+range 3.0 4.5
+proj_spd 15.0 15.0
 effective_range 1.1
 up_cost 75
 up_cost_inc 25
-max_level 8
+max_level 5
 special none
 special_val 0
 sprite_turret basic_turret
 sprite_proj basic_shot
 hit_sound basic_hit
+targeting 3
 end
 
-name machinegun
-type turret
-cost 350
-sprite_base machinegun_base
-damage 2 3 4 5
-rate 2.5 3.5 4.5 5.5 6.5 8.0
-range 2.5 3.5 4.5
-proj_spd 20.0 20.0 20.0
-effective_range 1.1
-up_cost 125
-up_cost_inc 50
-max_level 8
+name wall
+type wall
+cost 10
+sprite_base wall_base
+damage 0
+rate 0
+range 0
+proj_spd 0
+effective_range 0
+up_cost 0
+up_cost_inc 0
+max_level 1
 special none
 special_val 0
-sprite_turret machinegun_turret
-sprite_proj machinegun_shot
-hit_sound basic_hit
-end
-
-name sniper
-type turret
-cost 400
-sprite_base sniper_base
-damage 8 11 14 17 20 24
-rate 0.4 0.6 0.8 1.0
-range 5.0 6.5 8.0
-proj_spd 25.0 30.0 35.0
-effective_range 1.1
-up_cost 150
-up_cost_inc 50
-max_level 8
-special none
-special_val 0
-sprite_turret sniper_turret
-sprite_proj sniper_shot
-hit_sound sniper_hit
-end
-
-name cannon
-type turret
-cost 400
-sprite_base cannon_base
-damage 5 6 8 10 12 14
-rate 0.6 0.9 1.2 1.5
-range 3.0 4.0 5.0
-proj_spd 8.0 10.0 12.0
-effective_range 1.2
-up_cost 150
-up_cost_inc 50
-max_level 8
-special explode
-special_val 0.75
-sprite_turret cannon_turret
-sprite_proj cannon_shot
-hit_sound explosion
-end
-
-name frost
-type turret
-cost 500
-sprite_base frost_base
-damage 3 4 5 6
-rate 0.8 1.0 1.2 1.5
-range 1.0 1.25 1.5 1.75 2.0
-proj_spd 1.0 1.0 1.0 1.0 1.0
-effective_range 1.0
-up_cost 120
-up_cost_inc 40
-max_level 8
-special freeze
-special_val 1
-sprite_turret frost_turret
-sprite_proj frost_shot
-hit_sound freeze
-end
-
-name laser
-type turret
-cost 750
-sprite_base laser_base
-damage 3 4 5 6 7
-rate 1.5 2.0 2.5 3.0 3.5 4.0
-range 2.5 3.5 4.5 6.0
-proj_spd 100.0 100.0 100.0 100.0
-effective_range 1.2
-up_cost 200
-up_cost_inc 75
-max_level 10
-special piercing_flak
-special_val 1
-sprite_turret laser_turret
-sprite_proj laser_shot
-hit_sound laser_hit
+sprite_turret none
+sprite_proj none
+hit_sound none
+targeting 0
 end
 
 

@@ -1,9 +1,8 @@
-from functions import mapParse
 from functions import components
-from classes import core
 from classes import enemy
 from classes import projectile
 from classes import tower
+from classes import map
 import savefiles
 import classes
 import data
@@ -40,9 +39,9 @@ time.sleep(0.5)
 
 # setup display and clock
 clock = pygame.time.Clock()
-disLength = 1300  # right 300 used for buying stuff and menu
-disHeight = 750  # all 750 used for the map (1000 x 750 = 20 x 15 tiles)
-screen = pygame.display.set_mode((disLength, disHeight))
+disL = 1300  # right 300 used for buying stuff and menu
+disH = 750  # all 750 used for the map (1000 x 750 = 20 x 15 tiles)
+screen = pygame.display.set_mode((disL, disH))
 pygame.display.set_caption("Shape Defense")
 
 intro = True
@@ -53,13 +52,13 @@ menuScreenHeaderFont = pygame.font.SysFont('Arial', 45,  True)
 menuScreenHeaderFont.set_underline(True)  # sets underline for a font
 
 # initialize maps
-mapList = ["easy", "med", "hard"]  # map file names
-mapNames = ["Breezy Meadows", "Meandering Forest", "Blazing Desert"]  # map display names
-selectedMap = "none"
-numToDifficulty = ["easy", "med", "hard"]
+mapList = ["1", "2", "3", "4"]  # map file names
+mapNames = ["1", "2", "3", "4"]  # map display namesf
+selectedMap = "none"  # map class
 
-# menu screen colours
+# colours of stuff
 colBackground = [200, 225, 255]
+colPurchaseMenu = [220, 220, 240]
 
 # list to hold rect objects and their colour
 buttons = []
@@ -68,9 +67,12 @@ buttonsCol = []
 # create list of level select buttons and their colour
 mapInfo = []
 for i in range(len(mapList)):
-    mapInfo.append(mapParse.parse_coords(mapList[i]))
-    buttonsCol.append([mapInfo[i][1], mapInfo[i][2]])
-    buttons.append(pygame.Rect(450, 350 + i * 120, 400, 100))
+    mapInfo.append(map.Map(mapList[i]))
+    buttonsCol.append([mapInfo[i].colBackground, mapInfo[i].colObs])
+    if i % 2 == 0:
+        buttons.append(pygame.Rect(560, 350 + (i // 2) * 100, 80, 80))
+    else:
+        buttons.append(pygame.Rect(660, 350 + (i // 2) * 100, 80, 80))
 
 # load hardcoded images
 titlePic = load_pics("images/UI/", "title")
@@ -80,30 +82,37 @@ circleX = [0, 425, 850, 1275]
 shapesX = [-425, 0, 425, 850]
 
 # ---- LOAD CLASSES ----
-# towers (turrets + boosters)
-turretNames = ['basic turret','machinegun', 'sniper', 'cannon', 'frost', 'laser']
+# list of purchasable towers (turrets + boosters)
+turretNames = ['basic turret', 'wall']
 boosterNames = []
 # list of towers and boosters available for purchase, taken from towerNames and boosterNames
 turretList = []
 boosterList = []
 # UI button initialization
-buttonListTowers = []
+buttonListTurrets = []
 buttonListBoosters = []
 
 # create tower buttons and add the tower classes
 for i in range(len(turretNames)):
     turretList.append(tower.Turret(turretNames[i]))
-    if i % 2 == 0:
-        buttonListTowers.append(pygame.Rect(100, 75 + (i // 2) * 75, 50, 50))
-    else:
-        buttonListTowers.append(pygame.Rect(100, 175 + (i // 2) * 75, 50, 50))
+    # append rect objects to the list
+    if i % 3 == 0:
+        buttonListTurrets.append(pygame.Rect(disL - 250, 50 + (i // 3) * 75, 50, 50))
+    elif i % 3 == 1:
+        buttonListTurrets.append(pygame.Rect(disL - 175, 50 + (i // 3) * 75, 50, 50))
+    elif i % 3 == 2:
+        buttonListTurrets.append(pygame.Rect(disL - 100, 50 + (i // 3) * 75, 50, 50))
 
 # create booster buttons and add the booster classes
-for i in range(len(boosterList)):
-    if i % 2 == 0:
-        buttonListTowers.append(pygame.Rect(300, 75 + (i // 2) * 75, 50, 50))
-    else:
-        buttonListTowers.append(pygame.Rect(300, 175 + (i // 2) * 75, 50, 50))
+for i in range(len(boosterNames)):
+    boosterList.append(tower.Booster(boosterNames[i]))
+    # append rect objects to the list
+    if i % 3 == 0:
+        buttonListTurrets.append(pygame.Rect(disL - 250, 300 + (i // 3) * 75, 50, 50))
+    elif i % 3 == 1:
+        buttonListTurrets.append(pygame.Rect(disL - 175, 300 + (i // 3) * 75, 50, 50))
+    elif i % 3 == 2:
+        buttonListTurrets.append(pygame.Rect(disL - 100, 300 + (i // 3) * 75, 50, 50))
 
 # load pictures of towers
 turretPics = [load_pics("images/towers/", turretList[x].spriteBase) for x in range(len(turretList))]
@@ -116,12 +125,11 @@ while True:
         # should make it 60FPS max
         # dt is the number of seconds since the last frame, use this for calculations instead of fps to make it smoother
         dt = clock.tick(60) / 1000
-        if dt > 0.05:
+        if dt > 0.05:  # maximum delta time
             dt = 0.05
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 sys.exit()
-            pygame.event.pump()
 
         # background
         screen.fill(colBackground)
@@ -132,22 +140,25 @@ while True:
             pygame.draw.rect(screen, (0, 0, 0), buttons[i], 1)
             # create a the button text based on the name and difficulty of the map
             components.create_text(screen, (buttons[i][0] + buttons[i][2] // 2, buttons[i][1] + buttons[i][3] // 2),
-                                   mapNames[i] + " (" + numToDifficulty[int(mapInfo[i][0]) - 1] + ")",
-                                   True, menuScreenButtonFont, (15, 15, 15))
+                                   mapNames[i], True, menuScreenButtonFont, (15, 15, 15))
 
         # draw prompt msg
-        components.create_text(screen, (disLength // 2, 300),
+        components.create_text(screen, (disL // 2, 300),
                                "Choose a level", True, menuScreenHeaderFont, (0, 0, 0))
 
         # get mouse press on a button
         mousePos = pygame.mouse.get_pos()
         for i in range(len(buttons)):
             if buttons[i].collidepoint(mousePos):
-                # on hover, draw thicker outline
+                # on hover, draw thicker outline and a preview of the map
                 pygame.draw.rect(screen, (0, 0, 0), buttons[i], 3)
+                # map preview:
+                mapInfo[i].draw_preview(screen, disL - 500, disH - 400, 0.4)
+                pygame.draw.rect(screen, (0, 0, 0), (disL - 500, disH - 400, 400, 300), 1)
+
                 # on click, set map and close out intro
                 if pygame.mouse.get_pressed()[0] == 1:
-                    selectedMap = mapList[i]
+                    selectedMap = mapInfo[i]
                     intro = False
 
         # title text
@@ -168,7 +179,7 @@ while True:
             screen.blit(otherShapesPic, (int(shapesX[i]), 225))
 
         # border
-        pygame.draw.rect(screen, (0, 0, 0), (0, 0, disLength, disHeight), 3)
+        pygame.draw.rect(screen, (0, 0, 0), (0, 0, disL, disH), 3)
 
         # Pygame events
         for event in pygame.event.get():
@@ -177,40 +188,10 @@ while True:
 
         pygame.display.update()
 
-    # ---- IN-GAME SETUP ----
-
-    # get path for the selected map only, instead of all of them
-    mapInfo = mapParse.parse_coords(selectedMap)
-
-    # convert grid info to pixel coords
-    pathCoords = []
-    for i in range(4, len(mapInfo), 1):
-        pathCoords.append([mapInfo[i][0] * 50 - 25, mapInfo[i][1] * 50 - 25])
-
-    # change score multiplier based on first pathCorners value (the map difficulty)
-    # easy = 0.75x, med = 1x, hard = 1.25x
-    scoreMulti = (mapInfo[0] + 2) / 4
-
-    # get the random scattered sprite
-    scatterSprite = load_pics("images/map/", mapInfo[3])
-    scatterXY = []
-    for i in range(random.randint(8, 12)):
-        # generate random x y coords for them, x2 number of tiles.
-        newThingy = [random.randint(1, 40), random.randint(1, 30), random.randint(0, 359)]
-        if newThingy not in scatterXY:
-            scatterXY.append(newThingy)
-
-    # Colours of various objects
-    colGrass = mapInfo[1]
-    colPath = mapInfo[2]
-    colGrid = [colGrass[0] - 20, colGrass[1] - 20, colGrass[2] - 20]
-    colPurchaseMenu = [225, 225, 225]
-
-    # delete unnecessary path corners info
-    del(mapInfo[0])
-    del(mapInfo[1])
-    del(mapInfo[2])
-    del(mapInfo[3])
+    # ---- IN-GAME SETUP and reset variables----
+    money = 300
+    power = [0, 10]  # amount of power used vs maximum
+    income = 50
 
     # ---- GAME LOOP ----
     while not intro:
@@ -222,30 +203,23 @@ while True:
                 sys.exit()
 
         # ---- BACKGROUND ----
-        screen.fill(colGrass)
-        # path and grid
-        components.draw_grid(screen, 0, 0, disLength - 300, disHeight, 50, colGrid, False)
-        components.draw_path(screen, pathCoords, colPath)
-
-        # background scatter
-        for i in range(len(scatterXY)):
-            screen.blit(pygame.transform.rotate(scatterSprite, scatterXY[i][2]),
-                        (scatterXY[i][0] * 25, scatterXY[i][1] * 25))
+        screen.fill(selectedMap.colBackground)
+        # path and obstacles
+        components.draw_grid(screen, 0, 0, disL - 300, disH, 50, selectedMap.colGrid, False)
+        selectedMap.draw_obstacles(screen)
 
         # ---- UI ELEMENTS ----
         # ui background
-        pygame.draw.rect(screen, colPurchaseMenu, (disLength - 300, 0, 300, disHeight), 0)
+        pygame.draw.rect(screen, colPurchaseMenu, (disL - 300, 0, 300, disH), 0)
 
         # borders
-        pygame.draw.rect(screen, (0, 0, 0), (0, 0, disLength, disHeight), 3)
-        pygame.draw.line(screen, (0, 0, 0), (disLength - 300, 0), (disLength - 300, disHeight), 3)
+        pygame.draw.rect(screen, selectedMap.colObs, (0, 0, disL, disH), 3)
+        pygame.draw.line(screen, selectedMap.colObs, (disL - 300, 0), (disL - 300, disH), 3)
 
-        # purchase towers
+        # purchase tower buttons
         for i in range(len(turretList)):
-            pass
+            pygame.draw.rect(screen, (0, 0, 0), (buttonListTurrets[i]), 1)
+            screen.blit(turretPics[i], (buttonListTurrets[i][0], buttonListTurrets[i][1]))
 
         # update display!
         pygame.display.update()
-
-
-

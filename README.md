@@ -6,30 +6,25 @@ FOR CHANGING DATA FILES:
 
 MAPS:
 The game is 20x15 tiles. The start and end tiles should be off screen (so 0 or 21 for x, 0 or 16 for y)
-The first integer determines the difficulty of the map (1 = easy, 2 = medium, 3 = hard)
-The next two sets of integers determines the colour theme of the map (RGB values for grass and path)
-Afterwards, it contains a set of x y coordinates for every corner.
-The first coordinate is the start and the last is for the end.
-When reading "obstacles", the next set of coordinates will be placed in a different list
+the first two sets of integers defines the colour scheme
+Upon reading "spawns", the coordinate values indicate entrances and their respective exit
+Upon reading "obstacles", the coordinate values indicate blocked places, as a rectangle (x, y, length, height)
 
 EXAMPLE:
-2       // medium difficulty
-220 240 120 // grass colour, do not make any values less than 20
+220 240 120 // background colour, do not make any values less than 20
 230 200 110 // path colour
-0 2     // start
-4 2     // corner
-4 5     // corner
-21 5    // end
-obstacle
-2 2
-5 2
+spawns
+0 2 21 2    // start and exit
+obstacles
+2 3 3 6     // 2x4 rectangle obstacle
 
 The resulting map would look like this:
-S----
-  o -o
-    -
-    -----------------E
+S---------------------E
 
+  OO
+  OO
+  OO
+  OO
 
 TOWERS:
 Booster towers grant bonuses to adjacent turrets.
@@ -53,6 +48,7 @@ max_level           // level starts at 1 and increases by 1 every upgrade, a low
 sprite_turret   // rotating turret on top of the base sprite
 sprite_proj     // the sprite of the projectile it shoots
 hit_sound       // sound the projectile plays when hitting an enemy
+targeting       // 0 = doesn't attack, 1 = ground only, 2 = air only, 3 = air and ground
 
 Booster tower attributes:
 boost_type STR // what stat to boost (damage, rate, range, proj_spd)
