@@ -52,8 +52,9 @@ menuScreenHeaderFont = pygame.font.SysFont('Arial', 45,  True)
 menuScreenHeaderFont.set_underline(True)  # sets underline for a font
 
 # initialize maps
-mapList = ["1", "2", "3", "4"]  # map file names
-mapNames = ["1", "2", "3", "4"]  # map display namesf
+mapList = ["1", "2", "3", "4", "5", "6"]  # map file names
+mapButtonNames = ["1", "2", "3", "4", "5", "6"]  # map display names
+mapDisplayNames = ["Open Trial", "Parallel Waves", "Curved Path", "Three Lines", "Intersection", "Chaotic Spiral"]
 selectedMap = "none"  # map class
 
 # colours of stuff
@@ -134,18 +135,6 @@ while True:
         # background
         screen.fill(colBackground)
 
-        # draw the buttons and their text
-        for i in range(len(buttons)):
-            pygame.draw.rect(screen, buttonsCol[i][0], buttons[i])
-            pygame.draw.rect(screen, (0, 0, 0), buttons[i], 1)
-            # create a the button text based on the name and difficulty of the map
-            components.create_text(screen, (buttons[i][0] + buttons[i][2] // 2, buttons[i][1] + buttons[i][3] // 2),
-                                   mapNames[i], True, menuScreenButtonFont, (15, 15, 15))
-
-        # draw prompt msg
-        components.create_text(screen, (disL // 2, 300),
-                               "Choose a level", True, menuScreenHeaderFont, (0, 0, 0))
-
         # get mouse press on a button
         mousePos = pygame.mouse.get_pos()
         for i in range(len(buttons)):
@@ -160,6 +149,19 @@ while True:
                 if pygame.mouse.get_pressed()[0] == 1:
                     selectedMap = mapInfo[i]
                     intro = False
+
+        # draw the buttons and their text
+        for i in range(len(buttons)):
+            pygame.draw.rect(screen, buttonsCol[i][0], buttons[i])
+            pygame.draw.rect(screen, (0, 0, 0), buttons[i], 1)
+            # create a the button text based on the name and difficulty of the map
+            components.create_text(screen,
+                                   (buttons[i][0] + buttons[i][2] // 2, buttons[i][1] + buttons[i][3] // 2),
+                                   mapButtonNames[i], True, menuScreenButtonFont, (15, 15, 15))
+
+        # draw prompt msg
+        components.create_text(screen, (disL // 2, 300),
+                               "Choose a level", True, menuScreenHeaderFont, (0, 0, 0))
 
         # title text
         screen.blit(titlePic, (250, 50))

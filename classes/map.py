@@ -30,13 +30,44 @@ class Map():
         for i in range(len(self.obsPxList)):
             pygame.draw.rect(display, self.colObs, self.obsPxList[i])
 
+    # TODO: clean up the draw_preview code
     # draws a mini preview of the map
     def draw_preview(self, display, x, y, scale):
         # draw background
         pygame.draw.rect(display, self.colBackground, (x, y, 1000 * scale, 750 * scale))
-        preview_obs_list = [x.fit((x[0] * scale, x[1] * scale, x[2] * scale, x[3] * scale)) for x in self.obsPxList]
+        prev_obs_list = [x.fit((x[0] * scale, x[1] * scale, x[2] * scale, x[3] * scale)) for x in self.obsPxList]
         # preview obstacles
         for i in range(len(self.obsPxList)):
-            pygame.draw.rect(display, self.colObs, (preview_obs_list[i][0] + x, preview_obs_list[i][1] + y,
-                                                    preview_obs_list[i][2], preview_obs_list[i][3]))
+            pygame.draw.rect(display, self.colObs, (prev_obs_list[i][0] + x, prev_obs_list[i][1] + y,
+                                                    prev_obs_list[i][2], prev_obs_list[i][3]))
 
+        # preview spawn points and exit
+        s_list = [[int(i[0] * 50 * scale - 50 * scale + x), int(i[1] * 50 * scale - 50 * scale + y)]
+                  for i in self.spawnList]
+        e_list = [[int(i[0] * 50 * scale - 50 * scale + x), int(i[1] * 50 * scale - 50 * scale + y)]
+                  for i in self.exitList]
+        for i in range(len(self.spawnList)):
+            # make sure it doesnt go out of bounds
+            if s_list[i][0] - x > 975 * scale:
+                s_list[i][0] = 950 * scale + x + 25 * scale
+            elif s_list[i][1] - y > 725 * scale:
+                s_list[i][1] = 700 * scale + y + 25 * scale
+            elif s_list[i][0] - x < 0 * scale:
+                s_list[i][0] = -25 * scale + x
+            elif s_list[i][1] - y < 0 * scale:
+                s_list[i][1] = -25 * scale + y
+            if e_list[i][0] - x > 975 * scale:
+                e_list[i][0] = 950 * scale + x + 25 * scale
+            elif e_list[i][1] - y > 725 * scale:
+                e_list[i][1] = 700 * scale + y + 25 * scale
+            elif e_list[i][0] - x < 0 * scale:
+                e_list[i][0] = -25 * scale + x
+            elif e_list[i][1] - y < 0 * scale:
+                e_list[i][1] = -25 * scale + y
+
+            # draw da rectangle
+            pygame.draw.rect(display, (50, 225, 50), (s_list[i][0], s_list[i][1], 50 * scale, 50 * scale))
+            pygame.draw.rect(display, (225, 50, 50), (e_list[i][0], e_list[i][1], 50 * scale, 50 * scale))
+
+        # cover up the boxes
+        pygame.draw.rect(display, (200, 225, 255), (x - 13, y - 13, 1000 * scale + 26, 750 * scale + 26), 26)
