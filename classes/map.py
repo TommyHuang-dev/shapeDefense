@@ -5,8 +5,9 @@ class Map():
     def __init__(self, name):
         info = mapParse.parse_coords(name)  # get the map info
         # set colours
-        self.colBackground = [int(x) for x in info[0][0]]
-        self.colObs = [int(x) for x in info[0][1]]
+        self.mapName = info[0][0]
+        self.colBackground = [int(x) for x in info[0][1]]
+        self.colObs = [int(x) for x in info[0][2]]
         self.colGrid = [x - 20 for x in self.colBackground]
 
         # set spawn, exit, and obstacle lists

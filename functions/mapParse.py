@@ -4,8 +4,12 @@ from data import maps
 def parse_coords(file_name):
     # setup file and return list
     file = open("data/maps/" + file_name, "r")
-    map_info = [[], [], []]  # colours, spawns, obstacles
-    # read first two lines for colour
+    map_info = [[], [], []]  # colours and name, spawns, obstacles
+    # read first line for name
+    cur_line = file.readline().split()
+    cur_line = ' '.join(map(str, cur_line))  # joins all words together
+    map_info[0].append(cur_line)
+    # read next two lines for colour
     cur_line = file.readline().split()
     map_info[0].append(cur_line)
     cur_line = file.readline().split()

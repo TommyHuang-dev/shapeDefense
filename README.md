@@ -58,17 +58,17 @@ the last line should always be:
 end
 
 
-CORES (WIP):
-Equipped by turrets to boost stats or change their attack. Each turret can equip one.
-Potential cores:
-Sniper
-Machinegun
-Flak
-Cryo
-Cannon
+ENEMIES:
 
-Attributes:
 name
-cost
-effect_name
-effect_val
+type  // "BOSS" (10 damage, rarer) or "NORMAL"
+movement_type  // "GROUND" or "FLYING", increases slowly over time
+health  // hitpoints, increases over time
+regeneration  // hitpoint regeneration per second, increases slowly over time
+armour  // each point of armour reduces incoming damage by 1, increases slowly over time up to double
+speed  // in tiles per second, increases very slowly over time up to 1.5x
+death_spawn_enemy  // name of the enemy that spawns when this one dies, 'none' means it doesnt spawn any
+death_spawn_val  // how many are spawned
+bounty  // how much gold u get from killing it, can be a float, in which case it will randomize. Increases over time up to double.
+sprite  // sprite of the enemy
+end

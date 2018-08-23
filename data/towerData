@@ -1,15 +1,18 @@
+-----turrets-----
+
 name basic turret
 type turret
 cost 50
+energy 0
 sprite_base basic_base
-damage 3 5 8
-rate 1.0 2.0
+damage 4 6 9 12
+rate 1.5 2.5
 range 3.0 4.5
-proj_spd 15.0 15.0
+proj_spd 15.0 20.0
 effective_range 1.1
-up_cost 75
-up_cost_inc 25
-max_level 5
+up_cost 20
+up_cost_inc 10
+max_level 6
 special none
 special_val 0
 sprite_turret basic_turret
@@ -20,7 +23,8 @@ end
 
 name wall
 type wall
-cost 10
+cost 20
+energy 0
 sprite_base wall_base
 damage 0
 rate 0
@@ -38,10 +42,12 @@ hit_sound none
 targeting 0
 end
 
+-----boosters-----
 
 name damage module
 type booster
 cost 400
+energy 2
 sprite_base module_damage
 boost_type damage
 boost_value 0.25
@@ -50,6 +56,7 @@ end
 name rate module
 type booster
 cost 400
+energy 2
 sprite_base module_rate
 boost_type rate
 boost_value 0.3
@@ -58,14 +65,16 @@ end
 name range module
 type booster
 cost 400
+energy 2
 sprite_base module_damage
 boost_type range
-boost_value 0.5
+boost_value 0.3
 end
 
 name projectile module
 type booster
 cost 300
+energy 1
 sprite_base module_projectile
 boost_type proj_spd
 boost_value 0.5
@@ -73,9 +82,17 @@ end
 
 name bank
 type booster
-cost 750
-sprite_base module_projectile
+cost 500
+sprite_base module_bank
 boost_type money
-boost_value 100
+boost_value 50
+end
+
+name power station
+type booster
+cost 600
+sprite_base module_station
+boost_type electricity
+boost_value 10
 end
 

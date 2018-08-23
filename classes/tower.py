@@ -26,6 +26,7 @@ class Turret:
 
         # initialize stats from towerParse
         self.cost = int(self.stats['cost'][0])
+        self.energy = int(self.stats['energy'][0])
         self.initialUpCost = int(self.stats['up_cost'][0])
         self.upCostInc = int(self.stats['up_cost_inc'][0])
         self.finalUpCost = int(self.stats['up_cost'][0])
@@ -43,14 +44,15 @@ class Turret:
 
         # pictures and sounds
         self.spriteBase = str(self.stats['sprite_base'][0])
-        self.spriteTurret = str(self.stats['sprite_base'][0])
-        self.spriteProjectile = str(self.stats['sprite_base'][0])
+        self.spriteGun = str(self.stats['sprite_turret'][0])
+        self.spriteProj = str(self.stats['sprite_proj'][0])
         self.hitSound = str(self.stats['hit_sound'][0])
 
         # update all stats to match da level one
         self.update_stats(self.initialUpCost, self.upCostInc, self.towerLevel,
                           self.dmgLevel[0], self.rateLevel[0], self.rangeLevel[0])
         self.placed = False  # becomes true after the tower is placed down
+        self.pos = []
 
     def update_stats(self, init_up, inc_up, cur_level, dmgl, ratel, rangel):
         self.finalUpCost = int(init_up + inc_up * (cur_level - 1))

@@ -1,1 +1,80 @@
+-----ground-----
 
+name common circle
+type NORMAL
+movement_type GROUND
+health 10
+regeneration 0.0
+armour 0
+speed 2.5
+death_spawn_enemy none
+death_spawn_val 0
+bounty 1
+sprite common
+end
+
+name speedy
+type NORMAL
+movement_type GROUND
+health 8
+regeneration 0
+armour 3
+speed 3.5
+death_spawn_enemy none
+death_spawn_val 0
+bounty 1
+sprite brute
+end
+
+name brute
+type NORMAL
+movement_type GROUND
+health 24
+regeneration 2.0
+armour 0
+speed 1.6
+death_spawn_enemy none
+death_spawn_val 0
+bounty 2
+sprite brute
+end
+
+name assault
+type NORMAL
+movement_type GROUND
+health 15
+regeneration 0
+armour 2
+speed 2.0
+death_spawn_enemy none
+death_spawn_val 0
+bounty 2
+sprite brute
+end
+
+name common boss
+type BOSS
+movement_type GROUND
+health 75
+regeneration 3.0
+armour 0
+speed 1.0
+death_spawn_enemy none
+death_spawn_val 0
+bounty 10
+sprite common
+end
+
+-----air-----
+name common flying
+type NORMAL
+movement_type AIR
+health 10
+regeneration 0
+armour 0
+speed 2.0
+death_spawn_enemy none
+death_spawn_val 0
+bounty 1
+sprite common
+end
