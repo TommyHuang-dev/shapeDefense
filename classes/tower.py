@@ -94,9 +94,6 @@ class Turret:
     def fire_projectile(self):
         pass
 
-    def upgrade_on_core(self):
-        pass
-
 
 class Booster:
     type = "asdf"
