@@ -86,8 +86,8 @@ for i in range(len(mapList)):
 
 # create list of menu levelBut (e.g. play, settings, etc.)
 menuButText = ["PLAY", "settings", "credits"]
-menuButCol = [[110, 240, 110], [210, 200, 75], [210, 200, 75]]
-menuBut = [pygame.Rect(90, 340 + i * 125, 250, 100) for i in range(len(menuButText))]
+menuButCol = [[100, 240, 100], [225, 210, 100], [225, 210, 100]]
+menuBut = [pygame.Rect(90, 310 + i * 115, 250, 100) for i in range(len(menuButText))]
 butPressed = 'none'
 
 # load hardcoded images
@@ -113,7 +113,6 @@ butListTowers = []
 # create tower levelBut and add the tower classes
 for i in range(len(towerNames)):
     towerList.append(tower.Turret(towerNames[i]))
-    # append rect objects to the list
 
 # create turret buttons
 for i in range(6):
@@ -124,13 +123,7 @@ for i in range(6):
     elif i % 3 == 2:
         butListTowers.append(pygame.Rect(disL - 100, 170 + (i // 3) * 80, 70, 70))
 
-
-# load pictures of towers
-towerBasePics = [load_pics("images/towers/", towerList[x].spriteBase) for x in range(len(towerList))]
-towerGunPics = [load_pics("images/towers/", towerList[x].spriteGun) for x in range(len(towerList))]
-towerProjPics = [load_pics("images/towers/", towerList[x].spriteProj) for x in range(len(towerList))]
-
-# switch page levelBut
+# switch page button image for puchase menu
 imgNextPage = load_pics("images/UI/", "nextPg")
 imgPrevPage = load_pics("images/UI/", "prevPg")
 butNextPage = pygame.Rect(disL - 130 + 2, butListTowers[0][1] + 150 + 2,
@@ -285,9 +278,23 @@ while True:
         components.draw_grid(screen, 0, 0, disL - 300, disH, 50, selectedMap.colGrid, False)
         selectedMap.draw_obstacles(screen)
 
-        # purchase towers
+        # choose where to place down the tower, click to place
         if selectedTower != 'none':
-            print(towerNames.index(selectedTower))
+            # calculate the validity of the current placement
+            valid = False
+            if 10 <= mousePos[0] <= disL - 300 and 10 <= mousePos[1] <= disH - 10 and selectedMap.calc_valid(mousePos):
+                valid = True
+
+            # lock to grid inside it
+            if valid:
+                gridLoc = components.xy_to_pos(mousePos)
+                selectedTower.pos = [gridLoc[0], gridLoc[1]]
+                selectedTower.draw_tower(screen, (selectedTower.pos[0] * 50 - 25, selectedTower.pos[1] * 50 - 25), 0)
+                selectedTower.draw_range(screen, valid)
+            # don't lock to grid if out of bounds
+            elif not valid:
+                selectedTower.draw_tower(screen, [mousePos[0], mousePos[1]], 0)
+                selectedTower.draw_range(screen, valid, xy=[mousePos[0], mousePos[1]])
 
         # ---- UI ELEMENTS ----
         # ui background
@@ -330,14 +337,14 @@ while True:
                     # purchase tower on click
                     if mousePressed[0] == 1:
                         soundClick.play()
-                        selectedTower = towerList[i].name
+                        selectedTower = towerList[i + mul6]
 
         for i in range(mul6, mul6 + 6, 1):
-            # draw towers
+            # draw towers on top of the buttons
             if i < len(towerList):
-                # draw base + gun
-                components.draw_tower(screen, (butListTowers[i - mul6][0]), 
-                                      [butListTowers[i - mul6][1], [towerBasePics[i], towerGunPics[i]]], 0)
+                # draw base + gun for turret
+                towerList[i].draw_tower(screen, [butListTowers[i - mul6][0] + butListTowers[i - mul6][2] // 2,
+                                                 butListTowers[i - mul6][1] + butListTowers[i - mul6][3] // 2], 0)
 
         # info about money, life, etc.
         # life

@@ -1,5 +1,12 @@
 import math
+import pygame
+from pygame import gfxdraw
 from functions import towerParse
+
+
+def load_pics(folder, name):
+    location = folder + name + ".png"
+    return pygame.image.load(location).convert_alpha()
 
 
 # defines the tower class, which consists of two sprites: base (not rotating) and turret (rotating)
@@ -43,16 +50,16 @@ class Turret(object):
         self.projSpd = 0
 
         # pictures and sounds
-        self.spriteBase = str(self.stats['sprite_base'][0])
-        self.spriteGun = str(self.stats['sprite_turret'][0])
-        self.spriteProj = str(self.stats['sprite_proj'][0])
-        self.hitSound = str(self.stats['hit_sound'][0])
+        self.spriteBase = load_pics("images/towers/", str(self.stats['sprite_base'][0]))
+        self.spriteGun = load_pics("images/towers/", str(self.stats['sprite_turret'][0]))
+        self.spriteProj = load_pics("images/towers/", str(self.stats['sprite_proj'][0]))
+        self.hitSound = pygame.mixer.Sound("sounds/game/" + str(self.stats['hit_sound'][0]) + ".wav")
 
         # update all stats to match da level one
         self.update_stats(self.initialUpCost, self.upCostInc, self.towerLevel,
                           self.dmgLevel[0], self.rateLevel[0], self.rangeLevel[0])
         self.placed = False  # becomes true after the tower is placed down
-        self.pos = []
+        self.pos = [0, 0]
 
     def update_stats(self, init_up, inc_up, cur_level, dmgl, ratel, rangel):
         self.finalUpCost = int(init_up + inc_up * (cur_level - 1))
@@ -94,8 +101,41 @@ class Turret(object):
     def fire_projectile(self):
         pass
 
+    # draws a full turret, centered on a xy coordinate. The first picture is assumed to be the base.
+    # rotation is an angle in radians that the turret should rotate
+    def draw_tower(self, display, xy, rotation):
+        # draw base
+        temp = self.spriteBase.get_rect()
+        display.blit(self.spriteBase, (xy[0] - temp[2] // 2, xy[1] - temp[3] // 2))
+        # draw gun
+        temp = self.spriteGun.get_rect()
+        display.blit(self.spriteGun, (xy[0] - temp[2] // 2, xy[1] - temp[3] // 2))
+
+    # draws a range around the tower
+    def draw_range(self, display, valid, xy=0):
+        # colours
+        col_range_valid = [175, 200, 175, 50]
+        col_range_valid_outline = [50, 50, 50, 225]
+        col_range_invalid = [200, 25, 25, 30]
+        col_range_invalid_outline = [125, 0, 0, 150]
+
+        # if xy was not chosen, use the towers xy
+        if xy == 0:
+            xy = [self.pos[0] * 50 - 25, self.pos[1] * 50 - 25]
+
+        # draw the range :D
+        if valid:
+            pygame.gfxdraw.aacircle(display, xy[0], xy[1], int(self.range * 50),
+                                    col_range_valid_outline)
+            pygame.gfxdraw.filled_circle(display, xy[0], xy[1], int(self.range * 50), col_range_valid)
+        elif not valid:
+            pygame.gfxdraw.aacircle(display, xy[0], xy[1], int(self.range * 50),
+                                    col_range_invalid_outline)
+            pygame.gfxdraw.filled_circle(display, xy[0], xy[1], int(self.range * 50),
+                                         col_range_invalid)
 
 class Booster:
+    cost = 0
     type = "asdf"
     val = 0
 

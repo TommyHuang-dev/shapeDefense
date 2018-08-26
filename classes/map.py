@@ -32,6 +32,13 @@ class Map(object):
         for i in range(len(self.obsPxList)):
             pygame.draw.rect(display, self.colObs, self.obsPxList[i])
 
+    def calc_valid(self, xy):
+        for i in range(len(self.obsPxList)):
+            if self.obsPxList[i].collidepoint(xy):
+                return False
+
+        return True
+
     # TODO: clean up the draw_preview code
     # draws a mini preview of the map
     def draw_preview(self, display, x, y, scale):
