@@ -1,7 +1,8 @@
 from functions import mapParse
 import pygame
 
-class Map():
+
+class Map(object):
     def __init__(self, name):
         info = mapParse.parse_coords(name)  # get the map info
         # set colours

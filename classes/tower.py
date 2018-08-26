@@ -1,10 +1,10 @@
 import math
 from functions import towerParse
 
+
 # defines the tower class, which consists of two sprites: base (not rotating) and turret (rotating)
 # tower types are taken from the data/towerData file
-
-class Turret:
+class Turret(object):
     def __init__(self, name):
         self.stats = towerParse.get_stats(name)  # dictionary of stats and their value
 

@@ -31,7 +31,7 @@ def load_pics(folder, name):
 
 # ---- SETUP (only ran once) ----
 # setup pygame
-pygame.mixer.pre_init(22050, -16, 2, 512)
+pygame.mixer.pre_init(22050, -16, 8, 512)
 pygame.init()
 pygame.font.init()
 pygame.mixer.init()
@@ -57,6 +57,15 @@ levelInfoFont = pygame.font.SysFont('Arial', 30, True)
 mapList = ["1", "2", "3", "4", "5", "6"]  # map file names
 selectedMap = "none"  # map class
 
+# initialize sounds
+soundClick = pygame.mixer.Sound("sounds/UI/button.wav")
+soundError = pygame.mixer.Sound("sounds/UI/error.wav")
+soundPlaced = pygame.mixer.Sound("sounds/game/placed_down.wav")
+
+musicMenu = pygame.mixer.music.load('sounds/menu.ogg')
+pygame.mixer.music.set_volume(0.3)
+pygame.mixer.music.play(-1)
+
 # colours of stuff
 colBackground = [200, 225, 255]
 colPurchaseMenu = [220, 220, 240]
@@ -76,9 +85,9 @@ for i in range(len(mapList)):
         levelBut.append(pygame.Rect(550, 360 + (i // 2) * 100, 80, 80))
 
 # create list of menu levelBut (e.g. play, settings, etc.)
-menuButText = ["PLAY", "settings"]
-menuButCol = [[100, 225, 100], [200, 200, 75]]
-menuBut = [pygame.Rect(75, 340 + i * 125, 250, 100) for i in range(len(menuButText))]
+menuButText = ["PLAY", "settings", "credits"]
+menuButCol = [[110, 240, 110], [210, 200, 75], [210, 200, 75]]
+menuBut = [pygame.Rect(90, 340 + i * 125, 250, 100) for i in range(len(menuButText))]
 butPressed = 'none'
 
 # load hardcoded images
@@ -94,23 +103,16 @@ energyPic = load_pics("images/UI/", "symbol_electricity")
 
 
 # ---- LOAD CLASSES ----
-# list of purchasable towers (turrets + boosters)
-turretNames = ['wall', 'basic turret', "wall", 'wall', 'basic turret', 'wall', 'basic turret', 'basic turret']
-boosterNames = []
+# list of purchasable towers (turrets, boosters)
+towerNames = ['wall', 'basic turret', "wall", "wall", "wall", "wall", "wall", "wall", "wall", "basic turret", 'wall']
 # list of towers and boosters available for purchase, taken from towerNames and boosterNames
-turretList = []
-boosterList = []
+towerList = []
 # UI button initialization
 butListTowers = []
 
 # create tower levelBut and add the tower classes
-for i in range(len(turretNames)):
-    turretList.append(tower.Turret(turretNames[i]))
-    # append rect objects to the list
-
-# create booster levelBut and add the booster classes
-for i in range(len(boosterNames)):
-    boosterList.append(tower.Booster(boosterNames[i]))
+for i in range(len(towerNames)):
+    towerList.append(tower.Turret(towerNames[i]))
     # append rect objects to the list
 
 # create turret buttons
@@ -124,17 +126,16 @@ for i in range(6):
 
 
 # load pictures of towers
-turretBasePics = [load_pics("images/towers/", turretList[x].spriteBase) for x in range(len(turretList))]
-turretGunPics = [load_pics("images/towers/", turretList[x].spriteGun) for x in range(len(turretList))]
-turretProjPics = [load_pics("images/towers/", turretList[x].spriteProj) for x in range(len(turretList))]
-boosterPics = [load_pics("images/towers/", boosterList[x].spriteBase) for x in range(len(boosterList))]
+towerBasePics = [load_pics("images/towers/", towerList[x].spriteBase) for x in range(len(towerList))]
+towerGunPics = [load_pics("images/towers/", towerList[x].spriteGun) for x in range(len(towerList))]
+towerProjPics = [load_pics("images/towers/", towerList[x].spriteProj) for x in range(len(towerList))]
 
 # switch page levelBut
 imgNextPage = load_pics("images/UI/", "nextPg")
 imgPrevPage = load_pics("images/UI/", "prevPg")
-butNextPage = pygame.Rect(disL - 150 + 2, butListTowers[0][1] + 152 + 2,
+butNextPage = pygame.Rect(disL - 130 + 2, butListTowers[0][1] + 150 + 2,
                           imgNextPage.get_width() - 4, imgNextPage.get_height() - 4)
-butPrevPage = pygame.Rect(disL - 180 + 2, butListTowers[0][1] + 152 - 2,
+butPrevPage = pygame.Rect(disL - 200 + 2, butListTowers[0][1] + 150 - 2,
                           imgPrevPage.get_width() - 4, imgPrevPage.get_height() - 4)
 
 # ---- OUTER LOOP ----
@@ -169,6 +170,7 @@ while True:
                 # draw thicker outline on hover
                 pygame.draw.rect(screen, (0, 0, 0), menuBut[i], 3)
                 if pygame.mouse.get_pressed()[0] == 1 and butPressed != menuButText[i]:
+                    soundClick.play()
                     butPressed = menuButText[i]
             # draw a thick red outline if it was selected
             if butPressed == menuButText[i]:
@@ -191,6 +193,7 @@ while True:
 
                     # on click, set map and close out intro
                     if pygame.mouse.get_pressed()[0] == 1:
+                        soundClick.play()
                         selectedMap = mapInfo[i]
                         intro = False
 
@@ -236,16 +239,24 @@ while True:
 
     # ---- IN-GAME SETUP and reset variables----
     curWave = 0  # current wave
-    money = 300  # monies
+    money = 400  # monies
     energy = [0, 10]  # amount of power used vs maximum
     income = 50  # monies per turn
-    life = 50  # lose 1 life per enemy; 10 per boss
+    life = 30  # lose 1 life per enemy; 10 per boss
 
     # page that its on
     curPurchasePage = 0
 
     # mouse stuff
     mousePressed = pygame.mouse.get_pressed()
+    selectedTower = 'none'
+    selectedXY = [0, 0]
+    selectedPos = [0, 0]
+
+    # music change
+    musicGame = pygame.mixer.music.load('sounds/ingame.ogg')
+    pygame.mixer.music.set_volume(0.2)
+    pygame.mixer.music.play(-1)
 
     # ---- GAME LOOP ----
     while not intro:
@@ -274,6 +285,10 @@ while True:
         components.draw_grid(screen, 0, 0, disL - 300, disH, 50, selectedMap.colGrid, False)
         selectedMap.draw_obstacles(screen)
 
+        # purchase towers
+        if selectedTower != 'none':
+            print(towerNames.index(selectedTower))
+
         # ---- UI ELEMENTS ----
         # ui background
         pygame.draw.rect(screen, colPurchaseMenu, (disL - 300, 0, 300, disH), 0)
@@ -282,7 +297,7 @@ while True:
         pygame.draw.rect(screen, selectedMap.colObs, (0, 0, disL, disH), 3)
         pygame.draw.line(screen, selectedMap.colObs, (disL - 300, 0), (disL - 300, disH), 3)
 
-        # sub dividers
+        # sub dividers, from top to bottom
         pygame.draw.line(screen, (70, 70, 70), (disL - 300, butListTowers[0][1] - 20), (disL, butListTowers[0][1] - 20))
         pygame.draw.line(screen, (70, 70, 70), (disL - 300, butListTowers[0][1] + 180),
                          (disL, butListTowers[0][1] + 180))
@@ -291,32 +306,38 @@ while True:
 
         # switch page buttons
         if curPurchasePage > 0:  # previous page
-            screen.blit(imgPrevPage, (disL - 180, butListTowers[0][1] + 152))
+            screen.blit(imgPrevPage, (disL - 200, butListTowers[0][1] + 150))
+            # get hit box and mouse click
             if butPrevPage.collidepoint(mousePos[0], mousePos[1]) and mousePressed[0] == 1:
+                soundClick.play()
                 curPurchasePage -= 1
-        elif curPurchasePage < (len(turretList) + len(boosterList)) // 6:  # next page
-            screen.blit(imgNextPage, (disL - 150, butListTowers[0][1] + 152))
+        if curPurchasePage < (len(towerList) - 1) // 6:  # next page
+            screen.blit(imgNextPage, (disL - 130, butListTowers[0][1] + 150))
+            # get hit box and mouse click
             if butNextPage.collidepoint(mousePos[0], mousePos[1]) and mousePressed[0] == 1:
+                soundClick.play()
                 curPurchasePage += 1
 
         # purchase tower images
         mul6 = curPurchasePage * 6
-        for i in range(mul6, mul6 + 6, 1):
-            # draw turrets, then boosters depending on page
-            if i < len(turretList):
-                # draw base + gun
-                screen.blit(turretBasePics[i], (butListTowers[i - mul6][0] + 10, butListTowers[i - mul6][1] + 10))
-                temp = [turretGunPics[i].get_rect()[2] / 2, turretGunPics[i].get_rect()[3] / 2]
-                screen.blit(turretGunPics[i],
-                            (butListTowers[i - mul6][0] + 35 - temp[0], butListTowers[i - mul6][1] + 35 - temp[1]))
-            elif i - len(turretList) < len(boosterList):
-                screen.blit(boosterPics[i], (butListTowers[i - mul6][0] + 10, butListTowers[i - mul6][1] + 10))
-
         # purchase tower actual buttons and outline
         for i in range(6):
-            if butListTowers[i].collidepoint(mousePos[0], mousePos[1]) and \
-                                    i + mul6 < len(turretList) + len(boosterList):
-                pygame.draw.rect(screen, (70, 70, 70), (butListTowers[i]), 1)
+            if i + mul6 < len(towerList):
+                pygame.draw.rect(screen, (230, 230, 250), (butListTowers[i]))
+                if butListTowers[i].collidepoint(mousePos[0], mousePos[1]):
+                    pygame.draw.rect(screen, (255, 255, 255), (butListTowers[i]), 2)
+
+                    # purchase tower on click
+                    if mousePressed[0] == 1:
+                        soundClick.play()
+                        selectedTower = towerList[i].name
+
+        for i in range(mul6, mul6 + 6, 1):
+            # draw towers
+            if i < len(towerList):
+                # draw base + gun
+                components.draw_tower(screen, (butListTowers[i - mul6][0]), 
+                                      [butListTowers[i - mul6][1], [towerBasePics[i], towerGunPics[i]]], 0)
 
         # info about money, life, etc.
         # life

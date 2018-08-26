@@ -53,3 +53,29 @@ def draw_range(display, tile_loc, turret_range, valid):
     elif not valid:
         pygame.gfxdraw.aacircle(display, location[0], location[1], int(turret_range * 50), col_range_invalid_outline)
         pygame.gfxdraw.filled_circle(display, location[0], location[1], int(turret_range * 50), col_range_invalid)
+
+
+# converts xy pixel value to a grid coord
+def xy_to_pos(xy):
+    pos = [xy[0] // 50 + 1, xy[1] // 50 + 1]
+    if pos[0] > 20:
+        pos = 20
+    elif pos[0] < 1:
+        pos = 1
+    if pos[1] > 15:
+        pos = 15
+    elif pos[1] < 1:
+        pos = 1
+
+
+# draws a full turret, centered on a xy coordinate. The first picture is assumed to be the base.
+# rotation is an angle in radians that the turret should rotate
+def draw_tower(display, xy, pictures, rotation):
+    # draw base + gun
+    for i in range(len(pictures)):
+        temp = pictures[i].get_rect()
+        # WIP: rotate turret
+        if i > 0:
+            pass
+
+        display.blit(pictures[i], (xy[0] - temp[2] // 2, xy[1] - temp[3] // 2))
