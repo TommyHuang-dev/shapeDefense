@@ -52,6 +52,9 @@ msMenuButFont = pygame.font.SysFont('Arial', 50, True)
 msHeaderFont = pygame.font.SysFont('Arial', 45, True)
 msHeaderFont.set_underline(True)  # sets underline for a font
 levelInfoFont = pygame.font.SysFont('Arial', 30, True)
+levelTowerTitleFont = pygame.font.SysFont('Arial', 30, True)
+levelTowerTitleFont.set_underline(True)
+levelTowerFont = pygame.font.SysFont('Arial', 22, False)
 
 # initialize maps
 mapList = ["1", "2", "3", "4", "5", "6"]  # map file names
@@ -206,14 +209,14 @@ while True:
         # title text
         screen.blit(titlePic, (250, 50))
         # move circles using list comprehension
-        circleX = [x - 100 * dt for x in circleX]
+        circleX = [x - 140 * dt for x in circleX]
         for i in range(len(circleX)):
             if circleX[i] < - 425:
                 circleX[i] += 1700
             # draw dot under title!
             screen.blit(circlePic, (int(circleX[i]), 175))
         # move other shapes using list comprehension
-        shapesX = [x + 50 * dt for x in shapesX]
+        shapesX = [x + 70 * dt for x in shapesX]
         for i in range(len(shapesX)):
             if shapesX[i] > 1325:
                 shapesX[i] -= 1700
@@ -234,7 +237,7 @@ while True:
     curWave = 0  # current wave
     money = 400  # monies
     energy = [0, 10]  # amount of power used vs maximum
-    income = 50  # monies per turn
+    income = 50  # monies per round
     life = 30  # lose 1 life per enemy; 10 per boss
 
     # page that its on
@@ -278,11 +281,12 @@ while True:
         components.draw_grid(screen, 0, 0, disL - 300, disH, 50, selectedMap.colGrid, False)
         selectedMap.draw_obstacles(screen)
 
+        # ---- TOWERS ----
         # choose where to place down the tower, click to place
         if selectedTower != 'none':
             # calculate the validity of the current placement
             valid = False
-            if 10 <= mousePos[0] <= disL - 300 and 10 <= mousePos[1] <= disH - 10 and selectedMap.calc_valid(mousePos):
+            if 10 <= mousePos[0] <= disL - 310 and 10 <= mousePos[1] <= disH - 10 and selectedMap.calc_valid(mousePos):
                 valid = True
 
             # lock to grid inside it
@@ -331,13 +335,24 @@ while True:
         for i in range(6):
             if i + mul6 < len(towerList):
                 pygame.draw.rect(screen, (230, 230, 250), (butListTowers[i]))
+                # on hover
                 if butListTowers[i].collidepoint(mousePos[0], mousePos[1]):
-                    pygame.draw.rect(screen, (255, 255, 255), (butListTowers[i]), 2)
+                    if towerList[i + mul6].cost <= money:
+                        pygame.draw.rect(screen, (255, 255, 255), (butListTowers[i]), 2)
+                        # purchase tower on click
+                        if mousePressed[0] == 1:
+                            soundClick.play()
+                            selectedTower = towerList[i + mul6]
+                    else:
+                        if mousePressed[0] == 1:
+                            soundError.play()
+                            selectedTower = 'none'
 
-                    # purchase tower on click
-                    if mousePressed[0] == 1:
-                        soundClick.play()
-                        selectedTower = towerList[i + mul6]
+                    # show some stats
+                    components.create_text(screen, (disL - 150, 380), towerList[i + mul6].name, True,
+                                           levelTowerTitleFont, (0, 50, 175))
+                    components.create_text(screen, (disL - 275, 420), "$" + str(towerList[i + mul6].cost),
+                                           False, levelTowerFont, (0, 0, 0))
 
         for i in range(mul6, mul6 + 6, 1):
             # draw towers on top of the buttons
