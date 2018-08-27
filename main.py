@@ -19,6 +19,23 @@ def load_pics(folder, name):
     return pygame.image.load(location).convert_alpha()
 
 
+def display_stats(sel_tower):
+    # not enough money
+    if sel_tower.cost > money:
+        # display cost as red text
+        components.create_text(screen, (disL - 275, 420), "$" + str(sel_tower.cost),
+                               False, levelTowerFont, (200, 25, 25))
+    # enough monies
+    else:
+        # display cost
+        components.create_text(screen, (disL - 275, 420), "$" + str(sel_tower.cost),
+                               False, levelTowerFont, (0, 0, 0))
+
+    # show some stats (name, damage, firerate, etc.)
+    components.create_text(screen, (disL - 150, 380), sel_tower.name, True,
+                           levelTowerTitleFont, (0, 50, 175))
+
+
 # This is a simple tower defence, written in Python
 # It may be moved into unity later
 # Made by Tommy H
@@ -63,10 +80,11 @@ selectedMap = "none"  # map class
 # initialize sounds
 soundClick = pygame.mixer.Sound("sounds/UI/button.wav")
 soundError = pygame.mixer.Sound("sounds/UI/error.wav")
+soundSell = pygame.mixer.Sound("sounds/UI/sell.wav")
 soundPlaced = pygame.mixer.Sound("sounds/game/placed_down.wav")
 
 musicMenu = pygame.mixer.music.load('sounds/menu.ogg')
-pygame.mixer.music.set_volume(0.3)
+pygame.mixer.music.set_volume(0.35)
 pygame.mixer.music.play(-1)
 
 # colours of stuff
@@ -235,7 +253,7 @@ while True:
 
     # ---- IN-GAME SETUP and reset variables----
     curWave = 0  # current wave
-    money = 400  # monies
+    money = 400  # starting monies
     energy = [0, 10]  # amount of power used vs maximum
     income = 50  # monies per round
     life = 30  # lose 1 life per enemy; 10 per boss
@@ -248,6 +266,9 @@ while True:
     selectedTower = 'none'
     selectedXY = [0, 0]
     selectedPos = [0, 0]
+
+    # placed towers
+    placedTowers = []
 
     # music change
     musicGame = pygame.mixer.music.load('sounds/ingame.ogg')
@@ -282,6 +303,12 @@ while True:
         selectedMap.draw_obstacles(screen)
 
         # ---- TOWERS ----
+        # unselect a tower
+        if mousePos[0] > disL - 300 and mousePressed[0] == 1 and selectedTower != 'none':
+            soundClick.play()
+            selectedTower = 'none'
+            mousePressed = [0, 0]  # so you don't select another tower when unselecting
+
         # choose where to place down the tower, click to place
         if selectedTower != 'none':
             # calculate the validity of the current placement
@@ -289,16 +316,26 @@ while True:
             if 10 <= mousePos[0] <= disL - 310 and 10 <= mousePos[1] <= disH - 10 and selectedMap.calc_valid(mousePos):
                 valid = True
 
-            # lock to grid inside it
+            # lock to grid inside it and draw range when valid
             if valid:
                 gridLoc = components.xy_to_pos(mousePos)
                 selectedTower.pos = [gridLoc[0], gridLoc[1]]
                 selectedTower.draw_tower(screen, (selectedTower.pos[0] * 50 - 25, selectedTower.pos[1] * 50 - 25), 0)
                 selectedTower.draw_range(screen, valid)
+
+                # place down the tower when selected
+                if mousePressed[0] == 1 and money >= selectedTower.cost:
+                    soundPlaced.play()
+                    money -= selectedTower.cost
+                elif mousePressed[0] == 1:
+                    soundError.play()
+
             # don't lock to grid if out of bounds
             elif not valid:
                 selectedTower.draw_tower(screen, [mousePos[0], mousePos[1]], 0)
                 selectedTower.draw_range(screen, valid, xy=[mousePos[0], mousePos[1]])
+                if mousePressed[0] == 1:  # error if user tries to place invalid tower
+                    soundError.play()
 
         # ---- UI ELEMENTS ----
         # ui background
@@ -333,26 +370,23 @@ while True:
         mul6 = curPurchasePage * 6
         # purchase tower actual buttons and outline
         for i in range(6):
+            # select a tower
             if i + mul6 < len(towerList):
                 pygame.draw.rect(screen, (230, 230, 250), (butListTowers[i]))
                 # on hover
-                if butListTowers[i].collidepoint(mousePos[0], mousePos[1]):
+                if butListTowers[i].collidepoint(mousePos[0], mousePos[1]) and selectedTower == 'none':
+                    display_stats(towerList[i + mul6])
+                    # user has enough money to buy the tower
                     if towerList[i + mul6].cost <= money:
                         pygame.draw.rect(screen, (255, 255, 255), (butListTowers[i]), 2)
                         # purchase tower on click
                         if mousePressed[0] == 1:
                             soundClick.play()
                             selectedTower = towerList[i + mul6]
-                    else:
+                    else:  # not enough money, play meep merp on purchase attempt
                         if mousePressed[0] == 1:
                             soundError.play()
                             selectedTower = 'none'
-
-                    # show some stats
-                    components.create_text(screen, (disL - 150, 380), towerList[i + mul6].name, True,
-                                           levelTowerTitleFont, (0, 50, 175))
-                    components.create_text(screen, (disL - 275, 420), "$" + str(towerList[i + mul6].cost),
-                                           False, levelTowerFont, (0, 0, 0))
 
         for i in range(mul6, mul6 + 6, 1):
             # draw towers on top of the buttons

@@ -2,6 +2,7 @@ import math
 import pygame
 from pygame import gfxdraw
 from functions import towerParse
+from functions import components
 
 
 def load_pics(folder, name):
