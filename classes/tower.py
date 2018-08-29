@@ -21,7 +21,7 @@ class Turret(object):
         self.name = name
         self.type = self.stats['type'][0]
         self.targeting = self.stats['targeting'][0]
-        self.towerLevel = 1
+        self.curLevel = 1
         self.dmgLevel = [1, len(self.stats['damage'])]
         self.rateLevel = [1, len(self.stats['rate'])]
         self.rangeLevel = [1, len(self.stats['range'])]  # also includes projectile speed
@@ -53,11 +53,11 @@ class Turret(object):
         # pictures and sounds
         self.spriteBase = load_pics("images/towers/", str(self.stats['sprite_base'][0]))
         self.spriteGun = load_pics("images/towers/", str(self.stats['sprite_turret'][0]))
-        self.spriteProj = load_pics("images/towers/", str(self.stats['sprite_proj'][0]))
+        self.spriteProj = load_pics("images/projectiles/", str(self.stats['sprite_proj'][0]))
         self.hitSound = pygame.mixer.Sound("sounds/game/" + str(self.stats['hit_sound'][0]) + ".wav")
 
         # update all stats to match da level one
-        self.update_stats(self.initialUpCost, self.upCostInc, self.towerLevel,
+        self.update_stats(self.initialUpCost, self.upCostInc, self.curLevel,
                           self.dmgLevel[0], self.rateLevel[0], self.rangeLevel[0])
         self.placed = False  # becomes true after the tower is placed down
         self.pos = [0, 0]
@@ -88,7 +88,7 @@ class Turret(object):
 
 
     def upgrade(self, stat_name):
-        self.towerLevel += 1
+        self.curLevel += 1
         if stat_name == "damage":
             self.dmgLevel += 1
         elif stat_name == "rate":
@@ -96,7 +96,7 @@ class Turret(object):
         elif stat_name == "range":
             self.rangeLevel += 1
 
-        self.update_stats(self.initialUpCost, self.upCostInc, self.towerLevel,
+        self.update_stats(self.initialUpCost, self.upCostInc, self.curLevel,
                           self.dmgLevel[0], self.rateLevel[0], self.rangeLevel[0])
 
     def fire_projectile(self):
@@ -104,20 +104,28 @@ class Turret(object):
 
     # draws a full turret, centered on a xy coordinate. The first picture is assumed to be the base.
     # rotation is an angle in radians that the turret should rotate
-    def draw_tower(self, display, xy, rotation):
-        # draw base
-        temp = self.spriteBase.get_rect()
-        display.blit(self.spriteBase, (xy[0] - temp[2] // 2, xy[1] - temp[3] // 2))
+    def draw_tower_gun(self, display, xy, rotation):
         # draw gun
         temp = self.spriteGun.get_rect()
         display.blit(self.spriteGun, (xy[0] - temp[2] // 2, xy[1] - temp[3] // 2))
 
+    # draw the base of a tower only
+    def draw_tower_base(self, display, xy):
+        # draw base
+        temp = self.spriteBase.get_rect()
+        display.blit(self.spriteBase, (xy[0] - temp[2] // 2, xy[1] - temp[3] // 2))
+
+    # combines draw_tower_gun and draw_tower_base methods
+    def draw_tower_full(self, display, xy, rotation):
+        self.draw_tower_base(display, xy)
+        self.draw_tower_gun(display, xy, rotation)
+
     # draws a range around the tower
     def draw_range(self, display, valid, xy=0):
         # colours
-        col_range_valid = [175, 200, 175, 50]
+        col_range_valid = [120, 140, 140, 20]
         col_range_valid_outline = [50, 50, 50, 225]
-        col_range_invalid = [200, 25, 25, 30]
+        col_range_invalid = [200, 25, 25, 35]
         col_range_invalid_outline = [125, 0, 0, 150]
 
         # if xy was not chosen, use the towers xy

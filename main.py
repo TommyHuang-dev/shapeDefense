@@ -1,4 +1,5 @@
 from functions import components
+from functions import creditParse
 from classes import enemy
 from classes import projectile
 from classes import tower
@@ -8,6 +9,7 @@ import classes
 import data
 import sounds
 import random
+import os.path
 import time
 import pygame
 from pygame import gfxdraw
@@ -20,18 +22,32 @@ def load_pics(folder, name):
 
 
 def display_stats(sel_tower):
-    # not enough money
-    if sel_tower.cost > money:
+    # not placed tower, display cost
+    if not sel_tower.placed:
+        # not enough money
+        if sel_tower.cost > money:
+            # display cost as red text
+            components.create_text(screen, (disL - 275, 420), "$" + str(sel_tower.cost),
+                                   False, levelTowerFont, (200, 25, 25))
+        # enough monies
+        else:
+            # display cost
+            components.create_text(screen, (disL - 275, 420), "$" + str(sel_tower.cost),
+                                   False, levelTowerFont, (0, 0, 0))
+    # placed tower, display level
+    elif sel_tower.placed:
+        tempString = "level: "
+        if sel_tower.curLevel > 1 and sel_tower.curLevel == sel_tower.maxLevel:  # max level
+            tempString += "MAX"
+        elif sel_tower.maxLevel == 1:  # not upgradable (i.e. walls)
+            tempString = ""
+        else:  # display level
+            tempString += str(sel_tower.curLevel)
         # display cost as red text
-        components.create_text(screen, (disL - 275, 420), "$" + str(sel_tower.cost),
-                               False, levelTowerFont, (200, 25, 25))
-    # enough monies
-    else:
-        # display cost
-        components.create_text(screen, (disL - 275, 420), "$" + str(sel_tower.cost),
+        components.create_text(screen, (disL - 275, 420), tempString,
                                False, levelTowerFont, (0, 0, 0))
 
-    # show some stats (name, damage, firerate, etc.)
+    # show some stats (name, damage, fire rate, etc.)
     components.create_text(screen, (disL - 150, 380), sel_tower.name, True,
                            levelTowerTitleFont, (0, 50, 175))
 
@@ -72,6 +88,8 @@ levelInfoFont = pygame.font.SysFont('Arial', 30, True)
 levelTowerTitleFont = pygame.font.SysFont('Arial', 30, True)
 levelTowerTitleFont.set_underline(True)
 levelTowerFont = pygame.font.SysFont('Arial', 22, False)
+creditHeaderFont = pygame.font.SysFont('Arial', 30, True)
+creditBodyFont = pygame.font.SysFont('Arial', 24, False)
 
 # initialize maps
 mapList = ["1", "2", "3", "4", "5", "6"]  # map file names
@@ -82,6 +100,7 @@ soundClick = pygame.mixer.Sound("sounds/UI/button.wav")
 soundError = pygame.mixer.Sound("sounds/UI/error.wav")
 soundSell = pygame.mixer.Sound("sounds/UI/sell.wav")
 soundPlaced = pygame.mixer.Sound("sounds/game/placed_down.wav")
+soundLevelSelect = pygame.mixer.Sound("sounds/UI/level_select.wav")
 
 musicMenu = pygame.mixer.music.load('sounds/menu.ogg')
 pygame.mixer.music.set_volume(0.35)
@@ -122,10 +141,12 @@ moneyPic = load_pics("images/UI/", "symbol_money")
 lifePic = load_pics("images/UI/", "symbol_life")
 energyPic = load_pics("images/UI/", "symbol_electricity")
 
+# credits
+creditText = creditParse.parse("data/credits")
 
 # ---- LOAD CLASSES ----
 # list of purchasable towers (turrets, boosters)
-towerNames = ['wall', 'basic turret', "wall", "wall", "wall", "wall", "wall", "wall", "wall", "basic turret", 'wall']
+towerNames = ['wall', 'basic turret', 'sniper turret']
 # list of towers and boosters available for purchase, taken from towerNames and boosterNames
 towerList = []
 # UI button initialization
@@ -143,6 +164,19 @@ for i in range(6):
         butListTowers.append(pygame.Rect(disL - 185, 170 + (i // 3) * 80, 70, 70))
     elif i % 3 == 2:
         butListTowers.append(pygame.Rect(disL - 100, 170 + (i // 3) * 80, 70, 70))
+
+# projectile image loading (uses a dictionary)
+projImgList = {}
+for i in range(len(towerList)):
+    # get name of projectile
+    nextImgName = towerList[i].stats['sprite_proj'][0] + "-hit"
+    curImg = 0
+    while True:
+        projImgList[nextImgName] = load_pics("images/hit_effects/", nextImgName + str(curImg))
+        if os.path.isfile("images/hit_effects/" + nextImgName + str(curImg + 1)):
+            curImg += 1
+        else:
+            break
 
 # switch page button image for puchase menu
 imgNextPage = load_pics("images/UI/", "nextPg")
@@ -207,7 +241,7 @@ while True:
 
                     # on click, set map and close out intro
                     if pygame.mouse.get_pressed()[0] == 1:
-                        soundClick.play()
+                        soundLevelSelect.play()
                         selectedMap = mapInfo[i]
                         intro = False
 
@@ -223,6 +257,13 @@ while True:
             # draw prompt msg
             components.create_text(screen, (int(levelBut[0][0] + levelBut[1][0] + levelBut[0][2] * 1 + 10) / 2, 315),
                                    "Choose a level", True, msHeaderFont, (0, 0, 0))
+
+        elif butPressed == "credits":
+            # credit title
+            components.create_text(screen, (400, 340), creditText[0], False, creditHeaderFont, (0, 0, 0))
+            # create rest of credits
+            for i in range(1, len(creditText)):
+                components.create_text(screen, (400, 340 + i * 40), creditText[i], False, creditBodyFont, (0, 0, 0))
 
         # title text
         screen.blit(titlePic, (250, 50))
@@ -251,6 +292,9 @@ while True:
 
         pygame.display.update()
 
+    # stop intro song
+    pygame.mixer.music.stop()
+
     # ---- IN-GAME SETUP and reset variables----
     curWave = 0  # current wave
     money = 400  # starting monies
@@ -267,13 +311,21 @@ while True:
     selectedXY = [0, 0]
     selectedPos = [0, 0]
 
+    # viewing placed towers
+    viewedTower = -1  # index position of a placed tower, -1 if no tower
+
     # placed towers
-    placedTowers = []
+    placedTowers = []  # list of tower objects, placed down
+    placedTowersLoc = []  # used so that you cant overlap two towers
 
     # music change
     musicGame = pygame.mixer.music.load('sounds/ingame.ogg')
     pygame.mixer.music.set_volume(0.2)
     pygame.mixer.music.play(-1)
+
+    # intro variables
+    colIntro = [150, 165, 200, 255]
+    introScreen = 60
 
     # ---- GAME LOOP ----
     while not intro:
@@ -289,6 +341,8 @@ while True:
 
         # get inputs
         mousePos = pygame.mouse.get_pos()
+        keys = pygame.key.get_pressed()
+        hovered = False  # whether or not the mouse is hovering over a tower purchase button
 
         # make sure money doesn't go over maximum of 10000, and energy for 50
         if money > 10000:
@@ -303,36 +357,57 @@ while True:
         selectedMap.draw_obstacles(screen)
 
         # ---- TOWERS ----
+        # draw placed towers:
+        # tower base
+        for i in range(len(placedTowers)):
+            placedTowers[i].draw_tower_base(screen, [placedTowers[i].pos[0] * 50 - 25,
+                                                     placedTowers[i].pos[1] * 50 - 25])
+        # if a tower is viewed, draw the white outline here (before gun, after base)
+        if viewedTower >= 0:
+            display_stats(placedTowers[viewedTower])
+            pygame.draw.rect(screen, (200, 75, 75), (placedTowers[viewedTower].pos[0] * 50 - 50,
+                                                     placedTowers[viewedTower].pos[1] * 50 - 50, 50, 50), 3)
+        # tower gun
+        for i in range(len(placedTowers)):
+            placedTowers[i].draw_tower_gun(screen, [placedTowers[i].pos[0] * 50 - 25,
+                                                    placedTowers[i].pos[1] * 50 - 25], 0)
+
         # unselect a tower
-        if mousePos[0] > disL - 300 and mousePressed[0] == 1 and selectedTower != 'none':
-            soundClick.play()
-            selectedTower = 'none'
+        if (mousePos[0] > disL - 300 and mousePressed[0] == 1 or keys[pygame.K_ESCAPE]) and selectedTower != 'none':
             mousePressed = [0, 0]  # so you don't select another tower when unselecting
+            selectedTower = 'none'
 
         # choose where to place down the tower, click to place
         if selectedTower != 'none':
             # calculate the validity of the current placement
             valid = False
-            if 10 <= mousePos[0] <= disL - 310 and 10 <= mousePos[1] <= disH - 10 and selectedMap.calc_valid(mousePos):
+            if 10 <= mousePos[0] <= disL - 310 and 10 <= mousePos[1] <= disH - 10 and selectedMap.calc_valid(mousePos)\
+                    and components.xy_to_pos(mousePos) not in placedTowersLoc:
                 valid = True
 
             # lock to grid inside it and draw range when valid
             if valid:
                 gridLoc = components.xy_to_pos(mousePos)
                 selectedTower.pos = [gridLoc[0], gridLoc[1]]
-                selectedTower.draw_tower(screen, (selectedTower.pos[0] * 50 - 25, selectedTower.pos[1] * 50 - 25), 0)
+                selectedTower.draw_tower_full(screen, (selectedTower.pos[0] * 50 - 25, selectedTower.pos[1] * 50 - 25), 0)
                 selectedTower.draw_range(screen, valid)
 
                 # place down the tower when selected
                 if mousePressed[0] == 1 and money >= selectedTower.cost:
                     soundPlaced.play()
+                    # copy as a NEW object
+                    placedTowers.append(tower.Turret(selectedTower.name))
+                    placedTowers[len(placedTowers) - 1].pos = selectedTower.pos
+                    placedTowers[len(placedTowers) - 1].placed = True  # set it to be placed!!
+                    placedTowersLoc.append(selectedTower.pos)
+                    # lower monies
                     money -= selectedTower.cost
                 elif mousePressed[0] == 1:
                     soundError.play()
 
             # don't lock to grid if out of bounds
             elif not valid:
-                selectedTower.draw_tower(screen, [mousePos[0], mousePos[1]], 0)
+                selectedTower.draw_tower_full(screen, [mousePos[0], mousePos[1]], 0)
                 selectedTower.draw_range(screen, valid, xy=[mousePos[0], mousePos[1]])
                 if mousePressed[0] == 1:  # error if user tries to place invalid tower
                     soundError.play()
@@ -375,6 +450,7 @@ while True:
                 pygame.draw.rect(screen, (230, 230, 250), (butListTowers[i]))
                 # on hover
                 if butListTowers[i].collidepoint(mousePos[0], mousePos[1]) and selectedTower == 'none':
+                    hovered = True
                     display_stats(towerList[i + mul6])
                     # user has enough money to buy the tower
                     if towerList[i + mul6].cost <= money:
@@ -392,8 +468,27 @@ while True:
             # draw towers on top of the buttons
             if i < len(towerList):
                 # draw base + gun for turret
-                towerList[i].draw_tower(screen, [butListTowers[i - mul6][0] + butListTowers[i - mul6][2] // 2,
-                                                 butListTowers[i - mul6][1] + butListTowers[i - mul6][3] // 2], 0)
+                towerList[i].draw_tower_full(screen, [butListTowers[i - mul6][0] + butListTowers[i - mul6][2] // 2,
+                                                      butListTowers[i - mul6][1] + butListTowers[i - mul6][3] // 2], 0)
+
+        # show stats of selected tower
+        if selectedTower != 'none':  # while placing
+            # display stats of selected tower
+            display_stats(selectedTower)
+            viewedTower = -1
+        else:  # tower on ground
+            if mousePressed[0] == 1:
+                if components.xy_to_pos(mousePos) in placedTowersLoc:
+                    soundClick.play()
+                    viewedTower = placedTowersLoc.index(components.xy_to_pos(mousePos))
+                else:
+                    viewedTower = -1
+
+            # draw range of da tower
+            if viewedTower >= 0:
+                placedTowers[viewedTower].draw_range(screen, True)
+                if not hovered:
+                    display_stats(placedTowers[viewedTower])
 
         # info about money, life, etc.
         # life
@@ -408,6 +503,12 @@ while True:
         screen.blit(energyPic, (disL - 150, 80))
         components.create_text(screen, (disL - 100, 110), str(energy[0]) + "/" + str(energy[1]),
                                False, levelInfoFont, (0, 0, 0))
+
+        # show a fading bluish screen after selecting the level
+        if introScreen > 0:
+            pygame.gfxdraw.filled_polygon(screen, [[0, 0], [disL, 0], [disL, disH], [0, disH]], colIntro)
+            introScreen -= 1
+            colIntro[3] = 10 + introScreen * 4
 
         # update display!
         pygame.display.update()

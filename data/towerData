@@ -5,9 +5,9 @@ type turret
 cost 50
 energy 0
 sprite_base basic_base
-damage 4 6 9 12
+damage 4 6 8 10
 rate 1.5 2.5
-range 3.0 4.5
+range 3.0 4.0
 proj_spd 15.0 20.0
 effective_range 1.1
 up_cost 20
@@ -19,6 +19,27 @@ sprite_turret basic_turret
 sprite_proj basic_shot
 hit_sound basic_hit
 targeting 3
+end
+
+name sniper turret
+type turret
+cost 150
+energy 0
+sprite_base sniper_base
+damage 15 25 40
+rate 0.6 1.0
+range 5.5 8.0
+proj_spd 30.0 40.0
+effective_range 1.1
+up_cost 80
+up_cost_inc 30
+max_level 6
+special none
+special_val 0
+sprite_turret sniper_turret
+sprite_proj sniper_shot
+hit_sound basic_hit
+targeting 1
 end
 
 name wall
