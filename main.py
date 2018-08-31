@@ -1,5 +1,6 @@
 from functions import components
 from functions import creditParse
+from functions import waveParse
 from classes import enemy
 from classes import projectile
 from classes import tower
@@ -36,7 +37,7 @@ def display_stats(sel_tower):
                                    False, levelTowerFont, (0, 0, 0))
     # placed tower, display level
     elif sel_tower.placed:
-        tempString = "level: "
+        tempString = "level "
         if sel_tower.curLevel > 1 and sel_tower.curLevel == sel_tower.maxLevel:  # max level
             tempString += "MAX"
         elif sel_tower.maxLevel == 1:  # not upgradable (i.e. walls)
@@ -297,10 +298,11 @@ while True:
 
     # ---- IN-GAME SETUP and reset variables----
     curWave = 0  # current wave
-    money = 400  # starting monies
+    money = 500  # starting monies
     energy = [0, 10]  # amount of power used vs maximum
-    income = 50  # monies per round
+    income = 100  # monies per round
     life = 30  # lose 1 life per enemy; 10 per boss
+    currentlyInWave = False  # True when enemies are spawning
 
     # page that its on
     curPurchasePage = 0
@@ -322,6 +324,9 @@ while True:
     musicGame = pygame.mixer.music.load('sounds/ingame.ogg')
     pygame.mixer.music.set_volume(0.2)
     pygame.mixer.music.play(-1)
+
+    # parse wave info
+    waveParse.parse_wave_info("waveData")
 
     # intro variables
     colIntro = [150, 165, 200, 255]

@@ -72,3 +72,43 @@ death_spawn_val  // how many are spawned
 bounty  // how much gold u get from killing it, can be a float, in which case it will randomize. Increases over time up to double.
 sprite  // sprite of the enemy
 end
+
+
+WAVES:
+Enemies grow stronger with each wave.
+calculations for stats that increase, with x indicating the base amount and t indicating number of waves completed:
+Health [NO MAX]: x * 1.5^(t/10)             // increases exponentially by 50% every 10 waves.
+Regeneration [MAX 3x]: x * (1 + t / 25)     // increases by a flat 4% per wave, maxes out after 50 waves
+Armour [MAX 2x]: x * (1 + t / 25)           // increases by a flat 4% per wave, maxes out after 25 waves
+Speed [MAX 1.5x]: x * (1 + t / 100)         // increases by a flat 1% per wave, maxes out after 50 waves.
+Bounty [MAX 2x]: x * (1 + t / 50)           // increases by a flat 2% per wave, maxes out after 50 waves
+
+waves file:
+
+wave + an integer indicates the wave
+Syntax for one wave:
+
+name_of_enemy
+amount separation start_time
+
+name_of_enemy: name of the enemy spawning, based on the enemyData file
+amount: how many to spawn. If there are multiple spawn points, enemies will alternate spawn locations
+separation: time, in seconds, between two of the enemies spawning. For example, if amount = 3 and separation = 1. It will spawn an enemy at 0,1,and 2 seconds
+start_time: time, in seconds, when to start spawning this enemy after the wave begins.
+
+For example:
+
+// wave one: spawns 5 brutes over 8 seconds, 3 seconds in, spawns 20 common circles over 19 seconds, 5 seconds in, spawns 10 fling over 9 seconds
+wave 1
+brute
+5 2 0
+common circle
+20 1 3
+common flying
+10 1 5
+
+// wave two: spawns 10 assault enemies, with 0.75sec separating spawns
+wave 2
+assault
+10 0.75 1
+

@@ -1,0 +1,17 @@
+wave 1
+recruit
+15 0 1
+
+wave 2
+brute
+10 0 2
+
+wave 3
+recruit
+10 2 1
+air recruit
+20 0 0.75
+
+wave 4
+normal boss
+1 0 1

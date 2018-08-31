@@ -2,7 +2,7 @@
 
 name basic turret
 type turret
-cost 50
+cost 75
 energy 0
 sprite_base basic_base
 damage 4 6 8 10
@@ -23,7 +23,7 @@ end
 
 name sniper turret
 type turret
-cost 150
+cost 200
 energy 0
 sprite_base sniper_base
 damage 15 25 40
@@ -44,7 +44,7 @@ end
 
 name wall
 type wall
-cost 20
+cost 25
 energy 0
 sprite_base wall_base
 damage 0
