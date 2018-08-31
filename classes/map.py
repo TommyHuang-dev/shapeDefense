@@ -1,4 +1,5 @@
 from functions import mapParse
+from functions import pathFinder
 import pygame
 
 
@@ -12,7 +13,7 @@ class Map(object):
         self.colGrid = [x - 20 for x in self.colBackground]
 
         # set spawn, exit, and obstacle lists
-        self.spawnList = []
+        self.spawnList = []  # grid loc
         self.exitList = []  # matching exit to the spawnList
         self.obsList = []
         self.obsPxList = []
@@ -80,3 +81,22 @@ class Map(object):
 
         # cover up the boxes
         pygame.draw.rect(display, (200, 225, 255), (x - 13, y - 13, 1000 * scale + 26, 750 * scale + 26), 26)
+
+    # finds a path based on x y of obstacles and placed towers on the grid
+    def find_path(self, placed_towers):
+        obstacle_list = []
+        # converting rectangles into [x,y] points
+        for i in range(1, 21):
+            for j in range(1, 16):
+                if [i, j] in self.obsList:
+                    obstacle_list.append([i, j])
+        # append the locations of all the placed towers since they are also obstacles
+        obstacle_list.append(placed_towers)
+        # do the thing
+        paths = [pathFinder.find_a_path(self.spawnList[i], self.exitList[i], obstacle_list)
+                 for i in range(len(self.spawnList))]
+
+        if -1 in paths:
+            return -1  # did not find a path for at least one of the spawn/exit pairs
+
+        return paths

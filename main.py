@@ -80,17 +80,20 @@ pygame.display.set_caption("Shape Defense")
 
 intro = True
 
-# font stuff
-msLevelSelectFont = pygame.font.SysFont('Arial', 30, False)
-msMenuButFont = pygame.font.SysFont('Arial', 50, True)
-msHeaderFont = pygame.font.SysFont('Arial', 45, True)
-msHeaderFont.set_underline(True)  # sets underline for a font
-levelInfoFont = pygame.font.SysFont('Arial', 30, True)
-levelTowerTitleFont = pygame.font.SysFont('Arial', 30, True)
+# font stuff: ms = menu screen
+msLevelSelectFont = pygame.font.SysFont('Trebuchet MS', 32, False)
+msMenuButFont = pygame.font.SysFont('Trebuchet MS', 45, True)
+msHeaderFont = pygame.font.SysFont('Trebuchet MS', 40, True)
+msHeaderFont.set_underline(True)
+
+levelInfoFont = pygame.font.SysFont('Trebuchet MS', 28, False)
+levelTowerTitleFont = pygame.font.SysFont('Trebuchet MS', 28, True)
 levelTowerTitleFont.set_underline(True)
-levelTowerFont = pygame.font.SysFont('Arial', 22, False)
-creditHeaderFont = pygame.font.SysFont('Arial', 30, True)
-creditBodyFont = pygame.font.SysFont('Arial', 24, False)
+levelTowerFont = pygame.font.SysFont('Trebuchet MS', 22, False)
+levelNextWaveFont = pygame.font.SysFont('Trebuchet MS', 40, True)
+
+creditHeaderFont = pygame.font.SysFont('Trebuchet MS', 30, True)
+creditBodyFont = pygame.font.SysFont('Trebuchet MS', 24, False)
 
 # initialize maps
 mapList = ["1", "2", "3", "4", "5", "6"]  # map file names
@@ -121,13 +124,13 @@ for i in range(len(mapList)):
     mapInfo.append(map.Map(mapList[i]))
     levelButCol.append([mapInfo[i].colBackground, mapInfo[i].colObs])
     if i % 2 == 0:
-        levelBut.append(pygame.Rect(450, 360 + (i // 2) * 100, 80, 80))
+        levelBut.append(pygame.Rect(470, 360 + (i // 2) * 100, 80, 80))
     else:
-        levelBut.append(pygame.Rect(550, 360 + (i // 2) * 100, 80, 80))
+        levelBut.append(pygame.Rect(570, 360 + (i // 2) * 100, 80, 80))
 
 # create list of menu levelBut (e.g. play, settings, etc.)
-menuButText = ["PLAY", "settings", "credits"]
-menuButCol = [[100, 240, 100], [225, 210, 100], [225, 210, 100]]
+menuButText = ["PLAY", "credits"]
+menuButCol = [[100, 240, 100], [240, 230, 120]]
 menuBut = [pygame.Rect(90, 310 + i * 115, 250, 100) for i in range(len(menuButText))]
 butPressed = 'none'
 
@@ -147,7 +150,7 @@ creditText = creditParse.parse("data/credits")
 
 # ---- LOAD CLASSES ----
 # list of purchasable towers (turrets, boosters)
-towerNames = ['wall', 'basic turret', 'sniper turret']
+towerNames = ['Wall', 'Basic Turret', 'Sniper Turret']
 # list of towers and boosters available for purchase, taken from towerNames and boosterNames
 towerList = []
 # UI button initialization
@@ -186,6 +189,10 @@ butNextPage = pygame.Rect(disL - 130 + 2, butListTowers[0][1] + 150 + 2,
                           imgNextPage.get_width() - 4, imgNextPage.get_height() - 4)
 butPrevPage = pygame.Rect(disL - 200 + 2, butListTowers[0][1] + 150 - 2,
                           imgPrevPage.get_width() - 4, imgPrevPage.get_height() - 4)
+
+# menu NEXT WAVE button
+butNextWave = pygame.Rect(disL - 275, disH - 90, 250, 80)
+butNextWaveCol = [[175, 175, 175], [100, 225, 120]]  # colour for round in progress vs. not in progress
 
 # ---- OUTER LOOP ----
 while True:
@@ -332,6 +339,9 @@ while True:
     colIntro = [150, 165, 200, 255]
     introScreen = 60
 
+    # OBSTACLE PATHING TEST
+    path = selectedMap.find_path(placedTowers)
+
     # ---- GAME LOOP ----
     while not intro:
         # should make it 60FPS max
@@ -357,9 +367,13 @@ while True:
 
         # ---- BACKGROUND ----
         screen.fill(selectedMap.colBackground)
-        # path and obstacles
+        # obstacles
         components.draw_grid(screen, 0, 0, disL - 300, disH, 50, selectedMap.colGrid, False)
         selectedMap.draw_obstacles(screen)
+
+        # path
+        for i in range(len(path[0])):
+            pygame.draw.circle(screen, (0, 0, 0), (path[0][i][0] * 50 - 25, path[0][i][1] * 50 - 25), 5)
 
         # ---- TOWERS ----
         # draw placed towers:
@@ -402,8 +416,8 @@ while True:
                     soundPlaced.play()
                     # copy as a NEW object
                     placedTowers.append(tower.Turret(selectedTower.name))
-                    placedTowers[len(placedTowers) - 1].pos = selectedTower.pos
-                    placedTowers[len(placedTowers) - 1].placed = True  # set it to be placed!!
+                    placedTowers[-1].pos = selectedTower.pos
+                    placedTowers[-1].placed = True  # set it to be placed!!
                     placedTowersLoc.append(selectedTower.pos)
                     # lower monies
                     money -= selectedTower.cost
@@ -500,10 +514,10 @@ while True:
         screen.blit(lifePic, (disL - 275, 20))
         components.create_text(screen, (disL - 210, 50), str(life), False, levelInfoFont, (0, 0, 0))
         # wave
-        components.create_text(screen, (disL - 150, 50), "wave: " + str(curWave), False, levelInfoFont, (0, 0, 0))
+        components.create_text(screen, (disL - 145, 50), "wave  " + str(curWave), False, levelInfoFont, (0, 0, 0))
         # money
         screen.blit(moneyPic, (disL - 275, 80))
-        components.create_text(screen, (disL - 210, 110), str(money), False, levelInfoFont, (0, 0, 0))
+        components.create_text(screen, (disL - 210, 110), str(int(money)), False, levelInfoFont, (0, 0, 0))
         # energy
         screen.blit(energyPic, (disL - 150, 80))
         components.create_text(screen, (disL - 100, 110), str(energy[0]) + "/" + str(energy[1]),

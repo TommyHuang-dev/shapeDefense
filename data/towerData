@@ -1,48 +1,6 @@
 -----turrets-----
 
-name basic turret
-type turret
-cost 75
-energy 0
-sprite_base basic_base
-damage 4 6 8 10
-rate 1.5 2.5
-range 3.0 4.0
-proj_spd 15.0 20.0
-effective_range 1.1
-up_cost 20
-up_cost_inc 10
-max_level 6
-special none
-special_val 0
-sprite_turret basic_turret
-sprite_proj basic_shot
-hit_sound basic_hit
-targeting 3
-end
-
-name sniper turret
-type turret
-cost 200
-energy 0
-sprite_base sniper_base
-damage 15 25 40
-rate 0.6 1.0
-range 5.5 8.0
-proj_spd 30.0 40.0
-effective_range 1.1
-up_cost 80
-up_cost_inc 30
-max_level 6
-special none
-special_val 0
-sprite_turret sniper_turret
-sprite_proj sniper_shot
-hit_sound basic_hit
-targeting 1
-end
-
-name wall
+name Wall
 type wall
 cost 25
 energy 0
@@ -61,6 +19,93 @@ sprite_turret none
 sprite_proj none
 hit_sound none
 targeting 0
+end
+
+325 | 25
+name Basic Turret
+type turret
+cost 75
+energy 0
+sprite_base basic_base
+damage 4 6 8 10
+rate 1.5 2.5
+range 3.2 4.5
+proj_spd 15.0 20.0
+effective_range 1.1
+up_cost 30
+up_cost_inc 10
+max_level 6
+special none
+special_val 0
+sprite_turret basic_turret
+sprite_proj basic_shot
+hit_sound basic_hit
+targeting 3
+end
+
+725 | 72
+name Machine Gun
+cost 175
+energy 0
+sprite_base machinegun_base
+damage 3 4 6
+rate 4 6 9 12
+range 4.0
+proj_spd 30.0
+effective_range 1.1
+up_cost 70
+up_cost_inc 20
+max_level 6
+special none
+special_val 0
+sprite_turret machinegun_turret
+sprite_proj machinegun_shot
+hit_sound basic_hit
+targeting 3
+
+950 | 45
+name Sniper Turret
+type turret
+cost 200
+energy 0
+sprite_base sniper_base
+damage 15 22 32 45
+rate 0.6 1.0
+range 6.0 8.5
+proj_spd 30.0 40.0
+effective_range 1.1
+up_cost 90
+up_cost_inc 30
+max_level 6
+special none
+special_val 0
+sprite_turret sniper_turret
+sprite_proj sniper_shot
+hit_sound basic_hit
+targeting 1
+end
+
+875 | 75
+name SAM Nest
+type turret
+cost 125
+energy 0
+sprite_base SAM_base
+damage 5 7 10 15
+rate 2 3 5
+range 5.5
+proj_spd 10
+splash 0.6
+effective_range 1.5
+up_cost 50
+up_cost_inc 50
+max_level 6
+special missile
+special_val 1
+sprite_turret SAM_gun
+sprite_proj SAM_shot
+hit_sound SAM_hit
+targeting 2
 end
 
 -----boosters-----
