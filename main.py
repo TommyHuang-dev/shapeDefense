@@ -340,7 +340,8 @@ while True:
     introScreen = 60
 
     # OBSTACLE PATHING TEST
-    path = selectedMap.find_path(placedTowers)
+    updatePath = False
+    path = selectedMap.find_path(placedTowersLoc)
 
     # ---- GAME LOOP ----
     while not intro:
@@ -372,8 +373,12 @@ while True:
         selectedMap.draw_obstacles(screen)
 
         # path
-        for i in range(len(path[0])):
-            pygame.draw.circle(screen, (0, 0, 0), (path[0][i][0] * 50 - 25, path[0][i][1] * 50 - 25), 5)
+        if path != -1:
+            for i in range(len(path)):
+                for j in range(len(path[i])):
+                    pygame.draw.circle(screen, (0, 0, 0), (path[i][j][0] * 50 - 25, path[i][j][1] * 50 - 25), 5)
+        elif path == -1:
+            print("no path")
 
         # ---- TOWERS ----
         # draw placed towers:
@@ -421,6 +426,8 @@ while True:
                     placedTowersLoc.append(selectedTower.pos)
                     # lower monies
                     money -= selectedTower.cost
+                    # update pathing
+                    updatePath = True
                 elif mousePressed[0] == 1:
                     soundError.play()
 
@@ -474,7 +481,7 @@ while True:
                     # user has enough money to buy the tower
                     if towerList[i + mul6].cost <= money:
                         pygame.draw.rect(screen, (255, 255, 255), (butListTowers[i]), 2)
-                        # purchase tower on click
+                        # select tower on click
                         if mousePressed[0] == 1:
                             soundClick.play()
                             selectedTower = towerList[i + mul6]
@@ -500,6 +507,7 @@ while True:
                 if components.xy_to_pos(mousePos) in placedTowersLoc:
                     soundClick.play()
                     viewedTower = placedTowersLoc.index(components.xy_to_pos(mousePos))
+                # deselect viewed tower
                 else:
                     viewedTower = -1
 
@@ -528,6 +536,11 @@ while True:
             pygame.gfxdraw.filled_polygon(screen, [[0, 0], [disL, 0], [disL, disH], [0, disH]], colIntro)
             introScreen -= 1
             colIntro[3] = 10 + introScreen * 4
+
+        # update path ONCE if it was true at all:
+        if updatePath:
+            path = selectedMap.find_path(placedTowersLoc)
+            updatePath = False
 
         # update display!
         pygame.display.update()

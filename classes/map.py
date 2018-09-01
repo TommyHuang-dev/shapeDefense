@@ -94,6 +94,7 @@ class Map(object):
 
         # append the locations of all the placed towers since they are also obstacles
         obstacle_list += placed_towers
+
         # do the thing
         paths = [pathFinder.find_a_path(self.spawnList[i], self.exitList[i], obstacle_list)
                  for i in range(len(self.spawnList))]
