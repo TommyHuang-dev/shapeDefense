@@ -86,12 +86,14 @@ class Map(object):
     def find_path(self, placed_towers):
         obstacle_list = []
         # converting rectangles into [x,y] points
-        for i in range(1, 21):
-            for j in range(1, 16):
-                if [i, j] in self.obsList:
-                    obstacle_list.append([i, j])
+        for i in range(len(self.obsList)):
+            for j in range(self.obsList[i][2]):
+                for k in range(self.obsList[i][3]):
+                    if [self.obsList[i][0] + j, self.obsList[i][1] + k] not in obstacle_list:
+                        obstacle_list.append([self.obsList[i][0] + j, self.obsList[i][1] + k])
+
         # append the locations of all the placed towers since they are also obstacles
-        obstacle_list.append(placed_towers)
+        obstacle_list += placed_towers
         # do the thing
         paths = [pathFinder.find_a_path(self.spawnList[i], self.exitList[i], obstacle_list)
                  for i in range(len(self.spawnList))]
