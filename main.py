@@ -6,10 +6,6 @@ from classes import projectile
 from classes import tower
 from classes import map
 import savefiles
-import classes
-import data
-import sounds
-import random
 import os.path
 import time
 import pygame
@@ -500,6 +496,8 @@ while True:
                     soundNextWave.play()
                     curWave += 1
                     currentlyInWave = True
+                    # make sure you don't place towers during a wave
+                    selectedTower = 'none'
 
         # next wave text
         components.create_text(screen, (butNextWave[0] + butNextWave[2] // 2, butNextWave[1] + butNextWave[3] // 2),
@@ -527,7 +525,8 @@ while True:
             if i + mul6 < len(towerList):
                 pygame.draw.rect(screen, (230, 230, 250), (butListTowers[i]))
                 # on hover
-                if butListTowers[i].collidepoint(mousePos[0], mousePos[1]) and selectedTower == 'none':
+                if butListTowers[i].collidepoint(mousePos[0], mousePos[1]) and selectedTower == 'none' \
+                        and not currentlyInWave:
                     hovered = True
                     display_stats(towerList[i + mul6])
                     # user has enough money to buy the tower
@@ -541,6 +540,12 @@ while True:
                         if mousePressed[0] == 1:
                             soundError.play()
                             selectedTower = 'none'
+                # Let the user know you can't buy towers during a wave
+                elif butListTowers[i].collidepoint(mousePos[0], mousePos[1]) \
+                        and mousePressed[0] == 1 and currentlyInWave:
+                    soundError.play()
+                    msgText = "You cannot purchase towers during a wave"
+                    msgTimer = 0.75
 
         for i in range(mul6, mul6 + 6, 1):
             # draw towers on top of the buttons
