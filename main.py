@@ -105,6 +105,7 @@ soundError = pygame.mixer.Sound("sounds/UI/error.wav")
 soundSell = pygame.mixer.Sound("sounds/UI/sell.wav")
 soundPlaced = pygame.mixer.Sound("sounds/game/placed_down.wav")
 soundLevelSelect = pygame.mixer.Sound("sounds/UI/level_select.wav")
+soundNextWave = pygame.mixer.Sound("sounds/UI/next_wave.wav")
 
 musicMenu = pygame.mixer.music.load('sounds/menu.ogg')
 pygame.mixer.music.set_volume(0.35)
@@ -113,6 +114,7 @@ pygame.mixer.music.play(-1)
 # colours of stuff
 colBackground = [200, 225, 255]
 colPurchaseMenu = [220, 220, 240]
+colIntro = [150, 165, 200, 255]
 
 # list to hold rect objects and their colour
 levelBut = []
@@ -191,12 +193,14 @@ butPrevPage = pygame.Rect(disL - 200 + 2, butListTowers[0][1] + 150 - 2,
                           imgPrevPage.get_width() - 4, imgPrevPage.get_height() - 4)
 
 # menu NEXT WAVE button
-butNextWave = pygame.Rect(disL - 275, disH - 90, 250, 80)
-butNextWaveCol = [[175, 175, 175], [100, 225, 120]]  # colour for round in progress vs. not in progress
+butNextWave = pygame.Rect(disL - 275, disH - 70, 250, 60)
+colNextWaveBut = [[175, 175, 175], [15, 215, 110]]  # colour for round in progress vs. not in progress
 
 # ---- OUTER LOOP ----
 while True:
     # ---- INTRO SCREEN ----
+    outro = -1
+
     while intro:
         # should make it 60FPS max
         # dt is the number of seconds since the last frame, use this for calculations instead of fps to make it smoother
@@ -248,10 +252,10 @@ while True:
                                            msLevelSelectFont, (0, 0, 0))
 
                     # on click, set map and close out intro
-                    if pygame.mouse.get_pressed()[0] == 1:
+                    if pygame.mouse.get_pressed()[0] == 1 and outro < 0:
                         soundLevelSelect.play()
                         selectedMap = mapInfo[i]
-                        intro = False
+                        outro = 45
 
             # draw the levelBut and their text
             for i in range(len(levelBut)):
@@ -293,6 +297,15 @@ while True:
         # border
         pygame.draw.rect(screen, (0, 0, 0), (0, 0, disL, disH), 3)
 
+        # outro
+        if outro > 0:
+            outro -= 1
+            colIntro[3] = 250 - outro * 5.5
+            pygame.gfxdraw.filled_polygon(screen, [[0, 0], [disL, 0], [disL, disH], [0, disH]], colIntro)
+        elif outro == 0:
+            pygame.gfxdraw.filled_polygon(screen, [[0, 0], [disL, 0], [disL, disH], [0, disH]], [150, 165, 200, 255])
+            intro = False
+
         # Pygame events
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -323,6 +336,10 @@ while True:
     # viewing placed towers
     viewedTower = -1  # index position of a placed tower, -1 if no tower
 
+    # standard error messages
+    msgTimer = -1  # timer in seconds
+    msgText = ""
+
     # placed towers
     placedTowers = []  # list of tower objects, placed down
     placedTowersLoc = []  # used so that you cant overlap two towers
@@ -336,8 +353,7 @@ while True:
     waveParse.parse_wave_info("waveData")
 
     # intro variables
-    colIntro = [150, 165, 200, 255]
-    introScreen = 60
+    introScreen = 45
 
     # OBSTACLE PATHING TEST
     updatePath = False
@@ -360,6 +376,11 @@ while True:
         keys = pygame.key.get_pressed()
         hovered = False  # whether or not the mouse is hovering over a tower purchase button
 
+        # timers
+        msgTimer -= dt
+        if msgTimer < 0:
+            msgTimer = -1
+
         # make sure money doesn't go over maximum of 10000, and energy for 50
         if money > 10000:
             money = 10000
@@ -377,8 +398,6 @@ while True:
             for i in range(len(path)):
                 for j in range(len(path[i])):
                     pygame.draw.circle(screen, (0, 0, 0), (path[i][j][0] * 50 - 25, path[i][j][1] * 50 - 25), 5)
-        elif path == -1:
-            print("no path")
 
         # ---- TOWERS ----
         # draw placed towers:
@@ -417,19 +436,30 @@ while True:
                 selectedTower.draw_range(screen, valid)
 
                 # place down the tower when selected
-                if mousePressed[0] == 1 and money >= selectedTower.cost:
-                    soundPlaced.play()
-                    # copy as a NEW object
-                    placedTowers.append(tower.Turret(selectedTower.name))
-                    placedTowers[-1].pos = selectedTower.pos
-                    placedTowers[-1].placed = True  # set it to be placed!!
+                if mousePressed[0] == 1:
+                    # append the location to the list
                     placedTowersLoc.append(selectedTower.pos)
-                    # lower monies
-                    money -= selectedTower.cost
-                    # update pathing
-                    updatePath = True
-                elif mousePressed[0] == 1:
-                    soundError.play()
+                    # if the tower is too expensive or it blocks the path, play an error sound
+                    if money < selectedTower.cost:
+                        soundError.play()
+                        del(placedTowersLoc[-1])
+                        msgTimer = 0.5
+                        msgText = "Can't afford this tower!"
+                    elif selectedMap.find_path(placedTowersLoc) == -1:
+                        soundError.play()
+                        del (placedTowersLoc[-1])
+                        msgTimer = 0.5
+                        msgText = "Tower blocks path!"
+                    else:
+                        soundPlaced.play()
+                        # copy as a NEW object
+                        placedTowers.append(tower.Turret(selectedTower.name))
+                        placedTowers[-1].pos = selectedTower.pos
+                        placedTowers[-1].placed = True  # set it to be placed!!
+                        # lower monies
+                        money -= selectedTower.cost
+                        # update pathing
+                        updatePath = True
 
             # don't lock to grid if out of bounds
             elif not valid:
@@ -452,6 +482,28 @@ while True:
                          (disL, butListTowers[0][1] + 180))
         pygame.draw.line(screen, (70, 70, 70), (disL - 300, disH - 80),
                          (disL, disH - 80))
+
+        # next wave button
+        colNextWaveText = [0, 0, 0]
+        if currentlyInWave: # in wave
+            pygame.draw.rect(screen, colNextWaveBut[0], butNextWave)
+            pygame.draw.rect(screen, (0, 0, 0), butNextWave, 1)
+            colNextWaveText = [55, 55, 55]
+        elif not currentlyInWave: # not in wave
+            pygame.draw.rect(screen, colNextWaveBut[1], butNextWave)
+            pygame.draw.rect(screen, (0, 0, 0), butNextWave, 1)
+            # get hover
+            if butNextWave.collidepoint(mousePos[0], mousePos[1]):
+                pygame.draw.rect(screen, (0, 0, 0), butNextWave, 3)
+                # START NEXT WAVE :O
+                if mousePressed[0] == 1:
+                    soundNextWave.play()
+                    curWave += 1
+                    currentlyInWave = True
+
+        # next wave text
+        components.create_text(screen, (butNextWave[0] + butNextWave[2] // 2, butNextWave[1] + butNextWave[3] // 2),
+                               "NEXT WAVE", True, levelNextWaveFont, colNextWaveText)
 
         # switch page buttons
         if curPurchasePage > 0:  # previous page
@@ -531,11 +583,15 @@ while True:
         components.create_text(screen, (disL - 100, 110), str(energy[0]) + "/" + str(energy[1]),
                                False, levelInfoFont, (0, 0, 0))
 
+        # standard message (bottom of screen)
+        if msgTimer >= 0:
+            components.create_text(screen, (500, disH - 100), msgText, True, levelInfoFont, (150, 25, 25))
+
         # show a fading bluish screen after selecting the level
         if introScreen > 0:
-            pygame.gfxdraw.filled_polygon(screen, [[0, 0], [disL, 0], [disL, disH], [0, disH]], colIntro)
             introScreen -= 1
-            colIntro[3] = 10 + introScreen * 4
+            colIntro[3] = 10 + introScreen * 5.5
+            pygame.gfxdraw.filled_polygon(screen, [[0, 0], [disL, 0], [disL, disH], [0, disH]], colIntro)
 
         # update path ONCE if it was true at all:
         if updatePath:
