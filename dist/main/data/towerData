@@ -1,0 +1,178 @@
+-----turrets-----
+
+name Wall
+type wall
+cost 25
+energy 0
+sprite_base wall_base
+damage 0
+rate 0
+range 0
+proj_spd 0
+effective_range 0
+up_cost 0
+up_cost_inc 0
+max_level 1
+special none
+special_val 0
+sprite_turret none
+sprite_proj none
+hit_sound none
+targeting 0
+end
+
+325 | 25
+name Basic Turret
+type turret
+cost 75
+energy 0
+sprite_base basic_base
+damage 4 6 8 10
+rate 1.5 2.5
+range 3.2 4.5
+proj_spd 15.0 20.0
+effective_range 1.1
+up_cost 30
+up_cost_inc 10
+max_level 6
+special none
+special_val 0
+sprite_turret basic_turret
+sprite_proj basic_shot
+hit_sound basic_hit
+targeting 3
+end
+
+725 | 72
+name Machine Gun
+cost 175
+energy 0
+sprite_base machinegun_base
+damage 3 4 6
+rate 4 6 9 12
+range 4.0
+proj_spd 30.0
+effective_range 1.1
+up_cost 70
+up_cost_inc 20
+max_level 6
+special none
+special_val 0
+sprite_turret machinegun_turret
+sprite_proj machinegun_shot
+hit_sound basic_hit
+targeting 3
+
+950 | 45
+name Sniper Turret
+type turret
+cost 200
+energy 0
+sprite_base sniper_base
+damage 15 22 32 45
+rate 0.6 1.0
+range 6.0 8.5
+proj_spd 30.0 40.0
+effective_range 1.1
+up_cost 90
+up_cost_inc 30
+max_level 6
+special none
+special_val 0
+sprite_turret sniper_turret
+sprite_proj sniper_shot
+hit_sound basic_hit
+targeting 1
+end
+
+875 | 75
+name SAM Nest
+type turret
+cost 125
+energy 0
+sprite_base SAM_base
+damage 5 7 10 15
+rate 2 3 5
+range 5.5
+proj_spd 10
+splash 0.6
+effective_range 1.5
+up_cost 50
+up_cost_inc 50
+max_level 6
+special missile
+special_val 1
+sprite_turret SAM_gun
+sprite_proj SAM_shot
+hit_sound SAM_hit
+targeting 2
+end
+
+-----boosters-----
+
+name damage module
+type booster
+cost 400
+energy 2
+up_cost 0
+max_level 1
+sprite_base module_damage
+boost_type damage
+boost_value 0.25
+end
+
+name rate module
+type booster
+cost 400
+energy 2
+up_cost 0
+max_level 1
+sprite_base module_rate
+boost_type rate
+boost_value 0.3
+end
+
+name range module
+type booster
+cost 400
+energy 2
+up_cost 0
+max_level 1
+sprite_base module_damage
+boost_type range
+boost_value 0.3
+end
+
+name projectile module
+type booster
+cost 300
+energy 1
+up_cost 0
+max_level 1
+sprite_base module_projectile
+boost_type proj_spd
+boost_value 0.5
+end
+
+name bank
+type booster
+cost 500
+energy 0
+up_cost 600
+max_level 2
+sprite_base module_bank
+boost_type money
+boost_value 50 100
+end
+
+name power station
+type booster
+cost 600
+energy 0
+up_cost 0
+max_level 1
+sprite_base module_station
+boost_type electricity
+boost_value 10
+end
+
