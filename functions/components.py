@@ -28,6 +28,15 @@ def draw_grid(display, start_x, start_y, l, h, space, col, border, offset_l=0, o
     display.unlock()
 
 
+# rotates an image by its center
+def rot_center(image, angle):
+    """rotate a Surface, maintaining position."""
+    loc = image.get_rect().center  # rot_image is not defined
+    rot_sprite = pygame.transform.rotate(image, angle)
+    rot_sprite.get_rect().center = loc
+    return rot_sprite
+
+
 # creates some text centered on an x y coordinate
 def create_text(display, location, text, centered, font, col):
     display_text = font.render(str(text), True, col)

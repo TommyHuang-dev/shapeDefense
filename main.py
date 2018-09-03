@@ -133,11 +133,13 @@ menuBut = [pygame.Rect(90, 310 + i * 115, 250, 100) for i in range(len(menuButTe
 butPressed = 'none'
 
 # load hardcoded images
-titlePic = load_pics("images/UI/", "title")
-circlePic = load_pics("images/UI/", "dots")
-otherShapesPic = load_pics("images/UI/", "shapes")
+picTitle = load_pics("images/UI/", "title")
+picCircle = load_pics("images/UI/", "dots")
+picShapes = load_pics("images/UI/", "shapes")
 circleX = [0, 425, 850, 1275]
 shapesX = [-425, 0, 425, 850]
+picSpawnArrow = load_pics("images/UI/", "arrow")
+picExitArrow = load_pics("images/UI/", "arrow2")
 
 moneyPic = load_pics("images/UI/", "symbol_money")
 lifePic = load_pics("images/UI/", "symbol_life")
@@ -274,21 +276,21 @@ while True:
                 components.create_text(screen, (400, 340 + i * 40), creditText[i], False, creditBodyFont, (0, 0, 0))
 
         # title text
-        screen.blit(titlePic, (250, 50))
+        screen.blit(picTitle, (250, 50))
         # move circles using list comprehension
         circleX = [x - 140 * dt for x in circleX]
         for i in range(len(circleX)):
             if circleX[i] < - 425:
                 circleX[i] += 1700
             # draw dot under title!
-            screen.blit(circlePic, (int(circleX[i]), 175))
+            screen.blit(picCircle, (int(circleX[i]), 175))
         # move other shapes using list comprehension
         shapesX = [x + 70 * dt for x in shapesX]
         for i in range(len(shapesX)):
             if shapesX[i] > 1325:
                 shapesX[i] -= 1700
             # draw shapes!
-            screen.blit(otherShapesPic, (int(shapesX[i]), 225))
+            screen.blit(picShapes, (int(shapesX[i]), 225))
 
         # border
         pygame.draw.rect(screen, (0, 0, 0), (0, 0, disL, disH), 3)
@@ -346,14 +348,31 @@ while True:
     pygame.mixer.music.play(-1)
 
     # parse wave info
-    waveParse.parse_wave_info("waveData")
+    waveInfo = waveParse.parse_wave_info("waveData")
+    masterWaveTimer = 0
 
     # intro variables
     introScreen = 45
 
-    # OBSTACLE PATHING TEST
+    # OBSTACLE PATHING
     updatePath = False
     path = selectedMap.find_path(placedTowersLoc)
+    pathRect = [pygame.Rect(path[i][1][0] * 50 - 50, path[i][1][1] * 50 - 50, 50, 50) for i in range(len(path))]
+    pathRect2 = [pygame.Rect(path[i][-2][0] * 50 - 50, path[i][-2][1] * 50 - 50, 50, 50) for i in range(len(path))]
+    # arrowPics
+    arrowPics = []
+    for i in range(len(path)):
+        # go right
+        if path[i][0][0] < path[i][1][0]:
+            arrowPics.append([components.rot_center(picSpawnArrow, 0), components.rot_center(picExitArrow, 0)])
+        # go down
+        elif path[i][0][1] < path[i][1][1]:
+            arrowPics.append([components.rot_center(picSpawnArrow, 270), components.rot_center(picExitArrow, 270)])
+        # go left
+        elif path[i][0][0] > path[i][1][0]:
+            arrowPics.append([components.rot_center(picSpawnArrow, 180), components.rot_center(picExitArrow, 180)])
+        else: # go up
+            arrowPics.append([components.rot_center(picSpawnArrow, 90), components.rot_center(picExitArrow, 90)])
 
     # ---- GAME LOOP ----
     while not intro:
@@ -377,11 +396,16 @@ while True:
         if msgTimer < 0:
             msgTimer = -1
 
+        if currentlyInWave:
+            masterWaveTimer += dt
+        else:
+            masterWaveTimer = 0
+
         # make sure money doesn't go over maximum of 10000, and energy for 50
         if money > 10000:
             money = 10000
-        if energy[0] > 50:
-            energy[0] = 50
+        if energy[1] > 50:
+            energy[1] = 50
 
         # ---- BACKGROUND ----
         screen.fill(selectedMap.colBackground)
@@ -390,10 +414,22 @@ while True:
         selectedMap.draw_obstacles(screen)
 
         # path
-        if path != -1:
+        if path != -1 and not currentlyInWave:
             for i in range(len(path)):
                 for j in range(len(path[i])):
-                    pygame.draw.circle(screen, (0, 0, 0), (path[i][j][0] * 50 - 25, path[i][j][1] * 50 - 25), 5)
+                    pygame.draw.circle(screen, (0, 0, 0), (path[i][j][0] * 50 - 25, path[i][j][1] * 50 - 25), 2)
+
+            # path line indicators (on hover)
+            if pathRect[i].collidepoint(mousePos[0], mousePos[1]) \
+                    or pathRect2[i].collidepoint(mousePos[0], mousePos[1]):
+                lines = [[path[i][a][0] * 50 - 26, path[i][a][1] * 50 - 26] for a in range(len(path[i]))]
+                pygame.draw.lines(screen, (200, 50, 50), False, lines, 5)
+
+            # path arrow indicators
+            for i in range(len(arrowPics)):
+                # spawn and exit indicator arrows
+                screen.blit(arrowPics[i][0], (path[i][1][0] * 50 - 50, path[i][1][1] * 50 - 50))
+                screen.blit(arrowPics[i][1], (path[i][-2][0] * 50 - 50, path[i][-2][1] * 50 - 50))
 
         # ---- TOWERS ----
         # draw placed towers:
@@ -544,7 +580,7 @@ while True:
                 elif butListTowers[i].collidepoint(mousePos[0], mousePos[1]) \
                         and mousePressed[0] == 1 and currentlyInWave:
                     soundError.play()
-                    msgText = "You cannot purchase towers during a wave"
+                    msgText = "Towers cannot be purchased during a wave"
                     msgTimer = 0.75
 
         for i in range(mul6, mul6 + 6, 1):

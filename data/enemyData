@@ -48,7 +48,7 @@ armour 0
 speed 1.0
 death_spawn_enemy none
 death_spawn_val 0
-bounty 15
+bounty 20
 sprite brute_boss
 end
 
