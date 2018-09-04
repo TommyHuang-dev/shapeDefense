@@ -1,7 +1,9 @@
 from functions import components
 from functions import creditParse
 from functions import waveParse
+from functions import enemyParse
 from classes import enemy
+from classes import spawner
 from classes import projectile
 from classes import tower
 from classes import map
@@ -127,8 +129,8 @@ for i in range(len(mapList)):
         levelBut.append(pygame.Rect(570, 360 + (i // 2) * 100, 80, 80))
 
 # create list of menu levelBut (e.g. play, settings, etc.)
-menuButText = ["PLAY", "credits"]
-menuButCol = [[100, 240, 100], [240, 230, 120]]
+menuButText = ["PLAY", "info", "credits"]
+menuButCol = [[100, 240, 100], [240, 230, 120], [240, 230, 120]]
 menuBut = [pygame.Rect(90, 310 + i * 115, 250, 100) for i in range(len(menuButText))]
 butPressed = 'none'
 
@@ -315,7 +317,7 @@ while True:
     pygame.mixer.music.stop()
 
     # ---- IN-GAME SETUP and reset variables----
-    curWave = 0  # current wave
+    curWave = -1  # current wave, displayed value is 1 more than this
     money = 500  # starting monies
     energy = [0, 10]  # amount of power used vs maximum
     income = 100  # monies per round
@@ -351,6 +353,14 @@ while True:
     waveInfo = waveParse.parse_wave_info("waveData")
     masterWaveTimer = 0
 
+    # spawners
+    curSpawnPoint = 0
+    spawnerList = []  # active spawners
+
+    # enemy lists
+    enemyInfo = enemyParse.get_data('enemyData')
+    enemyList = []  # list of active enemy objects
+
     # intro variables
     introScreen = 45
 
@@ -371,7 +381,7 @@ while True:
         # go left
         elif path[i][0][0] > path[i][1][0]:
             arrowPics.append([components.rot_center(picSpawnArrow, 180), components.rot_center(picExitArrow, 180)])
-        else: # go up
+        else:  # go up
             arrowPics.append([components.rot_center(picSpawnArrow, 90), components.rot_center(picExitArrow, 90)])
 
     # ---- GAME LOOP ----
@@ -413,23 +423,56 @@ while True:
         components.draw_grid(screen, 0, 0, disL - 300, disH, 50, selectedMap.colGrid, False)
         selectedMap.draw_obstacles(screen)
 
-        # path
+        # path display stuff
         if path != -1 and not currentlyInWave:
             for i in range(len(path)):
                 for j in range(len(path[i])):
                     pygame.draw.circle(screen, (0, 0, 0), (path[i][j][0] * 50 - 25, path[i][j][1] * 50 - 25), 2)
 
             # path line indicators (on hover)
-            if pathRect[i].collidepoint(mousePos[0], mousePos[1]) \
-                    or pathRect2[i].collidepoint(mousePos[0], mousePos[1]):
-                lines = [[path[i][a][0] * 50 - 26, path[i][a][1] * 50 - 26] for a in range(len(path[i]))]
-                pygame.draw.lines(screen, (200, 50, 50), False, lines, 5)
+            for i in range(len(pathRect)):
+                if pathRect[i].collidepoint(mousePos[0], mousePos[1]) \
+                        or pathRect2[i].collidepoint(mousePos[0], mousePos[1]):
+                    lines = [[path[i][a][0] * 50 - 26, path[i][a][1] * 50 - 26] for a in range(len(path[i]))]
+                    pygame.draw.lines(screen, (200, 50, 50), False, lines, 5)
 
             # path arrow indicators
             for i in range(len(arrowPics)):
                 # spawn and exit indicator arrows
                 screen.blit(arrowPics[i][0], (path[i][1][0] * 50 - 50, path[i][1][1] * 50 - 50))
                 screen.blit(arrowPics[i][1], (path[i][-2][0] * 50 - 50, path[i][-2][1] * 50 - 50))
+
+        # ---- ENEMY SPAWNING AND MOVEMENT ----
+        # spawning
+        if currentlyInWave:
+            i = 0
+            # create new spawners at the given intervals
+            while i < len(waveInfo[curWave]):
+                if waveInfo[curWave][i][2] <= masterWaveTimer:
+                    # delete the wave info and create a spawner from it
+                    spawnerList.append(spawner.Spawner(waveInfo[curWave][i],
+                                                       enemyInfo[waveInfo[curWave][i][0]]))
+                    del(waveInfo[curWave][i])
+                    i -= 1
+
+                i += 1
+
+            # at certain intervals, spawners will spawn their designated enemy
+            for i in range(len(spawnerList)):
+                spawnerList[i].timer += dt
+                if spawnerList[i].timer >= spawnerList[i].interval:
+                    # reset timer
+                    spawnerList[i].timer -= spawnerList[i].interval
+                    # append an enemy object to the list
+                    enemyList.append(spawnerList[i].spawn_enemy(selectedMap.spawnList[curSpawnPoint], curSpawnPoint))
+                    # alternate between spawn locations
+                    curSpawnPoint += 1
+                    if curSpawnPoint >= len(selectedMap.spawnList):
+                        curSpawnPoint = 0
+
+            # movement
+            for i in range(len(enemyList)):
+                enemyList[i].move(path[enemyList[i].path_number])
 
         # ---- TOWERS ----
         # draw placed towers:
@@ -464,7 +507,8 @@ while True:
             if valid:
                 gridLoc = components.xy_to_pos(mousePos)
                 selectedTower.pos = [gridLoc[0], gridLoc[1]]
-                selectedTower.draw_tower_full(screen, (selectedTower.pos[0] * 50 - 25, selectedTower.pos[1] * 50 - 25), 0)
+                selectedTower.draw_tower_full(screen, (selectedTower.pos[0] * 50 - 25,
+                                                       selectedTower.pos[1] * 50 - 25), 0)
                 selectedTower.draw_range(screen, valid)
 
                 # place down the tower when selected
@@ -517,11 +561,11 @@ while True:
 
         # next wave button
         colNextWaveText = [0, 0, 0]
-        if currentlyInWave: # in wave
+        if currentlyInWave:  # in wave
             pygame.draw.rect(screen, colNextWaveBut[0], butNextWave)
             pygame.draw.rect(screen, (0, 0, 0), butNextWave, 1)
             colNextWaveText = [55, 55, 55]
-        elif not currentlyInWave: # not in wave
+        elif not currentlyInWave:  # not in wave
             pygame.draw.rect(screen, colNextWaveBut[1], butNextWave)
             pygame.draw.rect(screen, (0, 0, 0), butNextWave, 1)
             # get hover
@@ -615,7 +659,7 @@ while True:
         screen.blit(lifePic, (disL - 275, 20))
         components.create_text(screen, (disL - 210, 50), str(life), False, levelInfoFont, (0, 0, 0))
         # wave
-        components.create_text(screen, (disL - 145, 50), "wave  " + str(curWave), False, levelInfoFont, (0, 0, 0))
+        components.create_text(screen, (disL - 145, 50), "wave  " + str(curWave + 1), False, levelInfoFont, (0, 0, 0))
         # money
         screen.blit(moneyPic, (disL - 275, 80))
         components.create_text(screen, (disL - 210, 110), str(int(money)), False, levelInfoFont, (0, 0, 0))

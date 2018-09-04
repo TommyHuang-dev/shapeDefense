@@ -1,4 +1,3 @@
------ground-----
 
 name recruit
 type NORMAL
@@ -11,7 +10,6 @@ death_spawn_enemy none
 death_spawn_val 0
 bounty 2
 sprite recruit
-end
 
 name brute
 type NORMAL
@@ -24,7 +22,6 @@ death_spawn_enemy none
 death_spawn_val 0
 bounty 3
 sprite brute
-end
 
 name normal boss
 type BOSS
@@ -37,7 +34,6 @@ death_spawn_enemy none
 death_spawn_val 0
 bounty 15
 sprite common_boss
-end
 
 name brute boss
 type BOSS
@@ -50,9 +46,7 @@ death_spawn_enemy none
 death_spawn_val 0
 bounty 20
 sprite brute_boss
-end
 
------air-----
 name air recruit
 type NORMAL
 movement_type AIR
@@ -64,7 +58,6 @@ death_spawn_enemy none
 death_spawn_val 0
 bounty 2
 sprite air
-end
 
 name airship
 type BOSS
@@ -77,4 +70,3 @@ death_spawn_enemy air recruit
 death_spawn_val 4
 bounty 10
 sprite airship
-end
