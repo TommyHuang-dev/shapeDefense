@@ -1,3 +1,10 @@
+import pygame
+
+
+def load_pics(folder, name):
+    location = folder + name + ".png"
+    return pygame.image.load(location).convert_alpha()
+
 
 # reads a file and gets data for enemy stats
 def get_data(file_name):
@@ -11,6 +18,9 @@ def get_data(file_name):
             if line.split()[0] == 'name':
                 cur_enemy = (' '.join(map(str, line.split())))[5:]
                 enemy_info[cur_enemy] = {}
+            if line.split()[0] == 'sprite':
+                sprite = (' '.join(map(str, line.split())))[7:]
+                enemy_info[cur_enemy]['sprite'] = load_pics('images/enemies/', sprite)
             # append information as follows: enemy_info[name][attribute][value] (dictionary of dictionaries of lists)
             else:
                 enemy_info[cur_enemy][line.split()[0]] = line.split()[1]

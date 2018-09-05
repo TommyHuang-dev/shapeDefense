@@ -275,7 +275,7 @@ while True:
             components.create_text(screen, (400, 340), creditText[0], False, creditHeaderFont, (0, 0, 0))
             # create rest of credits
             for i in range(1, len(creditText)):
-                components.create_text(screen, (400, 340 + i * 40), creditText[i], False, creditBodyFont, (0, 0, 0))
+                components.create_text(screen, (400, 340 + i * 30), creditText[i], False, creditBodyFont, (0, 0, 0))
 
         # title text
         screen.blit(picTitle, (250, 50))
@@ -509,10 +509,9 @@ while True:
                         life -= 10
                     else:
                         life -= 1
-                    screen.blit(picSpawnArrow, (enemyList[i].posPx[0] - 25, enemyList[i].posPx[1] - 25))
                     del (enemyList[i])
                 else:
-                    screen.blit(picSpawnArrow, (enemyList[i].posPx[0] - 25, enemyList[i].posPx[1] - 25))
+                    screen.blit(enemyList[i].stats['sprite'], (enemyList[i].posPx[0] - 25, enemyList[i].posPx[1] - 25))
                     i += 1
 
         # stop wave after defeating all enemies and spawners
