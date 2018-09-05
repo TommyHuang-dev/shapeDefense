@@ -6,6 +6,7 @@ health 10
 regeneration 0.0
 armour 0
 speed 2.5
+radius 13
 sprite recruit
 death_spawn_enemy none
 death_spawn_val 0
@@ -19,6 +20,7 @@ health 25
 regeneration 1.0
 armour 0
 speed 1.5
+radius 15
 sprite brute
 death_spawn_enemy none
 death_spawn_val 0
@@ -32,6 +34,7 @@ health 75
 regeneration 2.0
 armour 0
 speed 1.75
+radius 20
 sprite common_boss
 death_spawn_enemy none
 death_spawn_val 0
@@ -45,34 +48,9 @@ health 125
 regeneration 5.0
 armour 0
 speed 1.0
+radius 20
 sprite brute_boss
 death_spawn_enemy none
 death_spawn_val 0
 bounty 20
 sprite brute_boss
-
-name air recruit
-type NORMAL
-movement_type AIR
-health 10
-regeneration 0
-armour 0
-speed 2.0
-sprite air
-death_spawn_enemy none
-death_spawn_val 0
-bounty 2
-sprite air
-
-name airship
-type BOSS
-movement_type AIR
-health 50
-regeneration 0
-armour 0
-speed 1.6
-sprite airship
-death_spawn_enemy air recruit
-death_spawn_val 4
-bounty 10
-sprite airship

@@ -1,14 +1,18 @@
-import random
+import pygame
 
+# holds info about enemies, like hp and speed
 class Enemy(object):
     def __init__(self, attributes, spawnpoint, spawn_num):
         # stats
         self.stats = attributes
+        self.stats['mask'] = pygame.mask.from_surface(self.stats['sprite'], 64)
         # pathing
         self.path_number = spawn_num
         self.movement_dir = [0, 0]
         self.direction_delay = -1
         self.endTimer = 0.1
+        self.distance = 1000  # distance from end
+
         # positional (Px = pixel)
         self.tileLoc = spawnpoint
         self.posPx = [spawnpoint[0] * 50 - 25, spawnpoint[1] * 50 - 25]
@@ -26,13 +30,14 @@ class Enemy(object):
     def move(self, path, time):
         # delay to center the enemy and not immeadiately move
         self.direction_delay -= time * float(self.stats['speed'])
-
         self.calc_tile_loc(self.posPx)
         if self.reachedEnd:
             self.endTimer -= time
         elif self.tileLoc == path[-1]:
             self.reachedEnd = True
             self.endTimer = 0.25
+        else:
+            self.distance = len(path) - path.index(self.tileLoc)
 
         # recalculate pathing after the delay
         cur_tile = path.index(self.tileLoc)

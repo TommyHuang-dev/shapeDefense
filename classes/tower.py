@@ -19,6 +19,7 @@ class Turret(object):
         # keeping track of tower and stat levels
         # initialize stats
         self.name = name
+        self.rotation = math.pi / 2
         self.type = self.stats['type'][0]
         self.targeting = self.stats['targeting'][0]
         self.curLevel = 1
@@ -55,6 +56,7 @@ class Turret(object):
         self.spriteGun = load_pics("images/towers/", str(self.stats['sprite_turret'][0]))
         self.spriteProj = load_pics("images/projectiles/", str(self.stats['sprite_proj'][0]))
         self.hitSound = pygame.mixer.Sound("sounds/game/" + str(self.stats['hit_sound'][0]) + ".wav")
+        self.rotSpriteGun = self.spriteGun.copy()
 
         # update all stats to match da level one
         self.update_stats(self.initialUpCost, self.upCostInc, self.curLevel,
@@ -99,15 +101,34 @@ class Turret(object):
         self.update_stats(self.initialUpCost, self.upCostInc, self.curLevel,
                           self.dmgLevel[0], self.rateLevel[0], self.rangeLevel[0])
 
+    # rotate the gun
+    def rotate(self, angle):
+        self.rotation = math.radians(angle)
+        self.rotSpriteGun = components.rot_center(self.spriteGun, angle)
+
+    # search for first enemy and rotate gun to face it
+    def calc_rotation(self, enemy_pos, enemy_path_left, enemy_radius):
+        tar = [0, 0]
+        path_left_cur = 1000
+        for i in range(len(enemy_path_left)):
+            dist_to_enemy = math.sqrt(((self.pos[0] * 50 - 25) - enemy_pos[i][0]) ** 2 +
+                                      ((self.pos[1] * 50 - 25) - enemy_pos[i][1]) ** 2)
+            if enemy_path_left[i] < path_left_cur and dist_to_enemy <= self.range * 50 + float(enemy_radius[i]):
+                tar = [enemy_pos[i][0], enemy_pos[i][1]]
+
+        if tar != [0, 0]:
+            self.rotation += 0.1
+        self.rotSpriteGun = components.rot_center(self.spriteGun, math.degrees(self.rotation))
+
     def fire_projectile(self):
         pass
 
     # draws a full turret, centered on a xy coordinate. The first picture is assumed to be the base.
     # rotation is an angle in radians that the turret should rotate
-    def draw_tower_gun(self, display, xy, rotation):
+    def draw_tower_gun(self, display, xy):
         # draw gun
-        temp = self.spriteGun.get_rect()
-        display.blit(self.spriteGun, (xy[0] - temp[2] // 2, xy[1] - temp[3] // 2))
+        temp = self.rotSpriteGun.get_rect()
+        display.blit(self.rotSpriteGun, (xy[0] - temp[2] // 2, xy[1] - temp[3] // 2))
 
     # draw the base of a tower only
     def draw_tower_base(self, display, xy):
@@ -116,9 +137,9 @@ class Turret(object):
         display.blit(self.spriteBase, (xy[0] - temp[2] // 2, xy[1] - temp[3] // 2))
 
     # combines draw_tower_gun and draw_tower_base methods
-    def draw_tower_full(self, display, xy, rotation):
+    def draw_tower_full(self, display, xy):
         self.draw_tower_base(display, xy)
-        self.draw_tower_gun(display, xy, rotation)
+        self.draw_tower_gun(display, xy)
 
     # draws a range around the tower
     def draw_range(self, display, valid, xy=0):

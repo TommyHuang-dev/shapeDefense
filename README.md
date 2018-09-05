@@ -71,6 +71,7 @@ death_spawn_enemy  // name of the enemy that spawns when this one dies, 'none' m
 death_spawn_val  // how many are spawned
 bounty  // how much gold u get from killing it, can be a float, in which case it will randomize. Increases over time up to double.
 sprite  // sprite of the enemy
+radius  // radius of the enemy for tower range and detection. Projectile hits use a mask.
 end
 
 

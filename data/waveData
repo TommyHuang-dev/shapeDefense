@@ -8,9 +8,7 @@ brute
 
 wave 3
 recruit
-10 2 1
-air recruit
-20 0 0.75
+30 2 0.75
 
 wave 4
 normal boss

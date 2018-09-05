@@ -11,6 +11,7 @@ import savefiles
 import os.path
 import time
 import pygame
+import math
 from pygame import gfxdraw
 import sys
 
@@ -161,6 +162,7 @@ butListTowers = []
 # create tower levelBut and add the tower classes
 for i in range(len(towerNames)):
     towerList.append(tower.Turret(towerNames[i]))
+    towerList[i].rotate(90)
 
 # create turret buttons
 for i in range(6):
@@ -511,7 +513,7 @@ while True:
                         life -= 1
                     del (enemyList[i])
                 else:
-                    screen.blit(enemyList[i].stats['sprite'], (enemyList[i].posPx[0] - 25, enemyList[i].posPx[1] - 25))
+                    screen.blit(enemyList[i].stats['sprite'], (enemyList[i].posPx[0] - 35, enemyList[i].posPx[1] - 35))
                     i += 1
 
         # stop wave after defeating all enemies and spawners
@@ -532,7 +534,7 @@ while True:
         # tower gun
         for i in range(len(placedTowers)):
             placedTowers[i].draw_tower_gun(screen, [placedTowers[i].pos[0] * 50 - 25,
-                                                    placedTowers[i].pos[1] * 50 - 25], 0)
+                                                    placedTowers[i].pos[1] * 50 - 25])
 
         # unselect a tower
         if (mousePos[0] > disL - 300 and mousePressed[0] == 1 or keys[pygame.K_ESCAPE]) and selectedTower != 'none':
@@ -552,7 +554,7 @@ while True:
                 gridLoc = components.xy_to_pos(mousePos)
                 selectedTower.pos = [gridLoc[0], gridLoc[1]]
                 selectedTower.draw_tower_full(screen, (selectedTower.pos[0] * 50 - 25,
-                                                       selectedTower.pos[1] * 50 - 25), 0)
+                                                       selectedTower.pos[1] * 50 - 25))
                 selectedTower.draw_range(screen, valid)
 
                 # place down the tower when selected
@@ -583,7 +585,7 @@ while True:
 
             # don't lock to grid if out of bounds
             elif not valid:
-                selectedTower.draw_tower_full(screen, [mousePos[0], mousePos[1]], 0)
+                selectedTower.draw_tower_full(screen, [mousePos[0], mousePos[1]])
                 selectedTower.draw_range(screen, valid, xy=[mousePos[0], mousePos[1]])
                 if mousePressed[0] == 1:  # error if user tries to place invalid tower
                     soundError.play()
@@ -676,7 +678,24 @@ while True:
             if i < len(towerList):
                 # draw base + gun for turret
                 towerList[i].draw_tower_full(screen, [butListTowers[i - mul6][0] + butListTowers[i - mul6][2] // 2,
-                                                      butListTowers[i - mul6][1] + butListTowers[i - mul6][3] // 2], 0)
+                                                      butListTowers[i - mul6][1] + butListTowers[i - mul6][3] // 2])
+
+        # enemy lists and stuffs
+        enemyPosList = []
+        enemyDistLeftList = []
+        enemyRadList = []
+        for i in range(len(enemyList)):
+            enemyPosList.append(enemyList[i].posPx)
+            enemyDistLeftList.append(enemyList[i].distance)
+            enemyRadList.append(enemyList[i].stats['radius'])
+
+        # targeting and shooting
+        if currentlyInWave:
+            for i in range(len(placedTowers)):
+                placedTowers[i].calc_rotation(enemyPosList, enemyDistLeftList, enemyRadList)
+        else:
+            for i in range(len(placedTowers)):
+                placedTowers[i].rotate(90)
 
         # show stats of selected tower
         if selectedTower != 'none':  # while placing
