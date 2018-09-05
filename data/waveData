@@ -8,8 +8,42 @@ brute
 
 wave 3
 recruit
-30 2 0.75
+30 0 0.8
 
 wave 4
+brute
+5 0 2
+speedy
+5 2 1.25
+
+wave 5
 normal boss
+1 0 1
+
+wave 6
+recruit
+20 0 0.8
+turtle
+5 10 2
+
+wave 7
+brute
+3 0 0.75
+recruit
+10 2 0.5
+speedy
+10 8 1
+
+wave 8
+recruit
+40 0 0.5
+speedy
+20 18 1
+
+wave 9
+turtle
+15 0 1
+
+wave 10
+brute boss
 1 0 1

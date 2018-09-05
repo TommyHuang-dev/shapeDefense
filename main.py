@@ -72,6 +72,7 @@ time.sleep(0.5)
 
 # setup display and clock
 clock = pygame.time.Clock()
+fps = 60
 disL = 1300  # right 300 used for buying stuff and menu
 disH = 750  # all 750 used for the map (1000 x 750 = 20 x 15 tiles)
 screen = pygame.display.set_mode((disL, disH))
@@ -90,6 +91,7 @@ levelTowerTitleFont = pygame.font.SysFont('Trebuchet MS', 28, True)
 levelTowerTitleFont.set_underline(True)
 levelTowerFont = pygame.font.SysFont('Trebuchet MS', 22, False)
 levelNextWaveFont = pygame.font.SysFont('Trebuchet MS', 40, True)
+levelFastFont = pygame.font.SysFont('Trebuchet MS', 12, False)
 
 creditHeaderFont = pygame.font.SysFont('Trebuchet MS', 30, True)
 creditBodyFont = pygame.font.SysFont('Trebuchet MS', 24, False)
@@ -206,7 +208,7 @@ while True:
     while intro:
         # should make it 60FPS max
         # dt is the number of seconds since the last frame, use this for calculations instead of fps to make it smoother
-        dt = clock.tick(60) / 1000
+        dt = clock.tick(fps) / 1000
         if dt > 0.05:  # maximum delta time
             dt = 0.05
         for event in pygame.event.get():
@@ -391,13 +393,20 @@ while True:
         else:  # go up
             arrowPics.append([components.rot_center(picSpawnArrow, 90), components.rot_center(picExitArrow, 90)])
 
+    # fast forward
+    fastForward = False
+    ffCounter = 1  # multiply by this to counter the effects of fast forwarding
+
     # ---- GAME LOOP ----
     while not intro:
         # should make it 60FPS max
         # dt is the number of seconds since the last frame, use this for calculations instead of fps to make it smoother
-        dt = clock.tick(60) / 1000
+        dt = clock.tick(fps) / 1000
         if dt > 0.05:
             dt = 0.05
+        elif dt < 0.02:
+            dt = 0.02
+
         mousePressed = [0, 0, 0]  # reset mouse presses
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -412,7 +421,7 @@ while True:
                         # give a ton of money and life
                         cheatVal = 0
                         money = 10000
-                        life = 100
+                        life = 200
                 else:  # reset value if the cheat wasnt properly done
                     cheatVal = 0
 
@@ -421,8 +430,22 @@ while True:
         keys = pygame.key.get_pressed()
         hovered = False  # whether or not the mouse is hovering over a tower purchase button
 
+        # fast forward
+        if keys[pygame.K_SPACE]:
+            fastForward = True
+        else:
+            fastForward = False
+        if fastForward:
+            fps = 120
+            dt *= 1.5
+            ffCounter = 1/3
+        else:
+            fps = 60
+            dt *= 1
+            ffCounter = 1
+
         # timers
-        msgTimer -= dt
+        msgTimer -= dt * ffCounter
         if msgTimer < 0:
             msgTimer = -1
 
@@ -436,9 +459,6 @@ while True:
             money = 10000
         if energy[1] > 50:
             energy[1] = 50
-
-        # cheats
-        # if pygame.k
 
         # ---- BACKGROUND ----
         screen.fill(selectedMap.colBackground)
@@ -459,11 +479,11 @@ while True:
                     lines = [[path[i][a][0] * 50 - 26, path[i][a][1] * 50 - 26] for a in range(len(path[i]))]
                     pygame.draw.lines(screen, (200, 50, 50), False, lines, 5)
 
-            # path arrow indicators
-            for i in range(len(arrowPics)):
-                # spawn and exit indicator arrows
-                screen.blit(arrowPics[i][0], (path[i][1][0] * 50 - 50, path[i][1][1] * 50 - 50))
-                screen.blit(arrowPics[i][1], (path[i][-2][0] * 50 - 50, path[i][-2][1] * 50 - 50))
+        # path arrow indicators
+        for i in range(len(arrowPics)):
+            # spawn and exit indicator arrows
+            screen.blit(arrowPics[i][0], (path[i][1][0] * 50 - 50, path[i][1][1] * 50 - 50))
+            screen.blit(arrowPics[i][1], (path[i][-2][0] * 50 - 50, path[i][-2][1] * 50 - 50))
 
         # ---- ENEMY SPAWNING AND MOVEMENT ----
         # spawning
@@ -611,6 +631,8 @@ while True:
             pygame.draw.rect(screen, colNextWaveBut[0], butNextWave)
             pygame.draw.rect(screen, (0, 0, 0), butNextWave, 1)
             colNextWaveText = [55, 55, 55]
+            components.create_text(screen, (disL - 150, disH - 20), 'spacebar to fast forward',
+                                   True, levelFastFont, (0, 0, 0))
         elif not currentlyInWave:  # not in wave
             pygame.draw.rect(screen, colNextWaveBut[1], butNextWave)
             pygame.draw.rect(screen, (0, 0, 0), butNextWave, 1)

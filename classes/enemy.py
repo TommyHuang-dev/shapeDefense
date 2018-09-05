@@ -40,8 +40,8 @@ class Enemy(object):
             self.distance = len(path) - path.index(self.tileLoc)
 
         # recalculate pathing after the delay
-        cur_tile = path.index(self.tileLoc)
         if not self.reachedEnd and self.direction_delay <= 0:
+            cur_tile = path.index(self.tileLoc)
             # difference between current tile and target tile
             self.movement_dir = [self.tileLoc[0] - path[cur_tile + 1][0], self.tileLoc[1] - path[cur_tile + 1][1]]
 
