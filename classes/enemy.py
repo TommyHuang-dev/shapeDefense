@@ -20,7 +20,7 @@ class Enemy(object):
         self.tileLoc = [pos[0] // 50 + 1, pos[1] // 50 + 1]
         # change direction delay if the new tile is different
         if prevLoc != self.tileLoc:
-            self.direction_delay = 0.5 * random.uniform(0.95, 1.05)
+            self.direction_delay = 0.5
 
     # move tiles based on the pre-designated path
     def move(self, path, time):

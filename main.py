@@ -479,7 +479,8 @@ while True:
                 i += 1
 
             # at certain intervals, spawners will spawn their designated enemy
-            for i in range(len(spawnerList)):
+            i = 0
+            while i < len(spawnerList):
                 spawnerList[i].timer += dt
                 if spawnerList[i].timer >= spawnerList[i].interval:
                     # reset timer
@@ -491,9 +492,16 @@ while True:
                     if curSpawnPoint >= len(selectedMap.spawnList):
                         curSpawnPoint = 0
 
+                    # delete old spawners
+                    if spawnerList[i].amount == 0:
+                        del(spawnerList[i])
+                        i -= 1
+
+                i += 1
+
             # movement and enemy display
             i = 0
-            while i < len(enemyList) - 1:
+            while i < len(enemyList):
                 enemyList[i].move(path[enemyList[i].path_number], dt)
                 # enemy reaches end, take off lives
                 if enemyList[i].reachedEnd and enemyList[i].endTimer <= 0:
@@ -501,11 +509,15 @@ while True:
                         life -= 10
                     else:
                         life -= 1
-                    del(enemyList[i])
                     screen.blit(picSpawnArrow, (enemyList[i].posPx[0] - 25, enemyList[i].posPx[1] - 25))
+                    del (enemyList[i])
                 else:
                     screen.blit(picSpawnArrow, (enemyList[i].posPx[0] - 25, enemyList[i].posPx[1] - 25))
                     i += 1
+
+        # stop wave after defeating all enemies and spawners
+        if len(enemyList) == 0 and len(spawnerList) == 0 and len(waveInfo[curWave]) == 0:
+            currentlyInWave = False
 
         # ---- TOWERS ----
         # draw placed towers:
