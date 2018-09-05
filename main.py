@@ -327,6 +327,11 @@ while True:
     # page that its on
     curPurchasePage = 0
 
+    # developer cheats (konami code)
+    cheatVal = 0  # +1 everytime you press the correct key, otherwise resets to 0
+    cheatList = [pygame.K_UP, pygame.K_UP, pygame.K_DOWN, pygame.K_DOWN,
+                 pygame.K_LEFT, pygame.K_RIGHT, pygame.K_LEFT, pygame.K_RIGHT, pygame.K_a, pygame.K_b]
+
     # mouse stuff
     mousePressed = pygame.mouse.get_pressed()
     selectedTower = 'none'
@@ -389,12 +394,25 @@ while True:
         # should make it 60FPS max
         # dt is the number of seconds since the last frame, use this for calculations instead of fps to make it smoother
         dt = clock.tick(60) / 1000
+        if dt > 0.05:
+            dt = 0.05
         mousePressed = [0, 0, 0]  # reset mouse presses
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 sys.exit()
             if event.type == pygame.MOUSEBUTTONDOWN:
                 mousePressed = pygame.mouse.get_pressed()
+            if event.type == pygame.KEYDOWN:
+                # secret konami code!!! shh....
+                if event.key == cheatList[cheatVal]:
+                    cheatVal += 1
+                    if cheatVal > len(cheatList) - 1:
+                        # give a ton of money and life
+                        cheatVal = 0
+                        money = 10000
+                        life = 100
+                else:  # reset value if the cheat wasnt properly done
+                    cheatVal = 0
 
         # get inputs
         mousePos = pygame.mouse.get_pos()
@@ -416,6 +434,9 @@ while True:
             money = 10000
         if energy[1] > 50:
             energy[1] = 50
+
+        # cheats
+        # if pygame.k
 
         # ---- BACKGROUND ----
         screen.fill(selectedMap.colBackground)
@@ -470,9 +491,21 @@ while True:
                     if curSpawnPoint >= len(selectedMap.spawnList):
                         curSpawnPoint = 0
 
-            # movement
-            for i in range(len(enemyList)):
-                enemyList[i].move(path[enemyList[i].path_number])
+            # movement and enemy display
+            i = 0
+            while i < len(enemyList) - 1:
+                enemyList[i].move(path[enemyList[i].path_number], dt)
+                # enemy reaches end, take off lives
+                if enemyList[i].reachedEnd and enemyList[i].endTimer <= 0:
+                    if enemyList[i].stats['type'] == 'BOSS':
+                        life -= 10
+                    else:
+                        life -= 1
+                    del(enemyList[i])
+                    screen.blit(picSpawnArrow, (enemyList[i].posPx[0] - 25, enemyList[i].posPx[1] - 25))
+                else:
+                    screen.blit(picSpawnArrow, (enemyList[i].posPx[0] - 25, enemyList[i].posPx[1] - 25))
+                    i += 1
 
         # ---- TOWERS ----
         # draw placed towers:
@@ -549,7 +582,7 @@ while True:
         pygame.draw.rect(screen, colPurchaseMenu, (disL - 300, 0, 300, disH), 0)
 
         # borders
-        pygame.draw.rect(screen, selectedMap.colObs, (0, 0, disL, disH), 3)
+        pygame.draw.rect(screen, selectedMap.colObs, (0, 0, disL, disH), 4)
         pygame.draw.line(screen, selectedMap.colObs, (disL - 300, 0), (disL - 300, disH), 3)
 
         # sub dividers, from top to bottom
@@ -657,12 +690,12 @@ while True:
         # info about money, life, etc.
         # life
         screen.blit(lifePic, (disL - 275, 20))
-        components.create_text(screen, (disL - 210, 50), str(life), False, levelInfoFont, (0, 0, 0))
+        components.create_text(screen, (disL - 215, 50), str(life), False, levelInfoFont, (0, 0, 0))
         # wave
         components.create_text(screen, (disL - 145, 50), "wave  " + str(curWave + 1), False, levelInfoFont, (0, 0, 0))
         # money
         screen.blit(moneyPic, (disL - 275, 80))
-        components.create_text(screen, (disL - 210, 110), str(int(money)), False, levelInfoFont, (0, 0, 0))
+        components.create_text(screen, (disL - 215, 110), str(int(money)), False, levelInfoFont, (0, 0, 0))
         # energy
         screen.blit(energyPic, (disL - 150, 80))
         components.create_text(screen, (disL - 100, 110), str(energy[0]) + "/" + str(energy[1]),
