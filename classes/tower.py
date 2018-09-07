@@ -108,16 +108,20 @@ class Turret(object):
 
     # search for first enemy and rotate gun to face it
     def calc_rotation(self, enemy_pos, enemy_path_left, enemy_radius):
-        tar = [0, 0]
+        tar = []
         path_left_cur = 1000
         for i in range(len(enemy_path_left)):
             dist_to_enemy = math.sqrt(((self.pos[0] * 50 - 25) - enemy_pos[i][0]) ** 2 +
                                       ((self.pos[1] * 50 - 25) - enemy_pos[i][1]) ** 2)
+            # if the enemy is closer to the destination and within range, choose it as target
             if enemy_path_left[i] < path_left_cur and dist_to_enemy <= self.range * 50 + float(enemy_radius[i]):
                 tar = [enemy_pos[i][0], enemy_pos[i][1]]
+                path_left_cur = enemy_path_left[i]
 
-        if tar != [0, 0]:
-            self.rotation += 0.1
+        # trig :D
+        if tar != []:
+            diff = [tar[0] - (self.pos[0] * 50 - 25), tar[1] - (self.pos[1] * 50 - 25)]
+            self.rotation = math.atan2(-diff[1], diff[0])
         self.rotSpriteGun = components.rot_center(self.spriteGun, math.degrees(self.rotation))
 
     def fire_projectile(self):
