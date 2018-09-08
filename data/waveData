@@ -24,7 +24,7 @@ wave 6
 recruit
 20 0 0.8
 turtle
-5 10 2
+6 10 2
 
 wave 7
 brute
@@ -47,3 +47,7 @@ turtle
 wave 10
 brute boss
 1 0 1
+
+wave 11
+recruit
+100 1 0.5

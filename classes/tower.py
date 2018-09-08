@@ -3,6 +3,7 @@ import pygame
 from pygame import gfxdraw
 from functions import towerParse
 from functions import components
+from classes import projectile
 
 
 def load_pics(folder, name):
@@ -43,6 +44,7 @@ class Turret(object):
         self.specialVal = self.stats['special_val'][0]
         # range * effRange = how far the projectile actually goes
         self.effRange = float(self.stats['effective_range'][0])
+        self.reload = 0.01
 
         # initialize tower stats
         self.maxLevel = int(self.stats['max_level'][0])
@@ -57,6 +59,7 @@ class Turret(object):
         self.spriteProj = load_pics("images/projectiles/", str(self.stats['sprite_proj'][0]))
         self.hitSound = pygame.mixer.Sound("sounds/game/" + str(self.stats['hit_sound'][0]) + ".wav")
         self.rotSpriteGun = self.spriteGun.copy()
+        self.canFire = False
 
         # update all stats to match da level one
         self.update_stats(self.initialUpCost, self.upCostInc, self.curLevel,
@@ -107,7 +110,8 @@ class Turret(object):
         self.rotSpriteGun = components.rot_center(self.spriteGun, angle)
 
     # search for first enemy and rotate gun to face it
-    def calc_rotation(self, enemy_pos, enemy_path_left, enemy_radius):
+    def calc_rotation(self, enemy_pos, enemy_path_left, enemy_radius, dt):
+        self.canFire = False
         tar = []
         path_left_cur = 1000
         for i in range(len(enemy_path_left)):
@@ -117,6 +121,10 @@ class Turret(object):
             if enemy_path_left[i] < path_left_cur and dist_to_enemy <= self.range * 50 + float(enemy_radius[i]):
                 tar = [enemy_pos[i][0], enemy_pos[i][1]]
                 path_left_cur = enemy_path_left[i]
+                if self.reload <= 0:
+                    self.canFire = True  # set this to true to call fire_projectile later on
+                else:
+                    self.reload -= dt
 
         # trig :D
         if tar != []:
@@ -124,8 +132,15 @@ class Turret(object):
             self.rotation = math.atan2(-diff[1], diff[0])
         self.rotSpriteGun = components.rot_center(self.spriteGun, math.degrees(self.rotation))
 
+    # creates a projectile class based on tower params
     def fire_projectile(self):
-        pass
+        self.reload += 1 / self.rate
+        self.canFire = False
+        xy_vel = [self.projSpd * math.cos(self.rotation) * 5/6, self.projSpd * -math.sin(self.rotation) * 5/6]
+        temp_spr = components.rot_center(self.spriteProj, math.degrees(self.rotation))
+        return projectile.Projectile([self.pos[0] * 50 - 25, self.pos[1] * 50 - 25], xy_vel,
+                                     self.damage, self.range * self.effRange * 50, [self.special, self.specialVal],
+                                     temp_spr)
 
     # draws a full turret, centered on a xy coordinate. The first picture is assumed to be the base.
     # rotation is an angle in radians that the turret should rotate

@@ -6,6 +6,8 @@ class Enemy(object):
         # stats
         self.stats = attributes
         self.stats['mask'] = pygame.mask.from_surface(self.stats['sprite'], 64)
+        self.status = []  # list of status effects like slow
+
         # pathing
         self.path_number = spawn_num
         self.movement_dir = [0, 0]
@@ -24,7 +26,7 @@ class Enemy(object):
         self.tileLoc = [pos[0] // 50 + 1, pos[1] // 50 + 1]
         # change direction delay if the new tile is different
         if prevLoc != self.tileLoc:
-            self.direction_delay = 0.5
+            self.direction_delay = 0.5 - (float(self.stats['speed']) / 120)
 
     # move tiles based on the pre-designated path
     def move(self, path, time):

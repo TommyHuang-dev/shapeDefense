@@ -2,7 +2,6 @@ from functions import components
 from functions import creditParse
 from functions import waveParse
 from functions import enemyParse
-from classes import enemy
 from classes import spawner
 from classes import projectile
 from classes import tower
@@ -11,7 +10,7 @@ import savefiles
 import os.path
 import time
 import pygame
-import math
+import random
 from pygame import gfxdraw
 import sys
 
@@ -176,13 +175,13 @@ for i in range(6):
         butListTowers.append(pygame.Rect(disL - 100, 170 + (i // 3) * 80, 70, 70))
 
 # projectile image loading (uses a dictionary)
-projImgList = {}
+explosionImgList = {}
 for i in range(len(towerList)):
     # get name of projectile
     nextImgName = towerList[i].stats['sprite_proj'][0] + "-hit"
     curImg = 0
     while True:
-        projImgList[nextImgName] = load_pics("images/hit_effects/", nextImgName + str(curImg))
+        explosionImgList[nextImgName] = load_pics("images/hit_effects/", nextImgName + str(curImg))
         if os.path.isfile("images/hit_effects/" + nextImgName + str(curImg + 1)):
             curImg += 1
         else:
@@ -370,6 +369,12 @@ while True:
     enemyInfo = enemyParse.get_data('enemyData')
     enemyList = []  # list of active enemy objects
 
+    # projectile list
+    projList = []
+
+    # projectile variables
+    projExplosionList = []  # list of explosion classes
+
     # intro variables
     introScreen = 45
 
@@ -454,6 +459,13 @@ while True:
         else:
             masterWaveTimer = 0
 
+        while i < len(projExplosionList):
+            projExplosionList[i].show(screen, dt)
+            if projExplosionList[i].stopped:
+                del(projExplosionList[i])
+            else:
+                i += 1
+
         # make sure money doesn't go over maximum of 10000, and energy for 50
         if money > 10000:
             money = 10000
@@ -467,17 +479,17 @@ while True:
         selectedMap.draw_obstacles(screen)
 
         # path display stuff
-        if path != -1 and not currentlyInWave:
+        if not currentlyInWave:
             for i in range(len(path)):
                 for j in range(len(path[i])):
                     pygame.draw.circle(screen, (0, 0, 0), (path[i][j][0] * 50 - 25, path[i][j][1] * 50 - 25), 2)
 
-            # path line indicators (on hover)
-            for i in range(len(pathRect)):
-                if pathRect[i].collidepoint(mousePos[0], mousePos[1]) \
-                        or pathRect2[i].collidepoint(mousePos[0], mousePos[1]):
-                    lines = [[path[i][a][0] * 50 - 26, path[i][a][1] * 50 - 26] for a in range(len(path[i]))]
-                    pygame.draw.lines(screen, (200, 50, 50), False, lines, 5)
+        # path line indicators (on hover)
+        for i in range(len(pathRect)):
+            if pathRect[i].collidepoint(mousePos[0], mousePos[1]) \
+                    or pathRect2[i].collidepoint(mousePos[0], mousePos[1]):
+                lines = [[path[i][a][0] * 50 - 26, path[i][a][1] * 50 - 26] for a in range(len(path[i]))]
+                pygame.draw.lines(screen, (200, 50, 50), False, lines, 5)
 
         # path arrow indicators
         for i in range(len(arrowPics)):
@@ -610,6 +622,39 @@ while True:
                 if mousePressed[0] == 1:  # error if user tries to place invalid tower
                     soundError.play()
 
+        # enemy lists and stuffs
+        enemyPosList = []
+        enemyDistLeftList = []
+        enemyRadList = []
+        for i in range(len(enemyList)):
+            enemyPosList.append(enemyList[i].posPx)
+            enemyDistLeftList.append(enemyList[i].distance)
+            enemyRadList.append(enemyList[i].stats['radius'])
+
+        # targeting and shooting
+        if currentlyInWave:
+            for i in range(len(placedTowers)):
+                if placedTowers[i].type == "turret":
+                    placedTowers[i].calc_rotation(enemyPosList, enemyDistLeftList, enemyRadList, dt)
+                    if placedTowers[i].canFire:
+                        projList.append(placedTowers[i].fire_projectile())
+        else:  # rotate to face the first enemy if its a turret
+            for i in range(len(placedTowers)):
+                if placedTowers[i].type == "turret":
+                    placedTowers[i].rotate(90)
+
+        # displaying bullets
+        while i < len(projList):  # use while loops instead of for loops cuz i might delete elements
+            projList[i].update(screen)
+            if projList[i].distance[0] >= projList[i].distance[1]:
+                del (projList[i])
+                i -= 1
+            i += 1
+
+        # if a tower is viewed, draw its range
+        if viewedTower >= 0:
+            placedTowers[viewedTower].draw_range(screen, True)
+
         # ---- UI ELEMENTS ----
         # ui background
         pygame.draw.rect(screen, colPurchaseMenu, (disL - 300, 0, 300, disH), 0)
@@ -644,8 +689,12 @@ while True:
                     soundNextWave.play()
                     curWave += 1
                     currentlyInWave = True
+                    curSpawnPoint = random.randint(0, len(selectedMap.spawnList) - 1)
                     # make sure you don't place towers during a wave
                     selectedTower = 'none'
+                    # reset tower CD
+                    for i in range(len(placedTowers)):
+                        placedTowers[i].reload = 0.05
 
         # next wave text
         components.create_text(screen, (butNextWave[0] + butNextWave[2] // 2, butNextWave[1] + butNextWave[3] // 2),
@@ -702,23 +751,6 @@ while True:
                 towerList[i].draw_tower_full(screen, [butListTowers[i - mul6][0] + butListTowers[i - mul6][2] // 2,
                                                       butListTowers[i - mul6][1] + butListTowers[i - mul6][3] // 2])
 
-        # enemy lists and stuffs
-        enemyPosList = []
-        enemyDistLeftList = []
-        enemyRadList = []
-        for i in range(len(enemyList)):
-            enemyPosList.append(enemyList[i].posPx)
-            enemyDistLeftList.append(enemyList[i].distance)
-            enemyRadList.append(enemyList[i].stats['radius'])
-
-        # targeting and shooting
-        if currentlyInWave:
-            for i in range(len(placedTowers)):
-                placedTowers[i].calc_rotation(enemyPosList, enemyDistLeftList, enemyRadList)
-        else:
-            for i in range(len(placedTowers)):
-                placedTowers[i].rotate(90)
-
         # show stats of selected tower
         if selectedTower != 'none':  # while placing
             # display stats of selected tower
@@ -726,7 +758,7 @@ while True:
             viewedTower = -1
         else:  # tower on ground
             if mousePressed[0] == 1:
-                if components.xy_to_pos(mousePos) in placedTowersLoc:
+                if components.xy_to_pos(mousePos) in placedTowersLoc and mousePos[0] < 1000:
                     soundClick.play()
                     viewedTower = placedTowersLoc.index(components.xy_to_pos(mousePos))
                 # deselect viewed tower
@@ -735,7 +767,6 @@ while True:
 
             # draw range of da tower
             if viewedTower >= 0:
-                placedTowers[viewedTower].draw_range(screen, True)
                 if not hovered:
                     display_stats(placedTowers[viewedTower])
 

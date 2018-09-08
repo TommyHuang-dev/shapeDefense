@@ -45,6 +45,7 @@ end
 
 725 | 72
 name Machine Gun
+type turret
 cost 175
 energy 0
 sprite_base machinegun_base

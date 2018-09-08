@@ -6,7 +6,7 @@ health 10
 regeneration 0.0
 armour 0
 speed 2.5
-radius 13
+radius 10
 death_spawn_enemy none
 death_spawn_val 0
 bounty 2
@@ -19,7 +19,7 @@ health 25
 regeneration 1.0
 armour 0
 speed 1.5
-radius 15
+radius 12
 death_spawn_enemy none
 death_spawn_val 0
 bounty 3
@@ -32,7 +32,7 @@ health 10
 regeneration 0
 armour 0
 speed 4.0
-radius 12
+radius 9
 death_spawn_enemy none
 death_spawn_val 0
 bounty 2
@@ -45,7 +45,7 @@ health 12
 regeneration 0.5
 armour 3
 speed 1.8
-radius 16
+radius 13
 death_spawn_enemy recruit
 death_spawn_val 1
 bounty 2
@@ -58,7 +58,7 @@ health 75
 regeneration 2.0
 armour 0
 speed 1.75
-radius 20
+radius 18
 death_spawn_enemy none
 death_spawn_val 0
 bounty 15
@@ -71,7 +71,7 @@ health 125
 regeneration 5.0
 armour 0
 speed 1.0
-radius 20
+radius 18
 death_spawn_enemy none
 death_spawn_val 0
 bounty 20
@@ -84,7 +84,7 @@ health 50
 regeneration 0.0
 armour 0
 speed 3.0
-radius 18
+radius 16
 death_spawn_enemy none
 death_spawn_val 0
 bounty 15
@@ -97,7 +97,7 @@ health 60
 regeneration 2.0
 armour 5
 speed 0.9
-radius 22
+radius 20
 death_spawn_enemy recruit
 death_spawn_val 4
 bounty 15
