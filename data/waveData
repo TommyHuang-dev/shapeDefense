@@ -50,4 +50,14 @@ brute boss
 
 wave 11
 recruit
-100 1 0.5
+200 1 0.5
+brute
+50 30 0.8
+speedy
+50 70 0.5
+turtle
+50 90 1
+normal boss
+5 110 2
+brute boss
+5 120 2

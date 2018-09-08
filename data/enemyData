@@ -15,7 +15,7 @@ sprite recruit
 name brute
 type NORMAL
 movement_type GROUND
-health 25
+health 24
 regeneration 1.0
 armour 0
 speed 1.5
@@ -28,7 +28,7 @@ sprite brute
 name speedy
 type NORMAL
 movement_type GROUND
-health 10
+health 8
 regeneration 0
 armour 0
 speed 4.0
@@ -43,7 +43,7 @@ type NORMAL
 movement_type GROUND
 health 12
 regeneration 0.5
-armour 3
+armour 2
 speed 1.8
 radius 13
 death_spawn_enemy recruit

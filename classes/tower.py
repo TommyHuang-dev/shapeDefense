@@ -121,10 +121,12 @@ class Turret(object):
             if enemy_path_left[i] < path_left_cur and dist_to_enemy <= self.range * 50 + float(enemy_radius[i]):
                 tar = [enemy_pos[i][0], enemy_pos[i][1]]
                 path_left_cur = enemy_path_left[i]
-                if self.reload <= 0:
-                    self.canFire = True  # set this to true to call fire_projectile later on
-                else:
-                    self.reload -= dt
+
+        # tick down reload
+        if self.reload > 0:
+            self.reload -= dt
+        elif tar != []:  # lets the main.py know this tower is ready
+            self.canFire = True
 
         # trig :D
         if tar != []:

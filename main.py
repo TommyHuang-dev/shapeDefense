@@ -543,6 +543,7 @@ while True:
                         life -= 10
                     else:
                         life -= 1
+                    money += int(enemyList[i].stats['bounty'])
                     del (enemyList[i])
                 else:
                     screen.blit(enemyList[i].stats['sprite'], (enemyList[i].posPx[0] - 35, enemyList[i].posPx[1] - 35))
@@ -645,11 +646,30 @@ while True:
 
         # displaying bullets
         while i < len(projList):  # use while loops instead of for loops cuz i might delete elements
+            tempDel = False
             projList[i].update(screen)
+            # see if it hits an enemy using masks
+            for j in range(len(enemyList)):
+                diff = [int(projList[i].posXYPx[0] - enemyList[j].posPx[0]),
+                        int(projList[i].posXYPx[1] - enemyList[j].posPx[1])]
+                # on hit, delete projectile and damage enemy
+                if projList[i].mask.overlap(enemyList[j].mask, [diff[0], diff[1]]) is not None:
+                    tempDel = True
+                    # delete enemy if its killed, give bounties
+                    enemyList[j].curHP -= projList[i].damage
+                    if enemyList[j].curHP <= 0:
+                        money += int(enemyList[j].stats['bounty'])
+                        del(enemyList[j])
+                    break
+
+            # remove projectile out of range
             if projList[i].distance[0] >= projList[i].distance[1]:
-                del (projList[i])
-                i -= 1
-            i += 1
+                tempDel = True
+            if tempDel:
+                del(projList[i])
+            else:  # increment i
+                i += 1
+
 
         # if a tower is viewed, draw its range
         if viewedTower >= 0:
