@@ -80,7 +80,7 @@ Enemies grow stronger with each wave.
 calculations for stats that increase, with x indicating the base amount and t indicating number of waves completed:
 Health [NO MAX]: x * (1 + t / 10)           // increases by  flat  10% per wave. No max. This changes to 20% after wave 50.
 Regeneration [MAX 3x]: x * (1 + t / 25)     // increases by a flat 4% per wave, maxes out after 50 waves
-Armour [MAX 2x]: x * (1 + t / 25)           // increases by a flat 4% per wave, maxes out after 25 waves
+Armour [MAX 2x]: x * (1 + t / 50)           // increases by a flat 2% per wave, maxes out after 50 waves
 Speed [MAX 1.5x]: x * (1 + t / 100)         // increases by a flat 1% per wave, maxes out after 50 waves.
 Bounty [MAX 2x]: x * (1 + t / 50)           // increases by a flat 2% per wave, maxes out after 50 waves
 

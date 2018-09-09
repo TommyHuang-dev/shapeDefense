@@ -95,7 +95,7 @@ type BOSS
 movement_type GROUND
 health 60
 regeneration 2.0
-armour 5
+armour 4
 speed 0.9
 radius 20
 death_spawn_enemy recruit

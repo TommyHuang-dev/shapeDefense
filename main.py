@@ -520,7 +520,8 @@ while True:
                     # reset timer
                     spawnerList[i].timer -= spawnerList[i].interval
                     # append an enemy object to the list
-                    enemyList.append(spawnerList[i].spawn_enemy(selectedMap.spawnList[curSpawnPoint], curSpawnPoint))
+                    enemyList.append(spawnerList[i].spawn_enemy(selectedMap.spawnList[curSpawnPoint], curSpawnPoint,
+                                                                curWave))
                     # alternate between spawn locations
                     curSpawnPoint += 1
                     if curSpawnPoint >= len(selectedMap.spawnList):
@@ -543,7 +544,7 @@ while True:
                         life -= 10
                     else:
                         life -= 1
-                    money += int(enemyList[i].stats['bounty'])
+                    money += enemyList[i].bounty
                     del (enemyList[i])
                 else:
                     screen.blit(enemyList[i].stats['sprite'], (enemyList[i].posPx[0] - 35, enemyList[i].posPx[1] - 35))
@@ -552,6 +553,8 @@ while True:
         # stop wave after defeating all enemies and spawners
         if len(enemyList) == 0 and len(spawnerList) == 0 and len(waveInfo[curWave]) == 0:
             currentlyInWave = False
+            # INCOME! :D
+            money += income
 
         # ---- TOWERS ----
         # draw placed towers:
@@ -656,10 +659,12 @@ while True:
                 # on hit, delete projectile and damage enemy
                 if projList[i].mask.overlap(enemyList[j].mask, [diff[0], diff[1]]) is not None:
                     tempDel = True
+                    # enemy takes damage, reduced by armour
+                    if projList[i].damage - enemyList[j].armour > 0:
+                        enemyList[j].curHP -= (projList[i].damage - enemyList[j].armour)
                     # delete enemy if its killed, give bounties
-                    enemyList[j].curHP -= projList[i].damage
                     if enemyList[j].curHP <= 0:
-                        money += int(enemyList[j].stats['bounty'])
+                        money += enemyList[j].bounty
                         del(enemyList[j])
                     break
 
@@ -671,10 +676,14 @@ while True:
             else:  # increment i
                 i += 1
 
-
         # if a tower is viewed, draw its range
         if viewedTower >= 0:
             placedTowers[viewedTower].draw_range(screen, True)
+
+        # display enemy healthbar
+        if currentlyInWave:
+            for i in range(len(enemyList)):
+                enemyList[i].draw_bar(screen)
 
         # ---- UI ELEMENTS ----
         # ui background

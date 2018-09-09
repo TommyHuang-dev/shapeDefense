@@ -9,7 +9,7 @@ class Spawner(object):
         self.timer = 0
         self.spawned_enemy = enemy_attributes
 
-    def spawn_enemy(self, spawnpoint, spawn_num):
-        enemy_obj = enemy.Enemy(self.spawned_enemy, spawnpoint, spawn_num)
+    def spawn_enemy(self, spawnpoint, spawn_num, level):
+        enemy_obj = enemy.Enemy(self.spawned_enemy, spawnpoint, spawn_num, level)
         self.amount -= 1
         return enemy_obj
