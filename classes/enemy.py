@@ -73,9 +73,9 @@ class Enemy(object):
         if self.curHP < self.maxHP:
             hp_perc = self.curHP / self.maxHP
             if self.stats['type'] == 'BOSS':
-                pygame.draw.rect(display, (0, 0, 0), (self.posPx[0] - 30, self.posPx[1] - self.stats['radius'] - 12,
+                pygame.draw.rect(display, (0, 0, 0), (self.posPx[0] - 30, self.posPx[1] - int(self.stats['radius']) - 12,
                                                       60, 8), 1)
-                pygame.draw.rect(display, (250, 25, 25), (self.posPx[0] - 29, self.posPx[1] - self.stats['radius'] - 11,
+                pygame.draw.rect(display, (250, 25, 25), (self.posPx[0] - 29, self.posPx[1] - int(self.stats['radius']) - 11,
                                                       58 * hp_perc, 6))
 
             else:

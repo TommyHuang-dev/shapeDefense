@@ -551,7 +551,7 @@ while True:
                     i += 1
 
         # stop wave after defeating all enemies and spawners
-        if len(enemyList) == 0 and len(spawnerList) == 0 and len(waveInfo[curWave]) == 0:
+        if len(enemyList) == 0 and len(spawnerList) == 0 and len(waveInfo[curWave]) == 0 and currentlyInWave:
             currentlyInWave = False
             # INCOME! :D
             money += income
@@ -662,6 +662,7 @@ while True:
                     # enemy takes damage, reduced by armour
                     if projList[i].damage - enemyList[j].armour > 0:
                         enemyList[j].curHP -= (projList[i].damage - enemyList[j].armour)
+                        towerList[1].hitSound.play()  # placeholder hit effect
                     # delete enemy if its killed, give bounties
                     if enemyList[j].curHP <= 0:
                         money += enemyList[j].bounty
