@@ -644,14 +644,15 @@ while True:
                 if placedTowers[i].type == "turret":
                     placedTowers[i].rotate(90)
 
+        i = 0
         # displaying bullets
         while i < len(projList):  # use while loops instead of for loops cuz i might delete elements
             tempDel = False
             projList[i].update(screen)
             # see if it hits an enemy using masks
             for j in range(len(enemyList)):
-                diff = [int(projList[i].posXYPx[0] - enemyList[j].posPx[0]),
-                        int(projList[i].posXYPx[1] - enemyList[j].posPx[1])]
+                diff = [int(projList[i].rectPos[0] - enemyList[j].posPx[0]),
+                        int(projList[i].rectPos[1] - enemyList[j].posPx[1])]
                 # on hit, delete projectile and damage enemy
                 if projList[i].mask.overlap(enemyList[j].mask, [diff[0], diff[1]]) is not None:
                     tempDel = True

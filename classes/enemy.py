@@ -5,7 +5,7 @@ class Enemy(object):
     def __init__(self, attributes, spawnpoint, spawn_num):
         # stats
         self.stats = attributes
-        self.mask = pygame.mask.from_surface(self.stats['sprite'], 25)
+        self.mask = pygame.mask.from_surface(self.stats['sprite'], 24)
         self.status = []  # list of status effects like slow
         self.curHP = int(self.stats['health'])
         # pathing

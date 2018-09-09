@@ -90,7 +90,7 @@ death_spawn_val 0
 bounty 15
 sprite speedy_boss
 
-name turtle_boss
+name turtle boss
 type BOSS
 movement_type GROUND
 health 60

@@ -118,7 +118,7 @@ class Turret(object):
             dist_to_enemy = math.sqrt(((self.pos[0] * 50 - 25) - enemy_pos[i][0]) ** 2 +
                                       ((self.pos[1] * 50 - 25) - enemy_pos[i][1]) ** 2)
             # if the enemy is closer to the destination and within range, choose it as target
-            if enemy_path_left[i] < path_left_cur and dist_to_enemy <= self.range * 50 + float(enemy_radius[i]):
+            if enemy_path_left[i] < path_left_cur and dist_to_enemy <= self.range * 50 + float(enemy_radius[i]) * 0.7:
                 tar = [enemy_pos[i][0], enemy_pos[i][1]]
                 path_left_cur = enemy_path_left[i]
 
