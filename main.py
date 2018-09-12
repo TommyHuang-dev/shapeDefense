@@ -688,12 +688,13 @@ while True:
                 if projList[i].mask.overlap(enemyList[j].mask, [diff[0], diff[1]]) is not None:
                     tempDel = True
                     # explosion effect on hit
+                    projList[i].sound.play()  # placeholder hit effect
                     projExplosionList.append(explosion.Explosion(projList[i].posXYPx,
                                                                  explosionImgList[projList[i].exp]))
                     # enemy takes damage, reduced by armour
                     if projList[i].damage - enemyList[j].armour > 0:
                         enemyList[j].curHP -= (projList[i].damage - enemyList[j].armour)
-                        projList[i].sound.play()  # placeholder hit effect
+
                     # delete enemy if its killed and give bounties
                     if enemyList[j].curHP <= 0:
                         money += enemyList[j].bounty

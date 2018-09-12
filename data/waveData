@@ -36,17 +36,17 @@ speedy
 
 wave 8
 recruit
-10 0 0.3
+8 0 0.25
 speedy
-10 2 0.4
+8 2 0.4
 recruit
-10 6 0.3
+8 6 0.25
 speedy
-10 8 0.4
+8 8 0.4
 recruit
-15 12 0.3
+10 12 0.25
 speedy
-15 14 0.4
+10 14 0.4
 
 wave 9
 turtle
@@ -110,7 +110,7 @@ wave 19
 brute
 20 0 0.25
 turtle
-20 1.2 0.3
+15 1.2 0.3
 
 wave 20
 normal boss
