@@ -18,19 +18,17 @@ special_val 0
 sprite_turret none
 sprite_proj none
 hit_sound none
-targeting 0
 end
 
-325 | 25
 name Basic Turret
 type turret
 cost 75
 energy 0
 sprite_base basic_base
-damage 4 6 8 10
-rate 1.5 2.5
-range 3.2 4.5
-proj_spd 15.0 20.0
+damage 5
+rate 1.2
+range 3.2
+proj_spd 15.0
 effective_range 1.1
 up_cost 30
 up_cost_inc 10
@@ -40,40 +38,37 @@ special_val 0
 sprite_turret basic_turret
 sprite_proj basic_shot
 hit_sound basic_hit
-targeting 3
 end
 
-725 | 72
-name Machine Gun
+name Machinegun
 type turret
-cost 175
+cost 200
 energy 0
 sprite_base machinegun_base
-damage 3 4 6
-rate 4 6 9 12
+damage 4
+rate 5.0
 range 4.0
-proj_spd 30.0
+proj_spd 20.0
 effective_range 1.1
-up_cost 70
-up_cost_inc 20
+up_cost 30
+up_cost_inc 10
 max_level 6
 special none
 special_val 0
 sprite_turret machinegun_turret
 sprite_proj machinegun_shot
 hit_sound basic_hit
-targeting 3
+end
 
-950 | 45
 name Sniper Turret
 type turret
-cost 200
-energy 0
+cost 250
+energy 1
 sprite_base sniper_base
-damage 15 22 32 45
-rate 0.6 1.0
-range 6.0 8.5
-proj_spd 30.0 40.0
+damage 20
+rate 0.7
+range 7.0
+proj_spd 35.0
 effective_range 1.1
 up_cost 90
 up_cost_inc 30
@@ -83,33 +78,48 @@ special_val 0
 sprite_turret sniper_turret
 sprite_proj sniper_shot
 hit_sound basic_hit
-targeting 1
 end
 
-875 | 75
-name SAM Nest
+name Missile Launcher
 type turret
-cost 125
-energy 0
-sprite_base SAM_base
-damage 5 7 10 15
-rate 2 3 5
+cost 250
+energy 1
+sprite_base missile_base
+damage 10
+rate 1.2
 range 5.5
-proj_spd 10
-splash 0.6
+proj_spd 14.0
 effective_range 1.5
-up_cost 50
-up_cost_inc 50
+up_cost 90
+up_cost_inc 30
 max_level 6
-special missile
-special_val 1
-sprite_turret SAM_gun
-sprite_proj SAM_shot
-hit_sound SAM_hit
-targeting 2
+special homing
+special_val 12.0
+sprite_turret missile_turret
+sprite_proj missile_shot
+hit_sound basic_hit
 end
 
 -----boosters-----
+
+name Power Station
+type booster
+cost 350
+energy -5
+sprite_base power_station
+damage 0
+rate 0
+range 0
+proj_spd 1.0
+effective_range 0
+up_cost 0
+up_cost_inc 0
+max_level 1
+special none
+special_val 0
+sprite_turret none
+sprite_proj none
+hit_sound none
 
 name damage module
 type booster
@@ -164,16 +174,5 @@ max_level 2
 sprite_base module_bank
 boost_type money
 boost_value 50 100
-end
-
-name power station
-type booster
-cost 600
-energy 0
-up_cost 0
-max_level 1
-sprite_base module_station
-boost_type electricity
-boost_value 10
 end
 

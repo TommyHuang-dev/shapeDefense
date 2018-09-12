@@ -11,11 +11,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="375">
-      <file leaf-file-name="main.py" pinned="false" current-in-tab="false">
+      <file leaf-file-name="main.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/main.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="259">
-              <caret line="322" column="69" lean-forward="true" selection-start-line="322" selection-start-column="69" selection-end-line="322" selection-end-column="69" />
+            <state relative-caret-position="409">
+              <caret line="676" column="74" lean-forward="true" selection-start-line="676" selection-start-column="74" selection-end-line="676" selection-end-column="74" />
               <folding>
                 <element signature="e#0#32#0" expanded="true" />
               </folding>
@@ -23,11 +23,31 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="enemyData" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/data/enemyData">
+      <file leaf-file-name="projectile.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/classes/projectile.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="329">
-              <caret line="31" column="14" lean-forward="false" selection-start-line="31" selection-start-column="14" selection-end-line="31" selection-end-column="14" />
+            <state relative-caret-position="350">
+              <caret line="15" column="26" lean-forward="false" selection-start-line="15" selection-start-column="26" selection-end-line="15" selection-end-column="26" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="tower.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/classes/tower.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="359">
+              <caret line="143" column="96" lean-forward="true" selection-start-line="143" selection-start-column="96" selection-end-line="143" selection-end-column="96" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="towerData" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/data/towerData">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="2675">
+              <caret line="107" column="9" lean-forward="false" selection-start-line="107" selection-start-column="9" selection-end-line="107" selection-end-column="9" />
               <folding />
             </state>
           </provider>
@@ -43,11 +63,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="waveData" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/data/waveData">
+      <file leaf-file-name="enemy.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/classes/enemy.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="414">
-              <caret line="186" column="1" lean-forward="false" selection-start-line="186" selection-start-column="1" selection-end-line="186" selection-end-column="1" />
+            <state relative-caret-position="2375">
+              <caret line="95" column="54" lean-forward="false" selection-start-line="95" selection-start-column="54" selection-end-line="95" selection-end-column="54" />
               <folding />
             </state>
           </provider>
@@ -64,27 +84,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>viewedTower = 'non</find>
-      <find>targ</find>
-      <find>print</find>
-      <find>projList</find>
-      <find>pygame.draw.lines</find>
-      <find>proj</find>
-      <find>life -=</find>
-      <find>'wall</find>
-      <find>place down</find>
-      <find>scree</find>
-      <find>screen.blit</find>
-      <find>screen.blit(en</find>
-      <find>mask</find>
-      <find>screen.blit(</find>
-      <find>HP -=</find>
-      <find>spawn_enemy</find>
-      <find>enemyList[i].</find>
-      <find>l</find>
-      <find>.bounty</find>
-      <find>targeting</find>
-      <find>enemyList[i].dra</find>
       <find>curWave - 1</find>
       <find>draw_bar</find>
       <find>currentlyInWave = False</find>
@@ -94,6 +93,27 @@
       <find>projectile</find>
       <find>curHp -=</find>
       <find>curWave =</find>
+      <find>energy</find>
+      <find>placedTowersLoc</find>
+      <find>sniper</find>
+      <find>projList[i</find>
+      <find>explosion</find>
+      <find>.append(expl</find>
+      <find>explosionList.ap</find>
+      <find>targeting</find>
+      <find>hp &lt;</find>
+      <find>enemyList =</find>
+      <find>enemyList.append</find>
+      <find>Spawner</find>
+      <find>spawn</find>
+      <find>spawn anot</find>
+      <find>s</find>
+      <find>load_pics</find>
+      <find>bar</find>
+      <find>type</find>
+      <find>energy =</find>
+      <find>fire</find>
+      <find>hitSound</find>
     </findStrings>
     <replaceStrings>
       <replace>pe</replace>
@@ -140,16 +160,16 @@
         <option value="$PROJECT_DIR$/functions/waveParse.py" />
         <option value="$PROJECT_DIR$/functions/enemyParse.py" />
         <option value="$PROJECT_DIR$/data/credits" />
-        <option value="$PROJECT_DIR$/classes/explosion.py" />
-        <option value="$PROJECT_DIR$/classes/tower.py" />
-        <option value="$PROJECT_DIR$/data/towerData" />
-        <option value="$PROJECT_DIR$/classes/projectile.py" />
         <option value="$PROJECT_DIR$/classes/spawner.py" />
         <option value="$PROJECT_DIR$/README.md" />
-        <option value="$PROJECT_DIR$/data/enemyData" />
-        <option value="$PROJECT_DIR$/classes/enemy.py" />
-        <option value="$PROJECT_DIR$/main.py" />
+        <option value="$PROJECT_DIR$/classes/explosion.py" />
         <option value="$PROJECT_DIR$/data/waveData" />
+        <option value="$PROJECT_DIR$/classes/enemy.py" />
+        <option value="$PROJECT_DIR$/data/towerData" />
+        <option value="$PROJECT_DIR$/data/enemyData" />
+        <option value="$PROJECT_DIR$/classes/tower.py" />
+        <option value="$PROJECT_DIR$/classes/projectile.py" />
+        <option value="$PROJECT_DIR$/main.py" />
       </list>
     </option>
   </component>
@@ -175,6 +195,7 @@
     </navigator>
     <panes>
       <pane id="Scratches" />
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -182,11 +203,20 @@
               <item name="shapeDefense" type="b2602c69:ProjectViewProjectNode" />
               <item name="shapeDefense" type="462c0819:PsiDirectoryNode" />
             </path>
+            <path>
+              <item name="shapeDefense" type="b2602c69:ProjectViewProjectNode" />
+              <item name="shapeDefense" type="462c0819:PsiDirectoryNode" />
+              <item name="classes" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="shapeDefense" type="b2602c69:ProjectViewProjectNode" />
+              <item name="shapeDefense" type="462c0819:PsiDirectoryNode" />
+              <item name="data" type="462c0819:PsiDirectoryNode" />
+            </path>
           </expand>
           <select />
         </subPane>
       </pane>
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -335,11 +365,12 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-9" y="-9" width="1938" height="1048" extended-state="6" />
+    <editor active="true" />
     <layout>
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.1078125" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.23574561" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.23574561" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32894737" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.1296875" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -621,24 +652,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/classes/explosion.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="450">
-          <caret line="18" column="17" lean-forward="true" selection-start-line="18" selection-start-column="17" selection-end-line="18" selection-end-column="17" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/../particleBox/someFunctions.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="350">
           <caret line="14" column="0" lean-forward="true" selection-start-line="14" selection-start-column="0" selection-end-line="14" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/data/towerData">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="150">
-          <caret line="27" column="8" lean-forward="true" selection-start-line="27" selection-start-column="8" selection-end-line="27" selection-end-column="8" />
         </state>
       </provider>
     </entry>
@@ -649,13 +666,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/classes/projectile.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="436">
-          <caret line="18" column="29" lean-forward="false" selection-start-line="18" selection-start-column="29" selection-end-line="18" selection-end-column="29" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/README.md">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="424">
@@ -663,17 +673,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/classes/tower.py">
+    <entry file="file://$PROJECT_DIR$/data/waveData">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="500">
-          <caret line="67" column="25" lean-forward="true" selection-start-line="67" selection-start-column="25" selection-end-line="67" selection-end-column="25" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/classes/enemy.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="286">
-          <caret line="75" column="59" lean-forward="false" selection-start-line="75" selection-start-column="59" selection-end-line="75" selection-end-column="59" />
+        <state relative-caret-position="100">
+          <caret line="4" column="6" lean-forward="true" selection-start-line="4" selection-start-column="6" selection-end-line="4" selection-end-column="6" />
         </state>
       </provider>
     </entry>
@@ -685,29 +688,60 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/classes/enemy.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2375">
+          <caret line="95" column="54" lean-forward="false" selection-start-line="95" selection-start-column="54" selection-end-line="95" selection-end-column="54" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/data/towerData">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2675">
+          <caret line="107" column="9" lean-forward="false" selection-start-line="107" selection-start-column="9" selection-end-line="107" selection-end-column="9" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/data/enemyData">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="329">
-          <caret line="31" column="14" lean-forward="false" selection-start-line="31" selection-start-column="14" selection-end-line="31" selection-end-column="14" />
+        <state relative-caret-position="400">
+          <caret line="84" column="8" lean-forward="true" selection-start-line="84" selection-start-column="8" selection-end-line="84" selection-end-column="8" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/classes/explosion.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="489">
+          <caret line="21" column="35" lean-forward="true" selection-start-line="21" selection-start-column="35" selection-end-line="21" selection-end-column="35" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/classes/tower.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="359">
+          <caret line="143" column="96" lean-forward="true" selection-start-line="143" selection-start-column="96" selection-end-line="143" selection-end-column="96" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/classes/projectile.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="350">
+          <caret line="15" column="26" lean-forward="false" selection-start-line="15" selection-start-column="26" selection-end-line="15" selection-end-column="26" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/main.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="259">
-          <caret line="322" column="69" lean-forward="true" selection-start-line="322" selection-start-column="69" selection-end-line="322" selection-end-column="69" />
+        <state relative-caret-position="409">
+          <caret line="676" column="74" lean-forward="true" selection-start-line="676" selection-start-column="74" selection-end-line="676" selection-end-column="74" />
           <folding>
             <element signature="e#0#32#0" expanded="true" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/data/waveData">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="414">
-          <caret line="186" column="1" lean-forward="false" selection-start-line="186" selection-start-column="1" selection-end-line="186" selection-end-column="1" />
-          <folding />
         </state>
       </provider>
     </entry>

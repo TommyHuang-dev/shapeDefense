@@ -31,6 +31,8 @@ class Enemy(object):
         self.tileLoc = spawnpoint
         self.posPx = [spawnpoint[0] * 50 - 25, spawnpoint[1] * 50 - 25]
         self.reachedEnd = False
+        self.secSpawn = attributes['death_spawn_enemy']
+        self.secValue = int(attributes['death_spawn_val'])
 
     # calculate tile pos. based on pixel coordinate
     def calc_tile_loc(self, pos):
@@ -69,7 +71,8 @@ class Enemy(object):
         self.posPx[1] -= self.movement_dir[1] * time * self.speed * 50
 
     # draw da hp bar and armour symbol
-    def draw_bar(self, display):
+    def draw_bar(self, display, a_pic):
+        #hp bar
         if self.curHP < self.maxHP:
             hp_perc = self.curHP / self.maxHP
             if self.stats['type'] == 'BOSS':
@@ -84,3 +87,10 @@ class Enemy(object):
                 pygame.draw.rect(display, (250, 25, 25), (self.posPx[0] - 19,
                                                           self.posPx[1] - int(self.stats['radius']) - 7,
                                                           38 * hp_perc, 4))
+
+        # armour
+        if self.armour > 0:
+            if self.stats['type'] == 'BOSS':
+                display.blit(a_pic, (self.posPx[0] - 6, self.posPx[1] - 44))
+            else:
+                display.blit(a_pic, (self.posPx[0] - 6, self.posPx[1] - 34))

@@ -2,7 +2,7 @@ import pygame
 import math
 
 class Projectile(object):
-    def __init__(self, xy, vel_xy, damage, range, special, sprite):
+    def __init__(self, xy, vel_xy, damage, range, special, sprite, exp, sound):
         self.posXYPx = xy
         self.vel = vel_xy
         self.damage = damage
@@ -12,6 +12,8 @@ class Projectile(object):
         self.mask = pygame.mask.from_surface(sprite, 1)
         self.size = sprite.get_size()
         self.rectPos = [self.posXYPx[0] - self.size[0] / 2, self.posXYPx[1] - self.size[1]]
+        self.exp = exp + "-hit"
+        self.sound = sound
 
     def update(self, display):
         self.posXYPx[0] += self.vel[0]

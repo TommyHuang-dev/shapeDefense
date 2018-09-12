@@ -22,7 +22,6 @@ class Turret(object):
         self.name = name
         self.rotation = math.pi / 2
         self.type = self.stats['type'][0]
-        self.targeting = self.stats['targeting'][0]
         self.curLevel = 1
         self.dmgLevel = [1, len(self.stats['damage'])]
         self.rateLevel = [1, len(self.stats['rate'])]
@@ -142,7 +141,7 @@ class Turret(object):
         temp_spr = components.rot_center(self.spriteProj, math.degrees(self.rotation))
         return projectile.Projectile([self.pos[0] * 50 - 25, self.pos[1] * 50 - 25], xy_vel,
                                      self.damage, self.range * self.effRange * 50, [self.special, self.specialVal],
-                                     temp_spr)
+                                     temp_spr, str(self.stats['sprite_proj'][0]), self.hitSound)
 
     # draws a full turret, centered on a xy coordinate. The first picture is assumed to be the base.
     # rotation is an angle in radians that the turret should rotate

@@ -3,9 +3,10 @@ from functions import creditParse
 from functions import waveParse
 from functions import enemyParse
 from classes import spawner
-from classes import projectile
 from classes import tower
 from classes import map
+from classes import explosion
+from classes import enemy
 import savefiles
 import os.path
 import time
@@ -149,6 +150,7 @@ moneyPic = load_pics("images/UI/", "symbol_money")
 lifePic = load_pics("images/UI/", "symbol_life")
 energyPic = load_pics("images/UI/", "symbol_electricity")
 
+armourPic = load_pics("images/UI/", "armour")
 # credits
 creditText = creditParse.parse("data/credits")
 
@@ -179,10 +181,11 @@ explosionImgList = {}
 for i in range(len(towerList)):
     # get name of projectile
     nextImgName = towerList[i].stats['sprite_proj'][0] + "-hit"
+    explosionImgList[nextImgName] = []
     curImg = 0
     while True:
-        explosionImgList[nextImgName] = load_pics("images/hit_effects/", nextImgName + str(curImg))
-        if os.path.isfile("images/hit_effects/" + nextImgName + str(curImg + 1)):
+        explosionImgList[nextImgName].append(load_pics("images/hit_effects/", nextImgName + str(curImg)))
+        if os.path.isfile("images/hit_effects/" + nextImgName + str(curImg + 1) + ".png"):
             curImg += 1
         else:
             break
@@ -322,7 +325,7 @@ while True:
     # ---- IN-GAME SETUP and reset variables----
     curWave = -1  # current wave, displayed value is 1 more than this
     money = 500  # starting monies
-    energy = [0, 10]  # amount of power used vs maximum
+    energy = [0, 5]  # amount of power used vs maximum
     income = 100  # monies per round
     life = 30  # lose 1 life per enemy; 10 per boss
     currentlyInWave = False  # True when enemies are spawning
@@ -603,6 +606,11 @@ while True:
                         del(placedTowersLoc[-1])
                         msgTimer = 0.5
                         msgText = "Can't afford this tower!"
+                    elif energy[0] + selectedTower.energy > energy[1]:
+                        soundError.play()
+                        del (placedTowersLoc[-1])
+                        msgTimer = 0.5
+                        msgText = "Insufficient energy!"
                     elif selectedMap.find_path(placedTowersLoc) == -1:
                         soundError.play()
                         del (placedTowersLoc[-1])
@@ -612,6 +620,7 @@ while True:
                         soundPlaced.play()
                         # copy as a NEW object
                         placedTowers.append(tower.Turret(selectedTower.name))
+                        energy[0] += selectedTower.energy
                         placedTowers[-1].pos = selectedTower.pos
                         placedTowers[-1].placed = True  # set it to be placed!!
                         # lower monies
@@ -659,13 +668,26 @@ while True:
                 # on hit, delete projectile and damage enemy
                 if projList[i].mask.overlap(enemyList[j].mask, [diff[0], diff[1]]) is not None:
                     tempDel = True
+                    # explosion effect on hit
+                    projExplosionList.append(explosion.Explosion(projList[i].posXYPx,
+                                                                 explosionImgList[projList[i].exp]))
                     # enemy takes damage, reduced by armour
                     if projList[i].damage - enemyList[j].armour > 0:
                         enemyList[j].curHP -= (projList[i].damage - enemyList[j].armour)
-                        towerList[1].hitSound.play()  # placeholder hit effect
-                    # delete enemy if its killed, give bounties
+                        projList[i].sound.play()  # placeholder hit effect
+                    # delete enemy if its killed and give bounties
                     if enemyList[j].curHP <= 0:
                         money += enemyList[j].bounty
+                        # spawn another enemy if it is not none (WIP)
+                        # if enemyList[j].secValue > 0:
+                        #     for k in range(enemyList[j].secValue):
+                        #         enemyList.append(enemy.Enemy(enemyInfo[enemyList[j].secSpawn],
+                        #                                         [enemyList[j].tileLoc[0],
+                        #                                          enemyList[j].tileLoc[1]],
+                        #                                         enemyList[j].path_number, curWave))
+                        #         enemyList[-1].poxPx = [enemyList[j].posPx[0] + random.randint(-5, 5),
+                        #                                enemyList[j].posPx[1] + random.randint(-5, 5)]
+
                         del(enemyList[j])
                     break
 
@@ -677,14 +699,23 @@ while True:
             else:  # increment i
                 i += 1
 
+        # display explosions
+        i = 0
+        while i < len(projExplosionList):
+            projExplosionList[i].show(screen, dt)
+            if projExplosionList[i].stopped:
+                del projExplosionList[i]
+            else:
+                i += 1
+
         # if a tower is viewed, draw its range
         if viewedTower >= 0:
             placedTowers[viewedTower].draw_range(screen, True)
 
-        # display enemy healthbar
+        # display enemy healthbar and armour
         if currentlyInWave:
             for i in range(len(enemyList)):
-                enemyList[i].draw_bar(screen)
+                enemyList[i].draw_bar(screen, armourPic)
 
         # ---- UI ELEMENTS ----
         # ui background
