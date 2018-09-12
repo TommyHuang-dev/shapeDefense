@@ -48,7 +48,7 @@ sprite_base machinegun_base
 damage 4
 rate 5.0
 range 4.0
-proj_spd 20.0
+proj_spd 24.0
 effective_range 1.1
 up_cost 30
 up_cost_inc 10
@@ -57,7 +57,7 @@ special none
 special_val 0
 sprite_turret machinegun_turret
 sprite_proj machinegun_shot
-hit_sound basic_hit
+hit_sound machinegun_hit
 end
 
 name Sniper Turret
@@ -77,7 +77,7 @@ special none
 special_val 0
 sprite_turret sniper_turret
 sprite_proj sniper_shot
-hit_sound basic_hit
+hit_sound sniper_hit
 end
 
 name Missile Launcher
@@ -97,7 +97,7 @@ special homing
 special_val 12.0
 sprite_turret missile_turret
 sprite_proj missile_shot
-hit_sound basic_hit
+hit_sound missile_hit
 end
 
 -----boosters-----
@@ -120,6 +120,7 @@ special_val 0
 sprite_turret none
 sprite_proj none
 hit_sound none
+end
 
 name damage module
 type booster

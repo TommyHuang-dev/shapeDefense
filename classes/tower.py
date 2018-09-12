@@ -183,11 +183,3 @@ class Turret(object):
                                     col_range_invalid_outline)
             pygame.gfxdraw.filled_circle(display, xy[0], xy[1], int(self.range * 50),
                                          col_range_invalid)
-
-class Booster:
-    cost = 0
-    type = "asdf"
-    val = 0
-
-    def __init__(self, asdf):
-        pass

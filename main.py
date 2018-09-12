@@ -34,6 +34,20 @@ def display_stats(sel_tower):
             # display cost
             components.create_text(screen, (disL - 275, 420), "$" + str(sel_tower.cost),
                                    False, levelTowerFont, (0, 0, 0))
+        # power pic
+        if sel_tower.energy > 0:
+            screen.blit(energyMiniPic, (disL - 208, 410))
+            # not enough power
+            if sel_tower.energy + energy[0] > energy[1]:
+                components.create_text(screen, (disL - 190, 420), str(sel_tower.energy),
+                                       False, levelTowerFont, (200, 25, 25))
+            # enough power
+            else:
+                components.create_text(screen, (disL - 190, 420), str(sel_tower.energy),
+                                       False, levelTowerFont, (0, 0, 0))
+
+        # enough power
+
     # placed tower, display level
     elif sel_tower.placed:
         tempString = "level "
@@ -41,11 +55,13 @@ def display_stats(sel_tower):
             tempString += "MAX"
         elif sel_tower.maxLevel == 1:  # not upgradable (i.e. walls)
             tempString = ""
-        else:  # display level
+        else:  # add level to string
             tempString += str(sel_tower.curLevel)
-        # display cost as red text
+        # level :D
         components.create_text(screen, (disL - 275, 420), tempString,
                                False, levelTowerFont, (0, 0, 0))
+
+    # show electrical cost
 
     # show some stats (name, damage, fire rate, etc.)
     components.create_text(screen, (disL - 150, 380), sel_tower.name, True,
@@ -149,6 +165,7 @@ picExitArrow = load_pics("images/UI/", "arrow2")
 moneyPic = load_pics("images/UI/", "symbol_money")
 lifePic = load_pics("images/UI/", "symbol_life")
 energyPic = load_pics("images/UI/", "symbol_electricity")
+energyMiniPic = load_pics("images/UI/", "symbol_electricity_2")
 
 armourPic = load_pics("images/UI/", "armour")
 # credits
@@ -156,7 +173,7 @@ creditText = creditParse.parse("data/credits")
 
 # ---- LOAD CLASSES ----
 # list of purchasable towers (turrets, boosters)
-towerNames = ['Wall', 'Basic Turret', 'Sniper Turret']
+towerNames = ['Wall', 'Basic Turret', 'Machinegun', 'Sniper Turret', 'Power Station']
 # list of towers and boosters available for purchase, taken from towerNames and boosterNames
 towerList = []
 # UI button initialization
@@ -469,11 +486,9 @@ while True:
             else:
                 i += 1
 
-        # make sure money doesn't go over maximum of 10000, and energy for 50
+        # make sure money doesn't go over maximum of 10000
         if money > 10000:
             money = 10000
-        if energy[1] > 50:
-            energy[1] = 50
 
         # ---- BACKGROUND ----
         screen.fill(selectedMap.colBackground)
@@ -620,7 +635,11 @@ while True:
                         soundPlaced.play()
                         # copy as a NEW object
                         placedTowers.append(tower.Turret(selectedTower.name))
-                        energy[0] += selectedTower.energy
+                        # energy
+                        if selectedTower.energy < 0:
+                            energy[1] -= selectedTower.energy
+                        else:
+                            energy[0] += selectedTower.energy
                         placedTowers[-1].pos = selectedTower.pos
                         placedTowers[-1].placed = True  # set it to be placed!!
                         # lower monies
