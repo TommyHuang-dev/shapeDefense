@@ -12,6 +12,7 @@ import os.path
 import time
 import pygame
 import random
+import math
 from pygame import gfxdraw
 import sys
 
@@ -173,7 +174,7 @@ creditText = creditParse.parse("data/credits")
 
 # ---- LOAD CLASSES ----
 # list of purchasable towers (turrets, boosters)
-towerNames = ['Wall', 'Basic Turret', 'Machinegun', 'Sniper Turret', 'Power Station']
+towerNames = ['Wall', 'Basic Turret', 'Machinegun', 'Sniper Turret', 'Rocket Launcher', 'Power Station']
 # list of towers and boosters available for purchase, taken from towerNames and boosterNames
 towerList = []
 # UI button initialization
@@ -427,10 +428,8 @@ while True:
         # should make it 60FPS max
         # dt is the number of seconds since the last frame, use this for calculations instead of fps to make it smoother
         dt = clock.tick(fps) / 1000
-        if dt > 0.05:
-            dt = 0.05
-        elif dt < 0.02:
-            dt = 0.02
+        if dt > 0.04:
+            dt = 0.04
 
         mousePressed = [0, 0, 0]  # reset mouse presses
         for event in pygame.event.get():
@@ -462,7 +461,7 @@ while True:
             fastForward = False
         if fastForward:
             fps = 120
-            dt *= 1.5
+            dt *= 3
             ffCounter = 1/3
         else:
             fps = 60
@@ -676,10 +675,10 @@ while True:
                     placedTowers[i].rotate(90)
 
         i = 0
-        # displaying bullets
-        while i < len(projList):  # use while loops instead of for loops cuz i might delete elements
+        # displaying bullets and stuffs
+        while i < len(projList):  # use while loops instead of  for loops cuz of element deletion
             tempDel = False
-            projList[i].update(screen)
+            projList[i].update(dt, screen)
             # see if it hits an enemy using masks
             for j in range(len(enemyList)):
                 diff = [int(projList[i].rectPos[0] - enemyList[j].posPx[0]),
@@ -687,27 +686,38 @@ while True:
                 # on hit, delete projectile and damage enemy
                 if projList[i].mask.overlap(enemyList[j].mask, [diff[0], diff[1]]) is not None:
                     tempDel = True
+                    # move projectile to the intersecting location
+                    projList[i].posPx = projList[i].mask.overlap(enemyList[j].mask, [diff[0], diff[1]])
                     # explosion effect on hit
-                    projList[i].sound.play()  # placeholder hit effect
+                    projList[i].sound.play()
                     projExplosionList.append(explosion.Explosion(projList[i].posXYPx,
                                                                  explosionImgList[projList[i].exp]))
-                    # enemy takes damage, reduced by armour
-                    if projList[i].damage - enemyList[j].armour > 0:
-                        enemyList[j].curHP -= (projList[i].damage - enemyList[j].armour)
+
+                    # SPLASH effect: damage enemies in aoe
+                    if projList[i].special[0] == 'splash':
+                        aoe = float(projList[i].special[1]) * 50
+                        # cycle through every enemy and check if its  nearby
+                        k = 0
+                        while k < len(enemyList):
+                            dist = math.sqrt((projList[i].posXYPx[0] - enemyList[k].posPx[0]) ** 2 +
+                                             (projList[i].posXYPx[1] - enemyList[k].posPx[1]) ** 2)
+                            if dist < aoe + int(enemyList[k].stats['radius']) / 2:
+                                # enemy takes damage, reduced by armour
+                                enemyList[k].inflict_damage(projList[i].damage)
+                                if enemyList[k].curHP <= 0:
+                                    money += enemyList[k].bounty
+                                    del(enemyList[k])
+                                    k -= 1
+                            k += 1
+                        break
+
+                    else:
+                        # enemy takes damage, reduced by armour
+                        enemyList[j].inflict_damage(projList[i].damage)
 
                     # delete enemy if its killed and give bounties
                     if enemyList[j].curHP <= 0:
                         money += enemyList[j].bounty
-                        # spawn another enemy if it is not none (WIP)
-                        # if enemyList[j].secValue > 0:
-                        #     for k in range(enemyList[j].secValue):
-                        #         enemyList.append(enemy.Enemy(enemyInfo[enemyList[j].secSpawn],
-                        #                                         [enemyList[j].tileLoc[0],
-                        #                                          enemyList[j].tileLoc[1]],
-                        #                                         enemyList[j].path_number, curWave))
-                        #         enemyList[-1].poxPx = [enemyList[j].posPx[0] + random.randint(-5, 5),
-                        #                                enemyList[j].posPx[1] + random.randint(-5, 5)]
-
                         del(enemyList[j])
                     break
 
@@ -809,7 +819,7 @@ while True:
                     hovered = True
                     display_stats(towerList[i + mul6])
                     # user has enough money to buy the tower
-                    if towerList[i + mul6].cost <= money:
+                    if towerList[i + mul6].cost <= money and towerList[i + mul6].energy + energy[0] <= energy[1]:
                         pygame.draw.rect(screen, (255, 255, 255), (butListTowers[i]), 2)
                         # select tower on click
                         if mousePressed[0] == 1:

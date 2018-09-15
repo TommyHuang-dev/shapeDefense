@@ -11,11 +11,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="375">
-      <file leaf-file-name="main.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="main.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/main.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="359">
-              <caret line="693" column="59" lean-forward="true" selection-start-line="693" selection-start-column="59" selection-end-line="693" selection-end-column="59" />
+            <state relative-caret-position="1825">
+              <caret line="722" column="0" lean-forward="true" selection-start-line="722" selection-start-column="0" selection-end-line="722" selection-end-column="0" />
               <folding>
                 <element signature="e#0#32#0" expanded="true" />
               </folding>
@@ -23,21 +23,31 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="tower.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/classes/tower.py">
+      <file leaf-file-name="enemy.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/classes/enemy.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="109">
-              <caret line="23" column="32" lean-forward="false" selection-start-line="23" selection-start-column="32" selection-end-line="23" selection-end-column="32" />
+            <state relative-caret-position="2075">
+              <caret line="83" column="20" lean-forward="false" selection-start-line="83" selection-start-column="20" selection-end-line="83" selection-end-column="20" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="towerData" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/data/towerData">
+      <file leaf-file-name="tower.py" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/classes/tower.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="425">
-              <caret line="50" column="13" lean-forward="true" selection-start-line="50" selection-start-column="13" selection-end-line="50" selection-end-column="13" />
+            <state relative-caret-position="459">
+              <caret line="134" column="0" lean-forward="true" selection-start-line="134" selection-start-column="0" selection-end-line="134" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="projectile.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/classes/projectile.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="350">
+              <caret line="15" column="26" lean-forward="false" selection-start-line="15" selection-start-column="26" selection-end-line="15" selection-end-column="26" />
               <folding />
             </state>
           </provider>
@@ -46,18 +56,18 @@
       <file leaf-file-name="waveData" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/data/waveData">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="425">
-              <caret line="113" column="0" lean-forward="true" selection-start-line="113" selection-start-column="0" selection-end-line="113" selection-end-column="0" />
+            <state relative-caret-position="5400">
+              <caret line="216" column="0" lean-forward="false" selection-start-line="216" selection-start-column="0" selection-end-line="216" selection-end-column="0" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="explosion.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/classes/explosion.py">
+      <file leaf-file-name="towerData" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/data/towerData">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="164">
-              <caret line="8" column="25" lean-forward="false" selection-start-line="8" selection-start-column="25" selection-end-line="8" selection-end-column="25" />
+            <state relative-caret-position="2400">
+              <caret line="96" column="15" lean-forward="false" selection-start-line="96" selection-start-column="15" selection-end-line="96" selection-end-column="15" />
               <folding />
             </state>
           </provider>
@@ -74,28 +84,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>energy</find>
-      <find>placedTowersLoc</find>
-      <find>sniper</find>
-      <find>projList[i</find>
-      <find>explosion</find>
-      <find>.append(expl</find>
-      <find>explosionList.ap</find>
-      <find>targeting</find>
-      <find>hp &lt;</find>
-      <find>enemyList =</find>
-      <find>enemyList.append</find>
-      <find>Spawner</find>
-      <find>spawn</find>
-      <find>spawn anot</find>
-      <find>s</find>
-      <find>load_pics</find>
-      <find>bar</find>
-      <find>type</find>
-      <find>energy =</find>
-      <find>fire</find>
-      <find>hitSound</find>
-      <find>Sniper Tu</find>
       <find>if energy[0] &lt;</find>
       <find>energy[1] &gt;</find>
       <find>Turret</find>
@@ -104,6 +92,28 @@
       <find>display_stats</find>
       <find>enemyList</find>
       <find>.play()</find>
+      <find>not enough mo</find>
+      <find>curWave = -1</find>
+      <find>tartgeting</find>
+      <find>del(projLi</find>
+      <find>.timer</find>
+      <find>curWave = 14</find>
+      <find>specialVal</find>
+      <find>.update(</find>
+      <find>.update</find>
+      <find>.rotate</find>
+      <find>self.tar</find>
+      <find>fps</find>
+      <find>.over</find>
+      <find>calc_rotation</find>
+      <find>print</find>
+      <find>missile</find>
+      <find>del(projList</find>
+      <find>enemies</find>
+      <find>targeting</find>
+      <find>radius</find>
+      <find>math.sqrt</find>
+      <find>fire_pro</find>
     </findStrings>
     <replaceStrings>
       <replace>pe</replace>
@@ -112,6 +122,7 @@
       <replace>butListTowers</replace>
       <replace>xy</replace>
       <replace>self.range</replace>
+      <replace>tar</replace>
     </replaceStrings>
   </component>
   <component name="Git.Settings">
@@ -150,22 +161,22 @@
         <option value="$PROJECT_DIR$/functions/waveParse.py" />
         <option value="$PROJECT_DIR$/functions/enemyParse.py" />
         <option value="$PROJECT_DIR$/data/credits" />
-        <option value="$PROJECT_DIR$/classes/spawner.py" />
         <option value="$PROJECT_DIR$/README.md" />
-        <option value="$PROJECT_DIR$/classes/enemy.py" />
-        <option value="$PROJECT_DIR$/data/enemyData" />
-        <option value="$PROJECT_DIR$/classes/projectile.py" />
         <option value="$PROJECT_DIR$/classes/explosion.py" />
-        <option value="$PROJECT_DIR$/classes/tower.py" />
-        <option value="$PROJECT_DIR$/data/towerData" />
+        <option value="$PROJECT_DIR$/data/enemyData" />
+        <option value="$PROJECT_DIR$/classes/spawner.py" />
         <option value="$PROJECT_DIR$/data/waveData" />
+        <option value="$PROJECT_DIR$/classes/tower.py" />
+        <option value="$PROJECT_DIR$/classes/enemy.py" />
+        <option value="$PROJECT_DIR$/classes/projectile.py" />
+        <option value="$PROJECT_DIR$/data/towerData" />
         <option value="$PROJECT_DIR$/main.py" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="408" />
-    <option name="y" value="-15" />
+    <option name="x" value="213" />
+    <option name="y" value="-36" />
     <option name="width" value="1349" />
     <option name="height" value="858" />
   </component>
@@ -184,7 +195,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scratches" />
       <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
@@ -198,15 +208,11 @@
               <item name="shapeDefense" type="462c0819:PsiDirectoryNode" />
               <item name="classes" type="462c0819:PsiDirectoryNode" />
             </path>
-            <path>
-              <item name="shapeDefense" type="b2602c69:ProjectViewProjectNode" />
-              <item name="shapeDefense" type="462c0819:PsiDirectoryNode" />
-              <item name="data" type="462c0819:PsiDirectoryNode" />
-            </path>
           </expand>
           <select />
         </subPane>
       </pane>
+      <pane id="Scratches" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -234,7 +240,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Python.main (1)">
+  <component name="RunManager" selected="Python.tower">
     <configuration name="enemy" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -286,19 +292,19 @@
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
     </configuration>
-    <configuration name="pathFinder" type="PythonConfigurationType" factoryName="Python" temporary="true">
+    <configuration name="projectile" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
       <envs>
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/functions" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/classes" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <module name="shapeDefense" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/functions/pathFinder.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/classes/projectile.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -323,17 +329,17 @@
     <list size="5">
       <item index="0" class="java.lang.String" itemvalue="Python.main (1)" />
       <item index="1" class="java.lang.String" itemvalue="Python.map" />
-      <item index="2" class="java.lang.String" itemvalue="Python.pathFinder" />
-      <item index="3" class="java.lang.String" itemvalue="Python.enemy" />
-      <item index="4" class="java.lang.String" itemvalue="Python.tower" />
+      <item index="2" class="java.lang.String" itemvalue="Python.enemy" />
+      <item index="3" class="java.lang.String" itemvalue="Python.tower" />
+      <item index="4" class="java.lang.String" itemvalue="Python.projectile" />
     </list>
     <recent_temporary>
       <list size="5">
-        <item index="0" class="java.lang.String" itemvalue="Python.main (1)" />
-        <item index="1" class="java.lang.String" itemvalue="Python.tower" />
-        <item index="2" class="java.lang.String" itemvalue="Python.enemy" />
-        <item index="3" class="java.lang.String" itemvalue="Python.map" />
-        <item index="4" class="java.lang.String" itemvalue="Python.pathFinder" />
+        <item index="0" class="java.lang.String" itemvalue="Python.tower" />
+        <item index="1" class="java.lang.String" itemvalue="Python.main (1)" />
+        <item index="2" class="java.lang.String" itemvalue="Python.projectile" />
+        <item index="3" class="java.lang.String" itemvalue="Python.enemy" />
+        <item index="4" class="java.lang.String" itemvalue="Python.map" />
       </list>
     </recent_temporary>
   </component>
@@ -355,17 +361,18 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-9" y="-9" width="1938" height="1048" extended-state="6" />
+    <editor active="true" />
     <layout>
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.1078125" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.23574561" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32894737" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.23574561" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.1296875" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33552632" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33552632" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Data View" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.85520834" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -662,18 +669,32 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/classes/enemy.py">
+    <entry file="file://$PROJECT_DIR$/classes/explosion.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2375">
-          <caret line="95" column="54" lean-forward="false" selection-start-line="95" selection-start-column="54" selection-end-line="95" selection-end-column="54" />
-          <folding />
+        <state relative-caret-position="200">
+          <caret line="8" column="25" lean-forward="false" selection-start-line="8" selection-start-column="25" selection-end-line="8" selection-end-column="25" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/data/enemyData">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="400">
-          <caret line="84" column="8" lean-forward="true" selection-start-line="84" selection-start-column="8" selection-end-line="84" selection-end-column="8" />
+        <state relative-caret-position="450">
+          <caret line="33" column="10" lean-forward="false" selection-start-line="33" selection-start-column="10" selection-end-line="33" selection-end-column="10" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/classes/spawner.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="200">
+          <caret line="8" column="41" lean-forward="false" selection-start-line="8" selection-start-column="41" selection-end-line="8" selection-end-column="41" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/classes/enemy.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2075">
+          <caret line="83" column="20" lean-forward="false" selection-start-line="83" selection-start-column="20" selection-end-line="83" selection-end-column="20" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -685,53 +706,37 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/classes/spawner.py">
+    <entry file="file://$PROJECT_DIR$/data/waveData">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="350">
-          <caret line="14" column="24" lean-forward="false" selection-start-line="14" selection-start-column="24" selection-end-line="14" selection-end-column="24" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/classes/explosion.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="164">
-          <caret line="8" column="25" lean-forward="false" selection-start-line="8" selection-start-column="25" selection-end-line="8" selection-end-column="25" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/classes/tower.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="109">
-          <caret line="23" column="32" lean-forward="false" selection-start-line="23" selection-start-column="32" selection-end-line="23" selection-end-column="32" />
+        <state relative-caret-position="5400">
+          <caret line="216" column="0" lean-forward="false" selection-start-line="216" selection-start-column="0" selection-end-line="216" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/data/towerData">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="425">
-          <caret line="50" column="13" lean-forward="true" selection-start-line="50" selection-start-column="13" selection-end-line="50" selection-end-column="13" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/data/waveData">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="425">
-          <caret line="113" column="0" lean-forward="true" selection-start-line="113" selection-start-column="0" selection-end-line="113" selection-end-column="0" />
+        <state relative-caret-position="2400">
+          <caret line="96" column="15" lean-forward="false" selection-start-line="96" selection-start-column="15" selection-end-line="96" selection-end-column="15" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/main.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="359">
-          <caret line="693" column="59" lean-forward="true" selection-start-line="693" selection-start-column="59" selection-end-line="693" selection-end-column="59" />
+        <state relative-caret-position="1825">
+          <caret line="722" column="0" lean-forward="true" selection-start-line="722" selection-start-column="0" selection-end-line="722" selection-end-column="0" />
           <folding>
             <element signature="e#0#32#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/classes/tower.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="459">
+          <caret line="134" column="0" lean-forward="true" selection-start-line="134" selection-start-column="0" selection-end-line="134" selection-end-column="0" />
+          <folding />
         </state>
       </provider>
     </entry>

@@ -11,14 +11,14 @@ class Projectile(object):
         self.sprite = sprite
         self.mask = pygame.mask.from_surface(sprite, 1)
         self.size = sprite.get_size()
-        self.rectPos = [self.posXYPx[0] - self.size[0] / 2, self.posXYPx[1] - self.size[1]]
+        self.rectPos = [self.posXYPx[0] - self.size[0] / 2, self.posXYPx[1] - self.size[1]]  # top left corner pos
         self.exp = exp + "-hit"
         self.sound = sound
 
-    def update(self, display):
-        self.posXYPx[0] += self.vel[0]
-        self.posXYPx[1] += self.vel[1]
+    def update(self, time, display):
+        # move self
+        self.posXYPx[0] += self.vel[0] * time
+        self.posXYPx[1] += self.vel[1] * time
         self.rectPos = [self.posXYPx[0] - self.size[0] / 2, self.posXYPx[1] - self.size[1] / 2]
-        self.distance[0] += math.sqrt(self.vel[0] ** 2 + self.vel[1] ** 2)
+        self.distance[0] += math.sqrt(self.vel[0] ** 2 + self.vel[1] ** 2) * time
         display.blit(self.sprite, (int(self.posXYPx[0] - self.size[0] / 2), int(self.posXYPx[1] - self.size[1] / 2)))
-

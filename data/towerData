@@ -80,24 +80,24 @@ sprite_proj sniper_shot
 hit_sound sniper_hit
 end
 
-name Missile Launcher
+name Rocket Launcher
 type turret
 cost 250
 energy 1
-sprite_base missile_base
+sprite_base rocket_base
 damage 10
-rate 1.2
-range 5.5
-proj_spd 14.0
-effective_range 1.5
+rate 1.0
+range 4.5
+proj_spd 15.0
+effective_range 1.2
 up_cost 90
 up_cost_inc 30
 max_level 6
-special homing
-special_val 12.0
-sprite_turret missile_turret
-sprite_proj missile_shot
-hit_sound missile_hit
+special splash
+special_val 1.1
+sprite_turret rocket_turret
+sprite_proj rocket_shot
+hit_sound rocket_hit
 end
 
 -----boosters-----

@@ -6,7 +6,7 @@ class Spawner(object):
         self.name = attributes[0]
         self.interval = attributes[3]
         self.amount = attributes[1]
-        self.timer = 0
+        self.timer = self.interval - 0.25
         self.spawned_enemy = enemy_attributes
 
     def spawn_enemy(self, spawnpoint, spawn_num, level):

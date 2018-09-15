@@ -65,6 +65,7 @@ class Turret(object):
                           self.dmgLevel[0], self.rateLevel[0], self.rangeLevel[0])
         self.placed = False  # becomes true after the tower is placed down
         self.pos = [0, 0]
+        tar = []  # targetting purposes
 
     def update_stats(self, init_up, inc_up, cur_level, dmgl, ratel, rangel):
         self.finalUpCost = int(init_up + inc_up * (cur_level - 1))
@@ -78,18 +79,6 @@ class Turret(object):
         self.rateBoost = 0
         self.rangeBoost = 0
         self.projBoost = 0
-
-        for i in range(len(adj_tower_list)):
-            if type(adj_tower_list[i]) == Booster:
-                if Booster.type == "damage":
-                    self.dmgBoost += Booster.val
-                if Booster.type == "rate":
-                    self.rateBoost += Booster.val
-                if Booster.type == "range":
-                    self.rangeBoost += Booster.val
-                if Booster.type == "projectile":
-                    self.projBoost += Booster.val
-
 
     def upgrade(self, stat_name):
         self.curLevel += 1
@@ -113,6 +102,7 @@ class Turret(object):
         self.canFire = False
         tar = []
         path_left_cur = 1000
+
         for i in range(len(enemy_path_left)):
             dist_to_enemy = math.sqrt(((self.pos[0] * 50 - 25) - enemy_pos[i][0]) ** 2 +
                                       ((self.pos[1] * 50 - 25) - enemy_pos[i][1]) ** 2)
@@ -137,7 +127,7 @@ class Turret(object):
     def fire_projectile(self):
         self.reload += 1 / self.rate
         self.canFire = False
-        xy_vel = [self.projSpd * math.cos(self.rotation) * 5/6, self.projSpd * -math.sin(self.rotation) * 5/6]
+        xy_vel = [self.projSpd * math.cos(self.rotation) * 50, self.projSpd * -math.sin(self.rotation) * 50]
         temp_spr = components.rot_center(self.spriteProj, math.degrees(self.rotation))
         return projectile.Projectile([self.pos[0] * 50 - 25, self.pos[1] * 50 - 25], xy_vel,
                                      self.damage, self.range * self.effRange * 50, [self.special, self.specialVal],
