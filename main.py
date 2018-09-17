@@ -680,57 +680,33 @@ while True:
         i = 0
         # displaying bullets and stuffs
         while i < len(projList):  # use while loops instead of  for loops cuz of element deletion
-            tempDel = False
-            projList[i].update(dt, screen)
-            # see if it hits an enemy using masks
-            for j in range(len(enemyList)):
-                diff = [int(projList[i].rectPos[0] - enemyList[j].posPx[0]),
-                        int(projList[i].rectPos[1] - enemyList[j].posPx[1])]
-                # on hit, delete projectile and damage enemy
-                if projList[i].mask.overlap(enemyList[j].mask, [diff[0], diff[1]]) is not None:
-                    tempDel = True
-                    # move projectile to the intersecting location
-                    projList[i].posPx = projList[i].mask.overlap(enemyList[j].mask, [diff[0], diff[1]])
-                    # explosion effect on hit
-                    projList[i].sound.play()
-                    projExplosionList.append(explosion.Explosion(projList[i].posXYPx,
-                                                                 explosionImgList[projList[i].exp]))
+            enemyHit = projList[i].update(dt, screen, enemyList)
+            # see if it hits an enemy(s) using masks
+            if enemyHit != []:
+                # sound
+                projList[i].sound.play()
+                # do all maths
+                j = 0
+                # apply damages and stuffs
+                for j in range(len(enemyHit)):
+                    # inflict damage
+                    enemyHit[j].inflict_damage(projList[i].damage, projList[i].special)
+                    # enemy dies
+                    if enemyHit[j].curHP <= 0:
+                        money += enemyHit[j].bounty
+                        # delete if from the table
+                        del(enemyList[enemyList.index(enemyHit[j])])
 
-                    # SPLASH effect: damage enemies in aoe
-                    if projList[i].special[0] == 'splash':
-                        aoe = float(projList[i].special[1]) * 50
-                        # cycle through every enemy and check if its  nearby
-                        k = 0
-                        while k < len(enemyList):
-                            dist = math.sqrt((projList[i].posXYPx[0] - enemyList[k].posPx[0]) ** 2 +
-                                             (projList[i].posXYPx[1] - enemyList[k].posPx[1]) ** 2)
-                            if dist < aoe + int(enemyList[k].stats['radius']) / 2:
-                                # enemy takes damage, reduced by armour
-                                enemyList[k].inflict_damage(projList[i].damage)
-                                if enemyList[k].curHP <= 0:
-                                    money += enemyList[k].bounty
-                                    del(enemyList[k])
-                                    k -= 1
-                            k += 1
-                        break
+                # add explosion pic
+                projExplosionList.append(explosion.Explosion(projList[i].posXYPx, explosionImgList[projList[i].exp]))
+                del (projList[i])
+                i -= 1
 
-                    else:
-                        # enemy takes damage, reduced by armour
-                        enemyList[j].inflict_damage(projList[i].damage)
-
-                    # delete enemy if its killed and give bounties
-                    if enemyList[j].curHP <= 0:
-                        money += enemyList[j].bounty
-                        del(enemyList[j])
-                    break
-
-            # remove projectile out of range
-            if projList[i].distance[0] >= projList[i].distance[1]:
-                tempDel = True
-            if tempDel:
+            elif projList[i].distance[0] > projList[i].distance[1]:  # projectile expires
                 del(projList[i])
-            else:  # increment i
-                i += 1
+                i -= 1
+
+            i += 1
 
         # display explosions
         i = 0
