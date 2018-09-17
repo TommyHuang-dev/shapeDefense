@@ -216,6 +216,9 @@ butNextPage = pygame.Rect(disL - 130 + 2, butListTowers[0][1] + 150 + 2,
 butPrevPage = pygame.Rect(disL - 200 + 2, butListTowers[0][1] + 150 - 2,
                           imgPrevPage.get_width() - 4, imgPrevPage.get_height() - 4)
 
+# selling a tower button
+butSell = pygame.Rect(disL - 250, disH - 120, 200, 30)
+
 # menu NEXT WAVE button
 butNextWave = pygame.Rect(disL - 275, disH - 70, 250, 60)
 colNextWaveBut = [[175, 175, 175], [15, 215, 110]]  # colour for round in progress vs. not in progress
@@ -579,11 +582,11 @@ while True:
         for i in range(len(placedTowers)):
             placedTowers[i].draw_tower_base(screen, [placedTowers[i].pos[0] * 50 - 25,
                                                      placedTowers[i].pos[1] * 50 - 25])
-        # if a tower is viewed, draw the white outline here (before gun, after base)
+        # if a tower is viewed, draw the red outline here (before gun, after base)
         if viewedTower >= 0:
-            display_stats(placedTowers[viewedTower])
             pygame.draw.rect(screen, (200, 75, 75), (placedTowers[viewedTower].pos[0] * 50 - 50,
                                                      placedTowers[viewedTower].pos[1] * 50 - 50, 50, 50), 3)
+
         # tower gun
         for i in range(len(placedTowers)):
             placedTowers[i].draw_tower_gun(screen, [placedTowers[i].pos[0] * 50 - 25,
@@ -854,13 +857,37 @@ while True:
                     soundClick.play()
                     viewedTower = placedTowersLoc.index(components.xy_to_pos(mousePos))
                 # deselect viewed tower
-                else:
+                elif mousePos[0] < 1000:
                     viewedTower = -1
 
             # draw range of da tower
             if viewedTower >= 0:
                 if not hovered:
+                    # stats
                     display_stats(placedTowers[viewedTower])
+
+                    # sell button
+                    pygame.draw.rect(screen, (200, 50, 50), butSell)
+                    # text of sell button
+                    components.create_text(screen, (butSell[0] + butSell[2] // 2, butSell[1] + butSell[3] // 2),
+                                           'SELL FOR $' + str(int(placedTowers[viewedTower].sellPrice)),
+                                           True, levelTowerFont, (0, 0, 0))
+                    # interact with sell button
+                    if butSell.collidepoint(mousePos[0], mousePos[1]) and not currentlyInWave:
+                        pygame.draw.rect(screen, (0, 0, 0), butSell, 3)
+                        if mousePressed[0] == 1:  # on click, sell the tower
+                            money += int(placedTowers[viewedTower].sellPrice)
+                            soundSell.play()
+                            del placedTowers[viewedTower]
+                            del placedTowersLoc[viewedTower]
+                            updatePath = True  # reset path
+                            viewedTower = -1  # reset viewed tower
+                    elif mousePressed[0] == 1 and butSell.collidepoint(mousePos[0], mousePos[1]) and currentlyInWave:
+                        soundError.play()
+                        msgText = 'Cannot sell towers during a wave'
+                        msgTimer = 0.75
+                    else:
+                        pygame.draw.rect(screen, (0, 0, 0), butSell, 1)
 
         # info about money, life, etc.
         # life

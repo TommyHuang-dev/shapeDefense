@@ -39,6 +39,7 @@ class Turret(object):
         self.initialUpCost = int(self.stats['up_cost'][0])
         self.upCostInc = int(self.stats['up_cost_inc'][0])
         self.finalUpCost = int(self.stats['up_cost'][0])
+        self.sellPrice = self.cost / 2  # float, convert to int when actually selling
         self.special = self.stats['special'][0]
         self.specialVal = self.stats['special_val'][0]
         # range * effRange = how far the projectile actually goes
@@ -68,6 +69,7 @@ class Turret(object):
         tar = []  # targetting purposes
 
     def update_stats(self, init_up, inc_up, cur_level, dmgl, ratel, rangel):
+        # final upgrade cost = initial cost + (increase * (level - 1))
         self.finalUpCost = int(init_up + inc_up * (cur_level - 1))
         self.damage = int(self.stats['damage'][dmgl - 1] * (1 + self.dmgBoost))
         self.rate = float(self.stats['rate'][ratel - 1] * (1 + self.rateBoost))
@@ -81,6 +83,9 @@ class Turret(object):
         self.projBoost = 0
 
     def upgrade(self, stat_name):
+        # update selling price (1/2 of tower cost + all upgrades)
+        self.sellPrice += self.finalUpCost / 2
+        # increment level and stuffs asdf
         self.curLevel += 1
         if stat_name == "damage":
             self.dmgLevel += 1
