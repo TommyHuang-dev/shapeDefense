@@ -15,10 +15,10 @@ class Enemy(object):
         # following stats max out at level 50
         if level > 50:
             level = 50
-        self.speed = float(self.stats['speed']) * (1 + level / 100)
-        self.armour = int(int(self.stats['armour']) * (1 + level / 50))
-        self.regeneration = float(self.stats['regeneration']) * (1 + level / 25)
-        self.bounty = int(int(self.stats['bounty']) * (1 + level / 50))
+        self.speed = float(self.stats['speed']) * (1 + level * 0.01)
+        self.armour = int(int(self.stats['armour']) * (1 + level * 0.2))
+        self.regeneration = float(self.stats['regeneration']) * (1 + level * 0.4)
+        self.bounty = int(int(self.stats['bounty']) * (1 + level * 0.2))
 
         # pathing
         self.path_number = spawn_num

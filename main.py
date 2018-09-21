@@ -852,12 +852,23 @@ while True:
                     if butSell.collidepoint(mousePos[0], mousePos[1]) and not currentlyInWave:
                         pygame.draw.rect(screen, (0, 0, 0), butSell, 3)
                         if mousePressed[0] == 1:  # on click, sell the tower
-                            money += int(placedTowers[viewedTower].sellPrice)
-                            soundSell.play()
-                            del placedTowers[viewedTower]
-                            del placedTowersLoc[viewedTower]
-                            updatePath = True  # reset path
-                            viewedTower = -1  # reset viewed tower
+                            # energy check
+                            if energy[0] > energy[1] + placedTowers[viewedTower].energy:
+                                soundError.play()
+                                msgText = 'Energy too low!'
+                                msgTimer = 0.75
+                            else:  # passes energy check
+                                if placedTowers[viewedTower].energy < 0:
+                                    energy[1] += placedTowers[viewedTower].energy
+                                else:
+                                    energy[0] -= placedTowers[viewedTower].energy
+                                # update monies
+                                money += int(placedTowers[viewedTower].sellPrice)
+                                soundSell.play()
+                                del placedTowers[viewedTower]
+                                del placedTowersLoc[viewedTower]
+                                updatePath = True  # reset path
+                                viewedTower = -1  # reset viewed tower
                     elif mousePressed[0] == 1 and butSell.collidepoint(mousePos[0], mousePos[1]) and currentlyInWave:
                         soundError.play()
                         msgText = 'Cannot sell towers during a wave'
