@@ -9,16 +9,23 @@ class Enemy(object):
         self.status = []  # list of status effects like slow
 
         # convert attributes to stats
-        # increase HP based on wave (+10%)
-        self.maxHP = int(int(self.stats['health']) * (1 + level / 10))
+        # increase HP based on wave (+10%) for < 25, (+15%) for 25 < x <= 50, (+20%) for x > 50
+        self.maxHP = int(int(self.stats['health']) * (1 + level * 0.1))
+        if level > 25:
+            # increase 5% again
+            self.maxHP += int(int(self.stats['health']) * (1 + (level - 25) * 0.05))
+        if level > 50:
+            # increase 5% AGAIN
+            self.maxHP += int(int(self.stats['health']) * (1 + (level - 50) * 0.05))
+
         self.curHP = self.maxHP
         # following stats max out at level 50
         if level > 50:
             level = 50
         self.speed = float(self.stats['speed']) * (1 + level * 0.01)
-        self.armour = int(int(self.stats['armour']) * (1 + level * 0.2))
-        self.regeneration = float(self.stats['regeneration']) * (1 + level * 0.4)
-        self.bounty = int(int(self.stats['bounty']) * (1 + level * 0.2))
+        self.armour = int(int(self.stats['armour']) * (1 + level * 0.04))
+        self.regeneration = float(self.stats['regeneration']) * (1 + level * 0.05)
+        self.bounty = int(int(self.stats['bounty']) * (1 + level * 0.02))
 
         # pathing
         self.path_number = spawn_num

@@ -28,26 +28,24 @@ def display_stats(sel_tower):
         # not enough money
         if sel_tower.cost > money:
             # display cost as red text
-            components.create_text(screen, (disL - 275, 420), "$" + str(sel_tower.cost),
-                                   False, levelTowerFont, (200, 25, 25))
+            components.create_text(screen, (disL - 150, 420), "$" + str(sel_tower.cost),
+                                   True, levelTowerFont, (200, 25, 25))
         # enough monies
         else:
             # display cost
-            components.create_text(screen, (disL - 275, 420), "$" + str(sel_tower.cost),
-                                   False, levelTowerFont, (0, 0, 0))
+            components.create_text(screen, (disL - 150, 420), "$" + str(sel_tower.cost),
+                                   True, levelTowerFont, (0, 0, 0))
         # power pic
         if sel_tower.energy > 0:
-            screen.blit(energyMiniPic, (disL - 208, 410))
+            screen.blit(energyMiniPic, (disL - 228, 410))
             # not enough power
             if sel_tower.energy + energy[0] > energy[1]:
-                components.create_text(screen, (disL - 190, 420), str(sel_tower.energy),
+                components.create_text(screen, (disL - 210, 420), str(sel_tower.energy),
                                        False, levelTowerFont, (200, 25, 25))
             # enough power
             else:
-                components.create_text(screen, (disL - 190, 420), str(sel_tower.energy),
+                components.create_text(screen, (disL - 210, 420), str(sel_tower.energy),
                                        False, levelTowerFont, (0, 0, 0))
-
-        # enough power
 
     # placed tower, display level
     elif sel_tower.placed:
@@ -59,14 +57,28 @@ def display_stats(sel_tower):
         else:  # add level to string
             tempString += str(sel_tower.curLevel)
         # level :D
-        components.create_text(screen, (disL - 275, 420), tempString,
-                               False, levelTowerFont, (0, 0, 0))
+        components.create_text(screen, (disL - 150, 420), tempString,
+                               True, levelTowerFont, (0, 0, 0))
 
     # show electrical cost
 
     # show some stats (name, damage, fire rate, etc.)
+    # name
     components.create_text(screen, (disL - 150, 380), sel_tower.name, True,
                            levelTowerTitleFont, (0, 50, 175))
+    if sel_tower.damage > 0:
+        # damage
+        components.create_text(screen, (disL - 280, 470), '  Dmg:', False, levelTowerFont, (0, 0, 0))
+        components.create_text(screen, (disL - 200, 470), str(sel_tower.damage), False, levelTowerFont, (100, 0, 0))
+        # firerate
+        components.create_text(screen, (disL - 280, 510), '  Rate:', False, levelTowerFont, (0, 0, 0))
+        components.create_text(screen, (disL - 200, 510), str(sel_tower.rate), False, levelTowerFont, (100, 0, 0))
+        # range
+        components.create_text(screen, (disL - 280, 550), 'Range:', False, levelTowerFont, (0, 0, 0))
+        components.create_text(screen, (disL - 200, 550), str(sel_tower.range), False, levelTowerFont, (100, 0, 0))
+        # proj speed
+        components.create_text(screen, (disL - 280, 590), ' P.Spd:', False, levelTowerFont, (0, 0, 0))
+        components.create_text(screen, (disL - 200, 590), str(sel_tower.projSpd), False, levelTowerFont, (100, 0, 0))
 
 
 # This is a simple tower defence, written in Python
@@ -218,6 +230,9 @@ butPrevPage = pygame.Rect(disL - 200 + 2, butListTowers[0][1] + 150 - 2,
 
 # selling a tower button
 butSell = pygame.Rect(disL - 250, disH - 120, 200, 30)
+
+# upgrading tower buttons
+butUpgrades = [pygame.Rect(disL - 60, 470 + i * 50, 30, 30) for i in range(5)]
 
 # menu NEXT WAVE button
 butNextWave = pygame.Rect(disL - 275, disH - 70, 250, 60)
@@ -558,13 +573,12 @@ while True:
             i = 0
             while i < len(enemyList):
                 enemyList[i].move(path[enemyList[i].path_number], dt)
-                # enemy reaches end, take off lives
+                # enemy reaches end, take off lives, dont give monies
                 if enemyList[i].reachedEnd and enemyList[i].endTimer <= 0:
                     if enemyList[i].stats['type'] == 'BOSS':
                         life -= 10
                     else:
                         life -= 1
-                    money += enemyList[i].bounty
                     del (enemyList[i])
                 else:
                     screen.blit(enemyList[i].stats['sprite'], (enemyList[i].posPx[0] - 35, enemyList[i].posPx[1] - 35))
