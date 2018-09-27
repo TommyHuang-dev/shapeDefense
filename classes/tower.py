@@ -26,6 +26,7 @@ class Turret(object):
         self.dmgLevel = [1, len(self.stats['damage'])]
         self.rateLevel = [1, len(self.stats['rate'])]
         self.rangeLevel = [1, len(self.stats['range'])]  # also includes projectile speed
+        self.specialLevel = [1, len(self.stats['special_val'])]
 
         # module effect stats
         self.dmgBoost = 0
@@ -93,6 +94,8 @@ class Turret(object):
             self.rateLevel += 1
         elif stat_name == "range":
             self.rangeLevel += 1
+        elif stat_name == 'special':
+            self.specialLevel += 1
 
         self.update_stats(self.initialUpCost, self.upCostInc, self.curLevel,
                           self.dmgLevel[0], self.rateLevel[0], self.rangeLevel[0])

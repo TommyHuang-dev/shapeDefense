@@ -69,16 +69,16 @@ def display_stats(sel_tower):
     if sel_tower.damage > 0:
         # damage
         components.create_text(screen, (disL - 280, 470), '  Dmg:', False, levelTowerFont, (0, 0, 0))
-        components.create_text(screen, (disL - 200, 470), str(sel_tower.damage), False, levelTowerFont, (100, 0, 0))
+        components.create_text(screen, (disL - 200, 470), str(sel_tower.damage), False, levelTowerFont, (0, 0, 100))
         # firerate
         components.create_text(screen, (disL - 280, 510), '  Rate:', False, levelTowerFont, (0, 0, 0))
-        components.create_text(screen, (disL - 200, 510), str(sel_tower.rate), False, levelTowerFont, (100, 0, 0))
+        components.create_text(screen, (disL - 200, 510), str(sel_tower.rate), False, levelTowerFont, (0, 0, 100))
         # range
         components.create_text(screen, (disL - 280, 550), 'Range:', False, levelTowerFont, (0, 0, 0))
-        components.create_text(screen, (disL - 200, 550), str(sel_tower.range), False, levelTowerFont, (100, 0, 0))
+        components.create_text(screen, (disL - 200, 550), str(sel_tower.range), False, levelTowerFont, (0, 0, 100))
         # proj speed
         components.create_text(screen, (disL - 280, 590), ' P.Spd:', False, levelTowerFont, (0, 0, 0))
-        components.create_text(screen, (disL - 200, 590), str(sel_tower.projSpd), False, levelTowerFont, (100, 0, 0))
+        components.create_text(screen, (disL - 200, 590), str(sel_tower.projSpd), False, levelTowerFont, (0, 0, 100))
 
 
 # This is a simple tower defence, written in Python
@@ -186,7 +186,7 @@ creditText = creditParse.parse("data/credits")
 
 # ---- LOAD CLASSES ----
 # list of purchasable towers (turrets, boosters)
-towerNames = ['Wall', 'Basic Turret', 'Machinegun', 'Sniper Turret', 'Rocket Launcher', 'Power Station']
+towerNames = ['Wall', 'Basic Turret', 'Machinegun', 'Sniper Turret', 'Rocket Launcher', 'Power Station', 'Debugger']
 # list of towers and boosters available for purchase, taken from towerNames and boosterNames
 towerList = []
 # UI button initialization
@@ -359,7 +359,7 @@ while True:
     pygame.mixer.music.stop()
 
     # ---- IN-GAME SETUP and reset variables----
-    curWave = -1  # current wave, displayed value is 1 more than this
+    curWave = 12  # current wave, displayed value is 1 more than this
     money = 500  # starting monies
     energy = [0, 5]  # amount of power used vs maximum
     income = 100  # monies per round
@@ -712,7 +712,12 @@ while True:
                         del(enemyList[enemyList.index(enemyHit[j])])
 
                 # add explosion pic
-                projExplosionList.append(explosion.Explosion(projList[i].posXYPx, explosionImgList[projList[i].exp]))
+                if projList[i].special[0] == 'splash':
+                    projExplosionList.append(explosion.Explosion(projList[i].posXYPx,
+                                                                 explosionImgList[projList[i].exp], float(projList[i].special[1]) * 100))
+                else:
+                    projExplosionList.append(explosion.Explosion(projList[i].posXYPx,
+                                                                 explosionImgList[projList[i].exp], -1))
                 del (projList[i])
                 i -= 1
 
