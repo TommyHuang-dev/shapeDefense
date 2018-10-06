@@ -45,8 +45,8 @@ type turret
 cost 250
 energy 1
 sprite_base machinegun_base
-damage 4 6 8
-rate 4 6 8 10
+damage 3 4 6
+rate 4 6 9 12
 range 4.0
 proj_spd 24.0
 effective_range 1.1

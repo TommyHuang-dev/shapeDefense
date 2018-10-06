@@ -23,7 +23,7 @@ def load_pics(folder, name):
 
 
 def display_stats(sel_tower):
-    global msgTimer, msgText, money
+    global msgTimer, msgText, money, mousePressed
     if not sel_tower.placed:
         # not enough money
         if sel_tower.cost > money:
@@ -102,17 +102,21 @@ def display_stats(sel_tower):
                 if butUpgradeTower[cur_stat].collidepoint(mousePos[0], mousePos[1]):
                     components.create_text(screen, (disL - 120, butUpgradeTower[cur_stat][1] + 10),
                                            "+" + str(sel_tower.upgrade_preview(cur_stat)), False, levelTowerFont, (25, 175, 25))
-                    # draw outline if u have enough money
+                    # draw outline if you have enough money
                     if money >= sel_tower.finalUpCost:
-                        pygame.draw.rect(screen, (25, 25, 25), butUpgradeTower[cur_stat], 3)
-                        if mousePressed[0] == 1:
-                            sel_tower.upgrade(cur_stat)
+                        pygame.draw.rect(screen, (25, 150, 25), butUpgradeTower[cur_stat], 1)
+
+                    # upgrade tower on press if you have enough money
+                    if mousePressed[0] == 1:
+                        if money >= sel_tower.finalUpCost:
                             money -= sel_tower.finalUpCost
-                    # not enough money; yell at player :D
-                    elif money < sel_tower.finalUpCost and mousePresed[0] == 1:
-                        soundError.play()
-                        msgTimer = 0.5
-                        msgText = "Can't afford upgrade!"
+                            sel_tower.upgrade(cur_stat)
+                            soundUpgrade.play()
+                        # not enough money; yell at player :D
+                        elif money < sel_tower.finalUpCost:
+                            soundError.play()
+                            msgTimer = 0.5
+                            msgText = "Can't afford upgrade!"
 
             cur_stat += 1
 
@@ -170,6 +174,7 @@ soundSell = pygame.mixer.Sound("sounds/UI/sell.wav")
 soundPlaced = pygame.mixer.Sound("sounds/game/placed_down.wav")
 soundLevelSelect = pygame.mixer.Sound("sounds/UI/level_select.wav")
 soundNextWave = pygame.mixer.Sound("sounds/UI/next_wave.wav")
+soundUpgrade = pygame.mixer.Sound("sounds/UI/upgrade.wav")
 
 musicMenu = pygame.mixer.music.load('sounds/menu.ogg')
 pygame.mixer.music.set_volume(0.35)
@@ -224,7 +229,7 @@ creditText = creditParse.parse("data/credits")
 
 # ---- LOAD CLASSES ----
 # list of purchasable towers (turrets, boosters)
-towerNames = ['Wall', 'Basic Turret', 'Machinegun', 'Sniper Turret', 'Rocket Launcher', 'Power Station', 'Debugger']
+towerNames = ['Wall', 'Basic Turret', 'Machinegun', 'Sniper Turret', 'Rocket Launcher', 'Power Station']
 # list of towers and boosters available for purchase, taken from towerNames and boosterNames
 towerList = []
 # UI button initialization
@@ -872,11 +877,13 @@ while True:
                         if mousePressed[0] == 1:
                             soundError.play()
                             selectedTower = 'none'
+                            msgText = "Can't afford this tower!"
+                            msgTimer = 0.5
                 # Let the user know you can't buy towers during a wave
                 elif butListTowers[i].collidepoint(mousePos[0], mousePos[1]) \
                         and mousePressed[0] == 1 and currentlyInWave:
                     soundError.play()
-                    msgText = "Towers cannot be purchased during a wave"
+                    msgText = "Cannot buy towers during a wave"
                     msgTimer = 0.75
 
         for i in range(mul6, mul6 + 6, 1):
