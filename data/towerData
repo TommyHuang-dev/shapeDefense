@@ -128,7 +128,7 @@ sprite_base laser_base
 damage 10 16 22 30
 rate 1.0 1.7 2.5
 range 5.0 7.0
-proj_spd 100
+proj_spd 100 100
 effective_range 1.2
 up_cost 200
 up_cost_inc 60
@@ -145,14 +145,14 @@ type turret
 cost 1
 energy 0
 sprite_base machinegun_base
-damage 20
-rate 5
-range 5
-proj_spd 30.0
+damage 10 20 30
+rate 3 6 10
+range 4 6 8
+proj_spd 30.0 30.0 30.0
 effective_range 1.5
-up_cost 0
+up_cost 1
 up_cost_inc 0
-max_level 1
+max_level 7
 special none
 special_val 0
 sprite_turret machinegun_turret

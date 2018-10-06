@@ -23,7 +23,7 @@ def load_pics(folder, name):
 
 
 def display_stats(sel_tower):
-    # not placed tower, display cost
+    global msgTimer, msgText, money
     if not sel_tower.placed:
         # not enough money
         if sel_tower.cost > money:
@@ -49,37 +49,72 @@ def display_stats(sel_tower):
 
     # placed tower, display level
     elif sel_tower.placed:
-        tempString = "level "
+        temp_str = "level "
         if sel_tower.curLevel > 1 and sel_tower.curLevel == sel_tower.maxLevel:  # max level
-            tempString += "MAX"
+            temp_str += "MAX"
         elif sel_tower.maxLevel == 1:  # not upgradable (i.e. walls)
-            tempString = ""
-        else:  # add level to string
-            tempString += str(sel_tower.curLevel)
+            temp_str = ""
+        else:  # add level and max level to string
+            temp_str += str(sel_tower.curLevel)
+            temp_str += str(" / " + str(sel_tower.maxLevel))
         # level :D
-        components.create_text(screen, (disL - 150, 420), tempString,
-                               True, levelTowerFont, (0, 0, 0))
+        components.create_text(screen, (disL - 260, 420), temp_str,
+                               False, levelTowerFont, (0, 0, 0))
 
-    # show electrical cost
-
-    # show some stats (name, damage, fire rate, etc.)
     # name
     components.create_text(screen, (disL - 150, 380), sel_tower.name, True,
                            levelTowerTitleFont, (0, 50, 175))
+    # display stats
     if sel_tower.damage > 0:
         # damage
-        components.create_text(screen, (disL - 280, 470), '  Dmg:', False, levelTowerFont, (0, 0, 0))
-        components.create_text(screen, (disL - 200, 470), str(sel_tower.damage), False, levelTowerFont, (0, 0, 100))
+        components.create_text(screen, (disL - 280, 460), '  Dmg:', False, levelTowerFont, (0, 0, 0))
+        components.create_text(screen, (disL - 200, 460), str(sel_tower.damage), False, levelTowerFont, (0, 0, 100))
         # firerate
-        components.create_text(screen, (disL - 280, 510), '  Rate:', False, levelTowerFont, (0, 0, 0))
-        components.create_text(screen, (disL - 200, 510), str(sel_tower.rate), False, levelTowerFont, (0, 0, 100))
+        components.create_text(screen, (disL - 280, 495), '  Rate:', False, levelTowerFont, (0, 0, 0))
+        components.create_text(screen, (disL - 200, 495), str(sel_tower.rate), False, levelTowerFont, (0, 0, 100))
         # range
-        components.create_text(screen, (disL - 280, 550), 'Range:', False, levelTowerFont, (0, 0, 0))
-        components.create_text(screen, (disL - 200, 550), str(sel_tower.range), False, levelTowerFont, (0, 0, 100))
+        components.create_text(screen, (disL - 280, 530), 'Range:', False, levelTowerFont, (0, 0, 0))
+        components.create_text(screen, (disL - 200, 530), str(sel_tower.range), False, levelTowerFont, (0, 0, 100))
         # proj speed
-        components.create_text(screen, (disL - 280, 590), ' P.Spd:', False, levelTowerFont, (0, 0, 0))
-        components.create_text(screen, (disL - 200, 590), str(sel_tower.projSpd), False, levelTowerFont, (0, 0, 100))
+        components.create_text(screen, (disL - 280, 565), ' P.Spd:', False, levelTowerFont, (0, 0, 0))
+        components.create_text(screen, (disL - 200, 565), str(sel_tower.projSpd), False, levelTowerFont, (0, 0, 100))
+    if sel_tower.special != 'none':
+        components.create_text(screen, (disL - 280, 600), sel_tower.special + ":", False, levelTowerFont, (0, 0, 0))
+        components.create_text(screen, (disL - 200, 600), sel_tower.specialVal, False, levelTowerFont, (0, 0, 100))
 
+    # display upgrade cost
+    if sel_tower.curLevel < sel_tower.maxLevel and sel_tower.placed:
+        screen.blit(imgUpArrow, (disL - 72 - len(str(sel_tower.finalUpCost)) * 5, 410))
+        if money >= sel_tower.finalUpCost:
+            components.create_text(screen, (disL - 50, 425), str(sel_tower.finalUpCost), True, levelTowerFont, (0, 0, 0))
+        else:
+            components.create_text(screen, (disL - 50, 425), str(sel_tower.finalUpCost), True, levelTowerFont, (200, 25, 25))
+    # draw buttons
+    if sel_tower.placed:
+        cur_stat = 0
+        for i in [sel_tower.dmgLevel, sel_tower.rateLevel, sel_tower.rangeLevel, sel_tower.specialLevel]:
+            # if it is not max level, draw the button
+            if i[0] < i[1]:
+                # get input
+                screen.blit(imgPlus, (butUpgradeTower[cur_stat][0], butUpgradeTower[cur_stat][1]))
+                pygame.draw.rect(screen, (25, 25, 25), butUpgradeTower[cur_stat], 1)
+                # preview the stat increase
+                if butUpgradeTower[cur_stat].collidepoint(mousePos[0], mousePos[1]):
+                    components.create_text(screen, (disL - 120, butUpgradeTower[cur_stat][1] + 10),
+                                           "+" + str(sel_tower.upgrade_preview(cur_stat)), False, levelTowerFont, (25, 175, 25))
+                    # draw outline if u have enough money
+                    if money >= sel_tower.finalUpCost:
+                        pygame.draw.rect(screen, (25, 25, 25), butUpgradeTower[cur_stat], 3)
+                        if mousePressed[0] == 1:
+                            sel_tower.upgrade(cur_stat)
+                            money -= sel_tower.finalUpCost
+                    # not enough money; yell at player :D
+                    elif money < sel_tower.finalUpCost and mousePresed[0] == 1:
+                        soundError.play()
+                        msgTimer = 0.5
+                        msgText = "Can't afford upgrade!"
+
+            cur_stat += 1
 
 # This is a simple tower defence, written in Python
 # It may be moved into unity later
@@ -89,7 +124,6 @@ def display_stats(sel_tower):
 # easy: -25% hp on enemies, long path (85), -25% score
 # med: no speed modification, normal path (73), normal score
 # hard: +25% hp on enemies, short path (56), +25% score
-
 
 # ---- SETUP (only ran once) ----
 # setup pygame
@@ -149,6 +183,10 @@ colIntro = [150, 165, 200, 255]
 # list to hold rect objects and their colour
 levelBut = []
 levelButCol = []
+
+# misc images
+imgUpArrow = load_pics("images/UI/", "upgrade_arrow")
+imgPlus = load_pics("images/UI/", "plus_sign")
 
 # create list of level select levelBut and their colour
 mapInfo = []
@@ -237,6 +275,13 @@ butUpgrades = [pygame.Rect(disL - 60, 470 + i * 50, 30, 30) for i in range(5)]
 # menu NEXT WAVE button
 butNextWave = pygame.Rect(disL - 275, disH - 70, 250, 60)
 colNextWaveBut = [[175, 175, 175], [15, 215, 110]]  # colour for round in progress vs. not in progress
+
+# upgrade tower buttons (there are 4)
+# x = 280
+# 460, 495, 530, 565, 600
+butUpgradeTower = [pygame.Rect(disL - 60, 450 + i * 35, 20, 20) for i in range(5)]
+del(butUpgradeTower[3])  # delete proj_spd button
+
 
 # ---- OUTER LOOP ----
 while True:
@@ -359,7 +404,7 @@ while True:
     pygame.mixer.music.stop()
 
     # ---- IN-GAME SETUP and reset variables----
-    curWave = 12  # current wave, displayed value is 1 more than this
+    curWave = -1  # current wave, displayed value is 1 more than this
     money = 500  # starting monies
     energy = [0, 5]  # amount of power used vs maximum
     income = 100  # monies per round
@@ -862,7 +907,7 @@ while True:
                     display_stats(placedTowers[viewedTower])
 
                     # sell button
-                    pygame.draw.rect(screen, (200, 50, 50), butSell)
+                    pygame.draw.rect(screen, (225, 100, 100), butSell)
                     # text of sell button
                     components.create_text(screen, (butSell[0] + butSell[2] // 2, butSell[1] + butSell[3] // 2),
                                            'SELL FOR $' + str(int(placedTowers[viewedTower].sellPrice)),

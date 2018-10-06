@@ -23,6 +23,7 @@ class Turret(object):
         self.rotation = math.pi / 2
         self.type = self.stats['type'][0]
         self.curLevel = 1
+        self.maxLevel = int(self.stats['max_level'][0])
         self.dmgLevel = [1, len(self.stats['damage'])]
         self.rateLevel = [1, len(self.stats['rate'])]
         self.rangeLevel = [1, len(self.stats['range'])]  # also includes projectile speed
@@ -48,7 +49,6 @@ class Turret(object):
         self.reload = 0.01
 
         # initialize tower stats
-        self.maxLevel = int(self.stats['max_level'][0])
         self.damage = 0  # array of tower damage by level
         self.rate = 0
         self.range = 0  # range that it will target enemies
@@ -64,18 +64,33 @@ class Turret(object):
 
         # update all stats to match da level one
         self.update_stats(self.initialUpCost, self.upCostInc, self.curLevel,
-                          self.dmgLevel[0], self.rateLevel[0], self.rangeLevel[0])
+                          self.dmgLevel[0], self.rateLevel[0], self.rangeLevel[0], self.specialLevel[0])
         self.placed = False  # becomes true after the tower is placed down
         self.pos = [0, 0]
         tar = []  # targetting purposes
 
-    def update_stats(self, init_up, inc_up, cur_level, dmgl, ratel, rangel):
+    def upgrade_preview(self, stat_num):
+        # damage
+        if stat_num == 0:
+            return int(self.stats['damage'][self.dmgLevel[0]]) - self.damage
+        # rate
+        if stat_num == 1:
+            return (int(float(self.stats['rate'][self.rateLevel[0]]) * 100 - self.rate * 100)) / 100
+        # range
+        if stat_num == 2:
+            return (int(float(self.stats['range'][self.rangeLevel[0]]) * 100 - self.range * 100)) / 100
+        # special
+        if stat_num == 3:
+            return (int(float(self.stats['special_val'][self.specialLevel[0]]) * 100 - self.specialVal * 100)) / 100
+
+    def update_stats(self, init_up, inc_up, cur_level, dmgl, ratel, rangel, specl):
         # final upgrade cost = initial cost + (increase * (level - 1))
         self.finalUpCost = int(init_up + inc_up * (cur_level - 1))
         self.damage = int(self.stats['damage'][dmgl - 1] * (1 + self.dmgBoost))
         self.rate = float(self.stats['rate'][ratel - 1] * (1 + self.rateBoost))
         self.range = float(self.stats['range'][rangel - 1] * (1 + self.rangeBoost))
         self.projSpd = float(self.stats['proj_spd'][rangel - 1] * (1 + self.projBoost))
+        self.specialVal = float(self.stats['special_val'][specl - 1])
 
     def calc_boost(self, adj_tower_list):
         self.dmgBoost = 0
@@ -83,22 +98,22 @@ class Turret(object):
         self.rangeBoost = 0
         self.projBoost = 0
 
-    def upgrade(self, stat_name):
+    def upgrade(self, stat_num):
         # update selling price (1/2 of tower cost + all upgrades)
         self.sellPrice += self.finalUpCost / 2
         # increment level and stuffs asdf
         self.curLevel += 1
-        if stat_name == "damage":
-            self.dmgLevel += 1
-        elif stat_name == "rate":
-            self.rateLevel += 1
-        elif stat_name == "range":
-            self.rangeLevel += 1
-        elif stat_name == 'special':
-            self.specialLevel += 1
+        if stat_num == 0:
+            self.dmgLevel[0] += 1
+        elif stat_num == 1:
+            self.rateLevel[0] += 1
+        elif stat_num == 2:
+            self.rangeLevel[0] += 1
+        elif stat_num == 3:
+            self.specialLevel[0] += 1
 
         self.update_stats(self.initialUpCost, self.upCostInc, self.curLevel,
-                          self.dmgLevel[0], self.rateLevel[0], self.rangeLevel[0])
+                          self.dmgLevel[0], self.rateLevel[0], self.rangeLevel[0], self.specialLevel[0])
 
     # rotate the gun
     def rotate(self, angle):
