@@ -2,7 +2,7 @@
 
 name Wall
 type wall
-cost 30
+cost 25
 energy 0
 sprite_base wall_base
 damage 0
@@ -20,13 +20,14 @@ sprite_proj none
 hit_sound none
 end
 
+20 | 330
 name Basic Turret
 type turret
 cost 100
 energy 0
 sprite_base basic_base
 damage 5 7 10
-rate 1 1.6
+rate 1.2 2.0
 range 3.0 4.5
 proj_spd 15.0 18.0
 effective_range 1.1
@@ -40,13 +41,14 @@ sprite_proj basic_shot
 hit_sound basic_hit
 end
 
+80 | 1150
 name Machinegun
 type turret
 cost 250
 energy 1
 sprite_base machinegun_base
-damage 3 4 6
-rate 4 6 9 12
+damage 4 6 8
+rate 4 6 8 10
 range 4.0
 proj_spd 24.0
 effective_range 1.1
@@ -60,13 +62,14 @@ sprite_proj machinegun_shot
 hit_sound machinegun_hit
 end
 
+55 | 1350
 name Sniper Turret
 type turret
 cost 300
 energy 1
 sprite_base sniper_base
-damage 20 30 45 60
-rate 0.5 0.8
+damage  20 30 40 55
+rate 0.7 1.0
 range 6.5 9.0
 proj_spd 35.0 40.0
 effective_range 1.2
@@ -80,13 +83,14 @@ sprite_proj sniper_shot
 hit_sound sniper_hit
 end
 
+32.5 | 1350
 name Rocket Launcher
 type turret
 cost 300
 energy 1
 sprite_base rocket_base
-damage 12 18 24
-rate 0.8 1.2
+damage 12 18 25
+rate 0.8 1.3
 range 4.0 5.5
 proj_spd 15.0 18.0
 effective_range 1.2
@@ -100,12 +104,13 @@ sprite_proj rocket_shot
 hit_sound rocket_hit
 end
 
+5 | 900
 name Freezer
 type turret
 cost 200
 energy 2
 sprite_base freezer_base
-damage 1 3
+damage 2 5
 rate 2.0
 range 1.3 1.8 2.4
 proj_spd 10.0
@@ -120,12 +125,13 @@ sprite_proj freezer_shot
 hit_sound freezer_hit
 end
 
+90 | 3260
 name Laser
 type turret
 cost 600
 energy 2
 sprite_base laser_base
-damage 10 16 22 30
+damage 14 21 28 36
 rate 1.0 1.7 2.5
 range 5.0 7.0
 proj_spd 100 100
@@ -145,14 +151,14 @@ type turret
 cost 1
 energy 0
 sprite_base machinegun_base
-damage 10 20 30
-rate 3 6 10
-range 4 6 8
-proj_spd 30.0 30.0 30.0
+damage 1
+rate 60
+range 5
+proj_spd 30.0
 effective_range 1.5
 up_cost 1
 up_cost_inc 0
-max_level 7
+max_level 2
 special none
 special_val 0
 sprite_turret machinegun_turret

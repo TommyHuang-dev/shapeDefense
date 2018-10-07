@@ -58,7 +58,7 @@ def display_stats(sel_tower):
             temp_str += str(sel_tower.curLevel)
             temp_str += str(" / " + str(sel_tower.maxLevel))
         # level :D
-        components.create_text(screen, (disL - 260, 420), temp_str,
+        components.create_text(screen, (disL - 265, 425), temp_str,
                                False, levelTowerFont, (0, 0, 0))
 
     # name
@@ -84,7 +84,7 @@ def display_stats(sel_tower):
 
     # display upgrade cost
     if sel_tower.curLevel < sel_tower.maxLevel and sel_tower.placed:
-        screen.blit(imgUpArrow, (disL - 72 - len(str(sel_tower.finalUpCost)) * 5, 410))
+        screen.blit(imgUpArrow, (disL - 75 - len(str(sel_tower.finalUpCost)) * 5, 410))
         if money >= sel_tower.finalUpCost:
             components.create_text(screen, (disL - 50, 425), str(sel_tower.finalUpCost), True, levelTowerFont, (0, 0, 0))
         else:

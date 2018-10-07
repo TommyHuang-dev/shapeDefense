@@ -114,7 +114,7 @@ speedy
 
 wave 20
 normal boss
-5 5 1
+4 5 1
 brute boss
 2 2 1
 speedy boss
@@ -186,15 +186,15 @@ speedy
 
 wave 29
 brute
-80 0 0.3
+60 0 0.3
 speedy
-60 2 0.4
+50 2 0.4
 
 wave 30
 turtle boss
-2 0 1
+3 0 1
 brute boss
-2 4 1
+3 4 1
 normal boss
 5 12 1
 speedy boss

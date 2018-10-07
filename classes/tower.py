@@ -148,7 +148,9 @@ class Turret(object):
 
     # creates a projectile class based on tower params
     def fire_projectile(self):
-        self.reload += 1 / self.rate
+        self.reload += (1 / self.rate) - 0.016
+        if self.reload <= 0:
+            self.canFire = True
         self.canFire = False
         xy_vel = [self.projSpd * math.cos(self.rotation) * 50, self.projSpd * -math.sin(self.rotation) * 50]
         temp_spr = components.rot_center(self.spriteProj, math.degrees(self.rotation))
