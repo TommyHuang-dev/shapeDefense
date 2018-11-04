@@ -65,7 +65,7 @@ def display_stats(sel_tower):
     components.create_text(screen, (disL - 150, 380), sel_tower.name, True,
                            levelTowerTitleFont, (0, 50, 175))
     # display stats
-    if sel_tower.damage > 0:
+    if sel_tower.type == 'turret':
         # damage
         components.create_text(screen, (disL - 280, 460), '  Dmg:', False, levelTowerFont, (0, 0, 0))
         components.create_text(screen, (disL - 200, 460), str(sel_tower.damage), False, levelTowerFont, (0, 0, 100))
@@ -763,7 +763,7 @@ while True:
                         del(enemyList[enemyList.index(enemyHit[j])])
 
                 # add explosion pic
-                if projList[i].special[0] == 'splash' or 'AOEslow':
+                if projList[i].special[0] == 'splash' or projList[i].special[0] == 'AOEslow':
                     projExplosionList.append(explosion.Explosion(projList[i].posXYPx,
                                                                  explosionImgList[projList[i].exp], float(projList[i].special[1]) * 100))
                 else:
@@ -878,8 +878,13 @@ while True:
                         if mousePressed[0] == 1:
                             soundError.play()
                             selectedTower = 'none'
-                            msgText = "Can't afford this tower!"
-                            msgTimer = 0.5
+                            if towerList[i + mul6].cost > money:
+                                msgText = "Can't afford this tower!"
+                                msgTimer = 0.5
+                            elif towerList[i + mul6].energy + energy[0] > energy[1]:
+                                msgText = "Insufficient energy!"
+                                msgTimer = 0.5
+
                 # Let the user know you can't buy towers during a wave
                 elif butListTowers[i].collidepoint(mousePos[0], mousePos[1]) \
                         and mousePressed[0] == 1 and currentlyInWave:

@@ -44,6 +44,8 @@ class Turret(object):
         self.sellPrice = self.cost / 2  # float, convert to int when actually selling
         self.special = self.stats['special'][0]
         self.specialVal = self.stats['special_val'][0]
+        if 'special_val2' in self.stats:
+            self.specialVal2 = self.stats['special_val2'][0]
         # range * effRange = how far the projectile actually goes
         self.effRange = float(self.stats['effective_range'][0])
         self.reload = 0.01
@@ -91,6 +93,8 @@ class Turret(object):
         self.range = float(self.stats['range'][rangel - 1] * (1 + self.rangeBoost))
         self.projSpd = float(self.stats['proj_spd'][rangel - 1] * (1 + self.projBoost))
         self.specialVal = float(self.stats['special_val'][specl - 1])
+        if 'special_val2' in self.stats:  # 2nd special value upgrade
+            self.specialVal2 = float(self.stats['special_val2'][specl - 1])
 
     def calc_boost(self, adj_tower_list):
         self.dmgBoost = 0
@@ -155,7 +159,7 @@ class Turret(object):
 
         # pass special values to shot
         if self.special == "AOEslow":
-            tempSpecial = [self.special, self.range, self.specialVal]
+            tempSpecial = [self.special, self.range, self.specialVal, self.specialVal2]
         else:
             tempSpecial = [self.special, self.specialVal]
 

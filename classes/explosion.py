@@ -11,7 +11,7 @@ class Explosion(object):
             for i in range(len(self.picList)):
                 self.picList[i] = pygame.transform.scale(self.picList[i], (self.scale, self.scale))
         self.posXYPx = xy
-        self.timer = 0.12
+        self.timer = 0.1
         self.curpic = 0
         self.stopped = False
         self.size = self.picList[0].get_size()

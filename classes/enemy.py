@@ -4,7 +4,7 @@ import pygame
 class Enemy(object):
     def __init__(self, attributes, spawnpoint, spawn_num, level):
         # stats
-        self.stats = attributes
+        self.stats = attributes  # dict. of all stats
         self.mask = pygame.mask.from_surface(self.stats['sprite'], 24)
         self.status = []  # list of status effects like slow
 
@@ -75,9 +75,11 @@ class Enemy(object):
                     del self.status[i]
                     i -= 1
                 i += 1
-
+        # bosses are less affected by slow
+        if self.stats['type'] == 'BOSS':
+            biggest_slow /= 2
         slow_regen_multi = 1 - biggest_slow
-        temp_speed *= (1 - biggest_slow)
+        temp_speed *= (1 - biggest_slow)  # apply slow
 
         # regeneration
         if self.curHP < self.maxHP:
@@ -99,7 +101,7 @@ class Enemy(object):
         if damage > self.armour:
             self.curHP -= damage - self.armour
         if specials[0] == 'AOEslow':
-            self.status.append(['slow', specials[2], 1.0])  # name, magnitude, duration
+            self.status.append(['slow', specials[2], specials[3]])  # name, magnitude, duration
 
     # draw da hp bar and armour symbol
     def draw_bar(self, display, a_pic):
