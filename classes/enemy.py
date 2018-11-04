@@ -62,9 +62,26 @@ class Enemy(object):
         else:
             self.distance = len(path) - path.index(self.tileLoc)
 
+        # slows and other status effects
+        temp_speed = self.speed
+        biggest_slow = 0
+        i = 0
+        while i < len(self.status):
+            if 'slow' in self.status[i]:  # slowed
+                if self.status[i][1] > biggest_slow:
+                    biggest_slow = self.status[i][1]
+                self.status[i][2] -= time  # reduce slow timer, delete status effect after it runs out
+                if self.status[i][2] <= 0:
+                    del self.status[i]
+                    i -= 1
+                i += 1
+
+        slow_regen_multi = 1 - biggest_slow
+        temp_speed *= (1 - biggest_slow)
+
         # regeneration
         if self.curHP < self.maxHP:
-            self.curHP += self.regeneration * time
+            self.curHP += self.regeneration * time * slow_regen_multi
         else:
             self.curHP = self.maxHP
 
@@ -74,20 +91,8 @@ class Enemy(object):
             # difference between current tile and target tile
             self.movement_dir = [self.tileLoc[0] - path[cur_tile + 1][0], self.tileLoc[1] - path[cur_tile + 1][1]]
 
-        # slows and other status effects
-        tempSpeed = self.speed
-        biggestSlow = 0
-        for i in self.status:
-            if 'slow' in i:
-                if i[1] > biggestSlow:
-                    biggestSlow = i[1]
-                i[2] -= time
-                if i[2] <= 0:
-                    del i
-        tempSpeed *= (1 - biggestSlow)
-
-        self.posPx[0] -= self.movement_dir[0] * time * tempSpeed * 50
-        self.posPx[1] -= self.movement_dir[1] * time * tempSpeed * 50
+        self.posPx[0] -= self.movement_dir[0] * time * temp_speed * 50
+        self.posPx[1] -= self.movement_dir[1] * time * temp_speed * 50
 
     # inflicts damage after armour and stuffs. Special is used for specialy applied effects from the hit.
     def inflict_damage(self, damage, specials):
