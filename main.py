@@ -204,6 +204,7 @@ for i in range(len(mapList)):
         levelBut.append(pygame.Rect(570, 360 + (i // 2) * 100, 80, 80))
 
 # create list of menu levelBut (e.g. play, settings, etc.)
+
 menuButText = ["PLAY", "info", "credits"]
 menuButCol = [[100, 240, 100], [240, 230, 120], [240, 230, 120]]
 menuBut = [pygame.Rect(90, 310 + i * 115, 250, 100) for i in range(len(menuButText))]
@@ -229,7 +230,7 @@ creditText = creditParse.parse("data/credits")
 
 # ---- LOAD CLASSES ----
 # list of purchasable towers (turrets, boosters)
-towerNames = ['Wall', 'Basic Turret', 'Machinegun', 'Sniper Turret', 'Rocket Launcher', 'Power Station']
+towerNames = ['Wall', 'Basic Turret', 'Machinegun', 'Sniper Turret', 'Rocket Launcher', 'Freezer', 'Power Station']
 # list of towers and boosters available for purchase, taken from towerNames and boosterNames
 towerList = []
 # UI button initialization
@@ -762,7 +763,7 @@ while True:
                         del(enemyList[enemyList.index(enemyHit[j])])
 
                 # add explosion pic
-                if projList[i].special[0] == 'splash':
+                if projList[i].special[0] == 'splash' or 'AOEslow':
                     projExplosionList.append(explosion.Explosion(projList[i].posXYPx,
                                                                  explosionImgList[projList[i].exp], float(projList[i].special[1]) * 100))
                 else:

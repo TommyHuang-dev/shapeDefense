@@ -28,16 +28,15 @@ class Projectile(object):
             self.posXYPx[1] += self.vel[1] * time
             self.rectPos = [self.posXYPx[0] - self.size[0] / 2, self.posXYPx[1] - self.size[1] / 2]
             self.distance[0] += math.sqrt(self.vel[0] ** 2 + self.vel[1] ** 2) * time
-
             # check collision or out of bounds
             for j in range(len(enemies)):
                 diff = [int(self.rectPos[0] - enemies[j].posPx[0]), int(self.rectPos[1] - enemies[j].posPx[1])]
-                if self.mask.overlap(enemies[j].mask, diff) is not None:
+                if self.mask.overlap(enemies[j].mask, diff) is not None or self.special[0] == 'AOEslow':
                     # draw sprite one last time before removal
                     display.blit(self.sprite,
                                  (int(self.posXYPx[0] - self.size[0] / 2), int(self.posXYPx[1] - self.size[1] / 2)))
                     # explosion
-                    if self.special[0] == 'splash':
+                    if self.special[0] == 'splash' or self.special[0] == 'AOEslow':
                         for k in range(len(enemies)):
                             aoe = float(self.special[1]) * 50
                             dist = math.sqrt((self.posXYPx[0] - enemies[k].posPx[0]) ** 2 +

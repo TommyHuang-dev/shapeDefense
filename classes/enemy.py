@@ -74,13 +74,27 @@ class Enemy(object):
             # difference between current tile and target tile
             self.movement_dir = [self.tileLoc[0] - path[cur_tile + 1][0], self.tileLoc[1] - path[cur_tile + 1][1]]
 
-        self.posPx[0] -= self.movement_dir[0] * time * self.speed * 50
-        self.posPx[1] -= self.movement_dir[1] * time * self.speed * 50
+        # slows and other status effects
+        tempSpeed = self.speed
+        biggestSlow = 0
+        for i in self.status:
+            if 'slow' in i:
+                if i[1] > biggestSlow:
+                    biggestSlow = i[1]
+                i[2] -= time
+                if i[2] <= 0:
+                    del i
+        tempSpeed *= (1 - biggestSlow)
+
+        self.posPx[0] -= self.movement_dir[0] * time * tempSpeed * 50
+        self.posPx[1] -= self.movement_dir[1] * time * tempSpeed * 50
 
     # inflicts damage after armour and stuffs. Special is used for specialy applied effects from the hit.
     def inflict_damage(self, damage, specials):
         if damage > self.armour:
             self.curHP -= damage - self.armour
+        if specials[0] == 'AOEslow':
+            self.status.append(['slow', specials[2], 1.0])  # name, magnitude, duration
 
     # draw da hp bar and armour symbol
     def draw_bar(self, display, a_pic):

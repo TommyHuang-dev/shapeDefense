@@ -8,13 +8,13 @@ brute
 
 wave 3
 brute
-10 0 1.5
+10 0 2.0
 recruit
-10 0.5 1.5
+10 1.0 2.0
 
 wave 4
 speedy
-15 0 0.8
+15 0 1.0
 
 wave 5
 normal boss
@@ -24,9 +24,9 @@ wave 6
 recruit
 20 0 0.8
 speedy
-6 4 0.4
+6 4 0.5
 speedy
-6 12 0.4
+6 12 0.5
 
 wave 7
 brute
@@ -34,23 +34,25 @@ brute
 brute
 6 5 0.5
 brute
-7 10 0.5
+7 11 0.5
 
 wave 8
 turtle
-15 0 1
+8 0 2
+turtle
+8 0.25 2
 
 wave 9
 brute
 4 0 0.5
 recruit
-6 1 0.5
+4 1 0.5
 speedy
 4 2 0.5
 
 wave 10
 brute
-10 0 1
+5 0 0.75
 brute boss
 1 1 1
 
@@ -74,13 +76,11 @@ brute
 
 wave 14
 speedy
-20 1 1
+15 1 1
 brute boss
-2 2 0.5
+2 2 2
 
 wave 15
-recruit
-20 0 1
 speedy boss
 3 2 2
 
@@ -94,99 +94,97 @@ brute
 
 wave 17
 brute
-10 0.5 0.5
+8 1 0.5
 recruit
-60 0 0.25
+50 0 0.3
 brute
-10 8 0.5
+8 9 0.5
 
 wave 18
 turtle
-35 0 0.35
+30 0 0.5
 turtle boss
-1 8 1
+1 10 1
 
 wave 19
 recruit
-30 1 0.2
+30 1 0.25
 speedy
-30 3 0.2
+30 3 0.25
 
 wave 20
-normal boss
-4 5 1
 brute boss
-2 2 1
+2 1 1.5
+normal boss
+3 4 1.5
 speedy boss
-2 8 1
+2 7 1.5
 
 wave 21
+speedy
+12 1 1
+speedy
+12 1.5 1
 recruit
-20 0 0.75
-brute
-20 0 0.3
-speedy
-10 1 0.2
-speedy
-10 6 0.2
-speedy
-10 11 0.2
+40 0 0.6
 
 wave 22
 turtle
-7 0 0.2
+6 0 0.25
 recruit
-100 1 0.2
+80 1 0.25
 turtle
-7 18 0.2
+6 18 0.25
 
 wave 23
 turtle
-10 0 0.25
+10 0 0.3
 speedy
-10 1.5 0.25
+10 1.5 0.3
 turtle
-12 5 0.25
+12 6 0.3
 speedy
-12 6.5 0.25
+12 7.5 0.3
 turtle
-14 9 0.25
+14 12 0.3
 speedy
-14 12 0.25
+14 13.5 0.3
 
 wave 24
 normal boss
-4 1 0.5
+4 1 0.75
 normal boss
-6 6 0.5
+6 6 0.75
 
 wave 25
 turtle boss
-4 1 1.5
+4 1 2.0
 
 wave 26
 brute
-40 0 0.4
+40 0 0.6
 speedy boss
-2 3 1
-speedy boss
-3 7 1
+4 4 1.5
 
 wave 27
 recruit
-100 0 0.1
+30 0.5 0.4
+recruit
+30 0.55 0.4
+recruit
+30 0.6 0.4
 
 wave 28
 brute
-25 0 0.75
+25 0 1.0
 turtle
-25 2 0.75
+25 2 1.0
 speedy
-25 4 0.75
+25 4 1.0
 
 wave 29
 brute
-60 0 0.3
+50 0 0.4
 speedy
 50 2 0.4
 
@@ -200,4 +198,10 @@ normal boss
 speedy boss
 5 20 1
 
-
+wave 31
+recruit
+10000 0 0.1
+brute
+10000 5 0.1
+turtle boss
+100 15 1

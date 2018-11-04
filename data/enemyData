@@ -2,7 +2,7 @@
 name recruit
 type NORMAL
 movement_type GROUND
-health 10
+health 12
 regeneration 0.0
 armour 0
 speed 2.5
@@ -15,8 +15,8 @@ sprite recruit
 name brute
 type NORMAL
 movement_type GROUND
-health 24
-regeneration 1.0
+health 25
+regeneration 3.0
 armour 0
 speed 1.5
 radius 12
@@ -28,7 +28,7 @@ sprite brute
 name speedy
 type NORMAL
 movement_type GROUND
-health 8
+health 10
 regeneration 0
 armour 0
 speed 4.25
@@ -41,8 +41,8 @@ sprite speedy
 name turtle
 type NORMAL
 movement_type GROUND
-health 15
-regeneration 0.75
+health 18
+regeneration 1.0
 armour 2
 speed 1.8
 radius 13
@@ -54,8 +54,8 @@ sprite turtle
 name normal boss
 type BOSS
 movement_type GROUND
-health 75
-regeneration 2.0
+health 100
+regeneration 4.0
 armour 0
 speed 1.75
 radius 18
@@ -67,8 +67,8 @@ sprite common_boss
 name brute boss
 type BOSS
 movement_type GROUND
-health 125
-regeneration 5.0
+health 175
+regeneration 10.0
 armour 0
 speed 1.0
 radius 18
@@ -80,7 +80,7 @@ sprite brute_boss
 name speedy boss
 type BOSS
 movement_type GROUND
-health 60
+health 90
 regeneration 0.0
 armour 0
 speed 3.0
@@ -93,8 +93,8 @@ sprite speedy_boss
 name turtle boss
 type BOSS
 movement_type GROUND
-health 75
-regeneration 2.0
+health 120
+regeneration 4.0
 armour 4
 speed 0.9
 radius 20

@@ -149,13 +149,21 @@ class Turret(object):
     # creates a projectile class based on tower params
     def fire_projectile(self):
         self.reload += (1 / self.rate) - 0.016
+        tempSpecial = []  # now u can add extra special stuff
         if self.reload <= 0:
             self.canFire = True
+
+        # pass special values to shot
+        if self.special == "AOEslow":
+            tempSpecial = [self.special, self.range, self.specialVal]
+        else:
+            tempSpecial = [self.special, self.specialVal]
+
         self.canFire = False
         xy_vel = [self.projSpd * math.cos(self.rotation) * 50, self.projSpd * -math.sin(self.rotation) * 50]
         temp_spr = components.rot_center(self.spriteProj, math.degrees(self.rotation))
         return projectile.Projectile([self.pos[0] * 50 - 25, self.pos[1] * 50 - 25], xy_vel,
-                                     self.damage, self.range * self.effRange * 50, [self.special, self.specialVal],
+                                     self.damage, self.range * self.effRange * 50, tempSpecial,
                                      temp_spr, str(self.stats['sprite_proj'][0]), self.hitSound)
 
     # draws a full turret, centered on a xy coordinate. The first picture is assumed to be the base.
