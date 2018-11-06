@@ -47,12 +47,10 @@ class Enemy(object):
         self.tileLoc = [pos[0] // 50 + 1, pos[1] // 50 + 1]
         # change direction delay if the new tile is different
         if prevLoc != self.tileLoc:
-            self.direction_delay = 0.5 - self.speed / 120
+            self.direction_delay = 0.5
 
     # move tiles based on the pre-designated path
     def move(self, path, time):
-        # delay to center the enemy and not immeadiately move
-        self.direction_delay -= time * self.speed
         self.calc_tile_loc(self.posPx)
         if self.reachedEnd:
             self.endTimer -= time
@@ -75,11 +73,14 @@ class Enemy(object):
                     del self.status[i]
                     i -= 1
                 i += 1
-        # bosses are less affected by slow
+        slow_regen_multi = 1 - biggest_slow
+        # bosses are less affected by slow, but fully affected by the HP regen reduction
         if self.stats['type'] == 'BOSS':
             biggest_slow /= 2
-        slow_regen_multi = 1 - biggest_slow
         temp_speed *= (1 - biggest_slow)  # apply slow
+
+        # delay to center the enemy and not immediately change direction
+        self.direction_delay -= time * temp_speed
 
         # regeneration
         if self.curHP < self.maxHP:

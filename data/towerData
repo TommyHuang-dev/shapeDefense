@@ -112,8 +112,8 @@ energy 2
 sprite_base rocket_base
 damage 0 2
 rate 2.5
-range 1.4 1.8
-proj_spd 2.0 2.0
+range 1.4 1.7 2.2
+proj_spd 2.0 2.0 2.0
 effective_range -0.1
 up_cost 90
 up_cost_inc 30
