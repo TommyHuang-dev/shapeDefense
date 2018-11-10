@@ -23,7 +23,7 @@ class Enemy(object):
         if level > 50:
             level = 50
         self.speed = float(self.stats['speed']) * (1 + level * 0.01)
-        self.armour = int(int(self.stats['armour']) * (1 + level * 0.04))
+        self.armour = int(int(self.stats['armour']) * (1 + level * 0.02))
         self.regeneration = float(self.stats['regeneration']) * (1 + level * 0.05)
         self.bounty = int(int(self.stats['bounty']) * (1 + level * 0.02))
 
@@ -76,7 +76,7 @@ class Enemy(object):
         slow_regen_multi = 1 - biggest_slow
         # bosses are less affected by slow, but fully affected by the HP regen reduction
         if self.stats['type'] == 'BOSS':
-            biggest_slow /= 2
+            biggest_slow = biggest_slow * 0.75
         temp_speed *= (1 - biggest_slow)  # apply slow
 
         # delay to center the enemy and not immediately change direction

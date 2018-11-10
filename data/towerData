@@ -109,18 +109,18 @@ name Freezer
 type turret
 cost 200
 energy 2
-sprite_base rocket_base
-damage 0 2
-rate 2.5
-range 1.4 1.7 2.2
+sprite_base freezer_base
+damage 0 4
+rate 1.0
+range 1.4 1.8 2.2
 proj_spd 2.0 2.0 2.0
 effective_range -0.1
 up_cost 90
 up_cost_inc 30
 max_level 6
 special AOEslow
-special_val 0.35 0.45 0.55
-special_val2 0.35 0.45 0.55
+special_val 0.5 0.65 0.8
+special_val2 0.6 0.6 0.6
 sprite_turret none
 sprite_proj ice_shot
 hit_sound none
