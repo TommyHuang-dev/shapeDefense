@@ -23,7 +23,7 @@ def load_pics(folder, name):
 
 
 def display_stats(sel_tower):
-    global msgTimer, msgText, money, mousePressed
+    global msgTimer, msgText, money, mousePressed, income
     if not sel_tower.placed:
         # not enough money
         if sel_tower.cost > money:
@@ -108,12 +108,17 @@ def display_stats(sel_tower):
 
                     # upgrade tower on press if you have enough money
                     if mousePressed[0] == 1:
-                        if money >= sel_tower.finalUpCost:
+                        if money >= sel_tower.finalUpCost: # enough money
+                            if sel_tower.special == 'income':  # update income
+                                income -= sel_tower.specialVal
                             money -= sel_tower.finalUpCost
                             sel_tower.upgrade(cur_stat)
                             soundUpgrade.play()
+                            # update income on upgrade
+                            if sel_tower.special == 'income':
+                                income += sel_tower.specialVal
                         # not enough money; yell at player :D
-                        elif money < sel_tower.finalUpCost:
+                        elif money < sel_tower.finalUpCost: # not enough money
                             soundError.play()
                             msgTimer = 0.5
                             msgText = "Can't afford upgrade!"
@@ -124,10 +129,7 @@ def display_stats(sel_tower):
 # It may be moved into unity later
 # Made by Tommy H
 # Project started 2018-08-12
-# music: main menu wii music!! ingame atlas plug
-# easy: -25% hp on enemies, long path (85), -25% score
-# med: no speed modification, normal path (73), normal score
-# hard: +25% hp on enemies, short path (56), +25% score
+
 
 # ---- SETUP (only ran once) ----
 # setup pygame
@@ -154,6 +156,7 @@ msHeaderFont = pygame.font.SysFont('Trebuchet MS', 40, True)
 msHeaderFont.set_underline(True)
 
 levelInfoFont = pygame.font.SysFont('Trebuchet MS', 28, False)
+levelSmallInfoFont = pygame.font.SysFont('Trebuchet MS', 20, False)
 levelTowerTitleFont = pygame.font.SysFont('Trebuchet MS', 28, True)
 levelTowerTitleFont.set_underline(True)
 levelTowerFont = pygame.font.SysFont('Trebuchet MS', 22, False)
@@ -230,7 +233,8 @@ creditText = creditParse.parse("data/credits")
 
 # ---- LOAD CLASSES ----
 # list of purchasable towers (turrets, boosters)
-towerNames = ['Wall', 'Basic Turret', 'Machinegun', 'Sniper Turret', 'Rocket Launcher', 'Freezer', 'Power Station']
+towerNames = ['Wall', 'Basic Turret', 'Machinegun', 'Sniper Turret', 'Rocket Launcher', 'Freezer', 'Power Station',
+              'Bank']
 # list of towers and boosters available for purchase, taken from towerNames and boosterNames
 towerList = []
 # UI button initialization
@@ -410,9 +414,9 @@ while True:
     pygame.mixer.music.stop()
 
     # ---- IN-GAME SETUP and reset variables----
-    curWave = -1  # current wave, displayed value is 1 more than this
+    curWave = -1    # current wave, displayed value is 1 more than this
     money = 500  # starting monies
-    energy = [0, 5]  # amount of power used vs maximum
+    energy = [0, 10]  # amount of power used vs maximum
     income = 100  # monies per round
     life = 30  # lose 1 life per enemy; 10 per boss
     currentlyInWave = False  # True when enemies are spawning
@@ -707,6 +711,8 @@ while True:
                             energy[1] -= selectedTower.energy
                         else:
                             energy[0] += selectedTower.energy
+                        if placedTowers[-1].special == 'income':  # update income on buy
+                            income += int(placedTowers[-1].specialVal)
                         placedTowers[-1].pos = selectedTower.pos
                         placedTowers[-1].placed = True  # set it to be placed!!
                         # lower monies
@@ -942,6 +948,8 @@ while True:
                                 # update monies
                                 money += int(placedTowers[viewedTower].sellPrice)
                                 soundSell.play()
+                                if placedTowers[viewedTower].special == 'income':  # update income on sell
+                                    income -= placedTowers[viewedTower].specialVal
                                 del placedTowers[viewedTower]
                                 del placedTowersLoc[viewedTower]
                                 updatePath = True  # reset path
@@ -961,7 +969,8 @@ while True:
         components.create_text(screen, (disL - 145, 50), "wave  " + str(curWave + 1), False, levelInfoFont, (0, 0, 0))
         # money
         screen.blit(moneyPic, (disL - 275, 80))
-        components.create_text(screen, (disL - 215, 110), str(int(money)), False, levelInfoFont, (0, 0, 0))
+        components.create_text(screen, (disL - 215, 105), str(int(money)), False, levelInfoFont, (0, 0, 0))
+        components.create_text(screen, (disL - 210, 130), "+" + str(int(income)), False, levelSmallInfoFont, (0, 0, 0))
         # energy
         screen.blit(energyPic, (disL - 150, 80))
         components.create_text(screen, (disL - 100, 110), str(energy[0]) + "/" + str(energy[1]),
