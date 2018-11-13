@@ -245,7 +245,7 @@ up_cost 225
 up_cost_inc 0
 max_level 2
 special range
-special_val 0.2 0.3
+special_val 0.25 0.35
 sprite_turret none
 sprite_proj none
 hit_sound none
