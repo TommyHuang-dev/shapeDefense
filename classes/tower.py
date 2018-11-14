@@ -152,7 +152,7 @@ class Turret(object):
 
     # creates a projectile class based on tower params
     def fire_projectile(self):
-        self.reload += (1 / self.rate) - 0.016
+        self.reload += (1 / self.rate) - 0.0166
         tempSpecial = []  # now u can add extra special stuff
         if self.reload <= 0:
             self.canFire = True

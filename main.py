@@ -129,6 +129,10 @@ def display_stats(sel_tower):
 # It may be moved into unity later
 # Made by Tommy H
 # Project started 2018-08-12
+# TODO: add difficulties
+# Easy: -15% cost for stuff, -15% enemy HP, -25% score
+# Normal: default values
+# Hard: +15% cost for stuff, +15% enemy HP, +25% score
 
 
 # ---- SETUP (only ran once) ----

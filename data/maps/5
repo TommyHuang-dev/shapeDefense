@@ -3,7 +3,7 @@ Intersection
 50 50 50
 spawns
 7 0 14 16
-14 0 7 16
+7 16 14 0
 obstacles
 1 1 5 16
 16 1 5 16

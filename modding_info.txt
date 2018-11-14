@@ -43,6 +43,8 @@ up_cost_inc    // increase in upgrade cost for every additional upgrade
 max_level           // level starts at 1 and increases by 1 every upgrade, a low max level can prevent all upgrades from being purchased
 sprite_turret   // rotating turret on top of the base sprite
 sprite_proj     // the sprite of the projectile it shoots
+special_val     // special effect ('none' if no special effect)
+special_val2    // optional, usually used for durations of debuffs (e.g. freezer has 0.6 for this)
 hit_sound       // sound the projectile plays when hitting an enemy
 targeting       // 0 = doesn't attack, 1 = ground only, 2 = air only, 3 = air and ground
 
@@ -53,6 +55,7 @@ boost_value INT // % of the stat to boost, stacks additively with other boosters
 the last line should always be:
 end
 
+Traps can be placed during a level and on the path.
 
 ENEMIES:
 

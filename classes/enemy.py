@@ -26,6 +26,8 @@ class Enemy(object):
         self.armour = int(int(self.stats['armour']) * (1 + level * 0.02))
         self.regeneration = float(self.stats['regeneration']) * (1 + level * 0.05)
         self.bounty = int(int(self.stats['bounty']) * (1 + level * 0.02))
+        if 'special' in self.stats:
+            self.special = self.stats['special']
 
         # pathing
         self.path_number = spawn_num

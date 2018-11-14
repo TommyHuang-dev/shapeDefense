@@ -90,7 +90,7 @@ cost 300
 energy 1
 sprite_base rocket_base
 damage 12 18 25
-rate 0.8 1.3
+rate 0.8 1.2
 range 4.0 5.5
 proj_spd 15.0 18.0
 effective_range 1.2
@@ -113,7 +113,7 @@ sprite_base freezer_base
 damage 0 4
 rate 1.0
 range 1.4 1.8 2.2
-proj_spd 2.0 2.0 2.0
+proj_spd 1.0 1.0 1.0
 effective_range -0.1
 up_cost 90
 up_cost_inc 30
@@ -125,6 +125,28 @@ sprite_turret none
 sprite_proj ice_shot
 hit_sound ice_hit
 desc slows enemies nearby and prevents regeneration
+end
+
+10 + 32 | 1175
+name Flamethrower
+type turret
+cost 425
+energy 1
+sprite_base rocket_base
+damage 1 2
+rate 5.0
+range 2.2
+proj_spd 40
+effective_range 0.9
+up_cost 100
+up_cost_inc 25
+max_level 6
+special flames
+special_val 2 4 6 8
+special_val2 3.0 3.0 3.0
+sprite_turret none
+sprite_proj none
+hit_sound none
 end
 
 90 | 3260
@@ -148,13 +170,56 @@ sprite_proj rocket_shot
 hit_sound rocket_hit
 end
 
+7.5 | 275
+name Spike Trap
+type trap
+cost 100
+energy 0
+sprite_base rocket_base
+damage 12 20 30
+rate 0.25
+range 0.4
+proj_spd 0
+effective_range 1.0
+up_cost 75
+up_cost_inc 25
+max_level 3
+special stun
+special_val 0.2
+sprite_turret none
+sprite_proj none
+hit_sound none
+end
+
+20.0 + 15 | 750
+name Fire Trap
+type trap
+cost 325
+energy 1
+sprite_base rocket_base
+damage 1 2
+rate 10.0
+range 0.55
+proj_spd 0
+effective_range 1.0
+up_cost 175
+up_cost_inc 75
+max_level 3
+special fire
+special_val 3 5
+special_val2 3.0 3.0
+sprite_turret none
+sprite_proj none
+hit_sound none
+end
+
 name Debugger
 type turret
 cost 1
 energy 0
 sprite_base machinegun_base
 damage 1
-rate 60
+rate 20
 range 5
 proj_spd 30.0
 effective_range 1.5
