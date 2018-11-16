@@ -237,8 +237,8 @@ creditText = creditParse.parse("data/credits")
 
 # ---- LOAD CLASSES ----
 # list of purchasable towers (turrets, boosters)
-towerNames = ['Wall', 'Basic Turret', 'Machinegun', 'Sniper Turret', 'Rocket Launcher', 'Freezer', 'Power Station',
-              'Bank']
+towerNames = ['Wall', 'Basic Turret', 'Machinegun', 'Sniper Turret', 'Rocket Launcher', 'Freezer', 'Laser Turret',
+              'Power Station', 'Bank']
 # list of towers and boosters available for purchase, taken from towerNames and boosterNames
 towerList = []
 # UI button initialization
@@ -776,11 +776,16 @@ while True:
                 if projList[i].special[0] == 'splash' or projList[i].special[0] == 'AOEslow':
                     projExplosionList.append(explosion.Explosion(projList[i].posXYPx,
                                                                  explosionImgList[projList[i].exp], float(projList[i].special[1]) * 100))
-                else:
+                elif projList[i].special[0] != 'piercing':
                     projExplosionList.append(explosion.Explosion(projList[i].posXYPx,
                                                                  explosionImgList[projList[i].exp], -1))
-                del (projList[i])
-                i -= 1
+                # if it has piercing, keep going
+                if projList[i].special[0] == 'piercing' and len(projList[i].hitlist) - 1 < projList[i].special[1]:
+                    pass
+
+                else:
+                    del (projList[i])
+                    i -= 1
 
             elif projList[i].distance[0] > projList[i].distance[1]:  # projectile expires
                 del(projList[i])

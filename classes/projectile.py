@@ -10,11 +10,13 @@ class Projectile(object):
         self.distance = [0, range]  # current traveled, max
         self.special = special
         self.sprite = sprite
-        self.mask = pygame.mask.from_surface(sprite, 6)
+        self.mask = pygame.mask.from_surface(sprite, 90)
         self.size = sprite.get_size()
         self.rectPos = [self.posXYPx[0] - self.size[0] / 2, self.posXYPx[1] - self.size[1]]  # top left corner pos
         self.exp = exp + "-hit"
         self.sound = sound
+        if self.special[0] == 'piercing':
+            self.hitlist = []
 
     # updates the projectile and then returns a list of enemies hit (can be multiple if the projectile is exploding
     def update(self, time, display, enemies):
@@ -30,6 +32,7 @@ class Projectile(object):
             self.distance[0] += math.sqrt(self.vel[0] ** 2 + self.vel[1] ** 2) * time
             # check collision or out of bounds
             for j in range(len(enemies)):
+                # xy difference
                 diff = [int(self.rectPos[0] - enemies[j].posPx[0]), int(self.rectPos[1] - enemies[j].posPx[1])]
                 if self.mask.overlap(enemies[j].mask, diff) is not None or self.special[0] == 'AOEslow':
                     # draw sprite one last time before removal
@@ -44,6 +47,12 @@ class Projectile(object):
                             if dist < aoe + int(enemies[k].stats['radius']) / 2:
                                 collided.append(enemies[k])
                         return collided
+                    elif self.special[0] == 'piercing':
+                        # append pierced enemy to list so it doesnt hit it multiple times
+                        if enemies[j] not in self.hitlist:
+                            collided.append(enemies[j])
+                            self.hitlist.append(enemies[j])
+                            return collided
 
                     else:  # normal hit
                         collided.append(enemies[j])
