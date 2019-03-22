@@ -2,7 +2,7 @@
 def parse_wave_info(file_name):
     # setup file and return list
     file = open("data/" + file_name, "r")
-    wave_info = []  # array of arrays. Inside each array is the following: [enemy, amount, delay, interval]
+    wave_info = []  # array of arrays. Inside each array is the following: [enemy name, amount, delay, interval]
     cur_wave = 0
 
     for line in file:

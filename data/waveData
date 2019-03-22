@@ -188,13 +188,13 @@ speedy
 
 wave 29
 recruit
-40 1 1.33
+40 1 1.25
 speedy
-40 1 1.33
+40 1 1.25
 brute
-40 1 1.33
+40 1 1.25
 turtle
-40 1 1.33
+40 1 1.25
 
 wave 30
 turtle boss
@@ -208,8 +208,30 @@ speedy boss
 
 wave 31
 recruit
-200 0 0.15
+250 0 0.15
 
 wave 32
 turtle
-100 0 0.25
+120 0 0.25
+
+wave 33
+speedy
+50 0 0.5
+brute
+50 0 0.5
+speedy boss
+8 2 3
+
+wave 34
+recruit
+30 0 0.1
+brute boss
+2 0.5 0.5
+normal boss
+2 0.7 0.5
+speedy boss
+2 0.9 0.5
+
+wave 35
+turtle boss
+20 2 1

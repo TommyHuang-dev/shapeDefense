@@ -420,8 +420,9 @@ while True:
     # ---- IN-GAME SETUP and reset variables----
     curWave = -1    # current wave, displayed value is 1 more than this
     money = 500  # starting monies
-    energy = [0, 10]  # amount of power used vs maximum
-    income = 100  # monies per round
+    energy = [5, 5]  # amount of power left vs maximum
+    income = 50  # monies per round
+    interest = 0.1  # interest (10%)
     life = 30  # lose 1 life per enemy; 10 per boss
     currentlyInWave = False  # True when enemies are spawning
 
@@ -648,6 +649,7 @@ while True:
             currentlyInWave = False
             # INCOME! :D
             money += income
+            money *= (1 + interest)
 
         # ---- TOWERS ----
         # draw placed towers:
@@ -696,7 +698,7 @@ while True:
                         del(placedTowersLoc[-1])
                         msgTimer = 0.5
                         msgText = "Can't afford this tower!"
-                    elif energy[0] + selectedTower.energy > energy[1]:
+                    elif energy[0] - selectedTower.energy < 0:
                         soundError.play()
                         del (placedTowersLoc[-1])
                         msgTimer = 0.5
@@ -713,8 +715,9 @@ while True:
                         # energy
                         if selectedTower.energy < 0:
                             energy[1] -= selectedTower.energy
+                            energy[0] -= selectedTower.energy
                         else:
-                            energy[0] += selectedTower.energy
+                            energy[0] -= selectedTower.energy
                         if placedTowers[-1].special == 'income':  # update income on buy
                             income += int(placedTowers[-1].specialVal)
                         placedTowers[-1].pos = selectedTower.pos
@@ -769,6 +772,14 @@ while True:
                     # enemy dies
                     if enemyHit[j].curHP <= 0:
                         money += enemyHit[j].bounty
+                        # spawn additional enemies on death if condition is met
+                        if enemyHit[j].stats["death_spawn_enemy"] != "none":
+                            spawnedEnemy = enemyInfo[enemyHit[j].stats["death_spawn_enemy"]]
+                            for i in range(int(enemyHit[j].stats["death_spawn_val"])):
+                                enemyList.append(spawnedEnemy, enemyHit[j].tileLoc, enemyHit[j].path_number, curWave)
+                                enemyList[-1].posPx[0] += random.randint(-3, 3)
+                                enemyList[-1].posPx[1] += random.randint(-3, 3)
+                                enemyList[-1].status.append('slow', 1.0, i*0.05 + random.uniform(0,0.1))
                         # delete if from the table
                         del(enemyList[enemyList.index(enemyHit[j])])
 
@@ -883,7 +894,7 @@ while True:
                     hovered = True
                     display_stats(towerList[i + mul6])
                     # user has enough money to buy the tower
-                    if towerList[i + mul6].cost <= money and towerList[i + mul6].energy + energy[0] <= energy[1]:
+                    if towerList[i + mul6].cost <= money and energy[0] - towerList[i + mul6].energy >= 0:
                         pygame.draw.rect(screen, (255, 255, 255), (butListTowers[i]), 2)
                         # select tower on click
                         if mousePressed[0] == 1:
@@ -945,15 +956,16 @@ while True:
                         pygame.draw.rect(screen, (0, 0, 0), butSell, 3)
                         if mousePressed[0] == 1:  # on click, sell the tower
                             # energy check
-                            if energy[0] > energy[1] + placedTowers[viewedTower].energy:
+                            if energy[0] < 0 - placedTowers[viewedTower].energy:
                                 soundError.play()
                                 msgText = 'Energy too low!'
                                 msgTimer = 0.75
                             else:  # passes energy check
                                 if placedTowers[viewedTower].energy < 0:
                                     energy[1] += placedTowers[viewedTower].energy
+                                    energy[0] += placedTowers[viewedTower].energy
                                 else:
-                                    energy[0] -= placedTowers[viewedTower].energy
+                                    energy[0] += placedTowers[viewedTower].energy
                                 # update monies
                                 money += int(placedTowers[viewedTower].sellPrice)
                                 soundSell.play()
@@ -979,7 +991,7 @@ while True:
         # money
         screen.blit(moneyPic, (disL - 275, 80))
         components.create_text(screen, (disL - 215, 105), str(int(money)), False, levelInfoFont, (0, 0, 0))
-        components.create_text(screen, (disL - 210, 130), "+" + str(int(income)), False, levelSmallInfoFont, (0, 0, 0))
+        components.create_text(screen, (disL - 210, 130), str(int(income)) + "+10%", False, levelSmallInfoFont, (0, 0, 0))
         # energy
         screen.blit(energyPic, (disL - 150, 80))
         components.create_text(screen, (disL - 100, 110), str(energy[0]) + "/" + str(energy[1]),
