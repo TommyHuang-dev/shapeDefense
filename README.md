@@ -1,5 +1,5 @@
 # shapeDefense
-simple tower defense test; may be moved to unity after
+simple tower defense game; may be moved to unity after
 
 Long ago, the shapes lived in peace and harmony, but it all changed when the circles attacked!
 Only the player, master of all the shapes, may defeat them. :)
