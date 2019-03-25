@@ -7,8 +7,8 @@ regeneration 0.0
 armour 0
 speed 2.5
 radius 10
-death_spawn_enemy turtle
-death_spawn_val 1
+death_spawn_enemy none
+death_spawn_val 0
 bounty 2
 sprite recruit
 
@@ -41,13 +41,13 @@ sprite speedy
 name turtle
 type NORMAL
 movement_type GROUND
-health 16
+health 18
 regeneration 1.0
 armour 4
 speed 1.8
 radius 13
-death_spawn_enemy recruit
-death_spawn_val 1
+death_spawn_enemy none
+death_spawn_val 0
 bounty 3
 sprite turtle
 
@@ -80,7 +80,7 @@ sprite brute_boss
 name speedy boss
 type BOSS
 movement_type GROUND
-health 90
+health 100
 regeneration 0.0
 armour 0
 speed 3.0
@@ -93,14 +93,14 @@ sprite speedy_boss
 name landship
 type BOSS
 movement_type GROUND
-health 60
+health 50
 regeneration 0
-armour 2
+armour 3
 speed 2.2
-radius 20
+radius 19
 death_spawn_enemy recruit
 death_spawn_val 4
-bounty 5
+bounty 10
 sprite landship
 
 name turtle boss
@@ -122,7 +122,7 @@ movement_type GROUND
 health 8
 regeneration 2
 armour 0
-speed 3.2
+speed 3.0
 radius 8
 death_spawn_enemy none
 death_spawn_val 0
@@ -135,7 +135,7 @@ movement_type GROUND
 health 15
 regeneration 4
 armour 0
-speed 2.6
+speed 2.5
 radius 12
 death_spawn_enemy tiny jelly
 death_spawn_val 3

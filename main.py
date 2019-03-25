@@ -1,4 +1,4 @@
-from functions import components
+    from functions import components
 from functions import creditParse
 from functions import waveParse
 from functions import enemyParse
@@ -570,7 +570,8 @@ while True:
         # ---- BACKGROUND ----
         screen.fill(selectedMap.colBackground)
         # obstacles
-        components.draw_grid(screen, 0, 0, disL - 300, disH, 50, selectedMap.colGrid, False)
+        if not currentlyInWave:
+            components.draw_grid(screen, 0, 0, disL - 300, disH, 50, selectedMap.colGrid, False)
         selectedMap.draw_obstacles(screen)
 
         # path display stuff
@@ -775,11 +776,11 @@ while True:
                         # spawn additional enemies on death if condition is met
                         if enemyHit[j].stats["death_spawn_enemy"] != "none":
                             spawnedEnemy = enemyInfo[enemyHit[j].stats["death_spawn_enemy"]]
-                            for i in range(int(enemyHit[j].stats["death_spawn_val"])):
-                                enemyList.append(spawnedEnemy, enemyHit[j].tileLoc, enemyHit[j].path_number, curWave)
-                                enemyList[-1].posPx[0] += random.randint(-3, 3)
-                                enemyList[-1].posPx[1] += random.randint(-3, 3)
-                                enemyList[-1].status.append('slow', 1.0, i*0.05 + random.uniform(0,0.1))
+                            for k in range(int(enemyHit[j].stats["death_spawn_val"])):
+                                enemyList.append(enemy.Enemy(spawnedEnemy, enemyHit[j].tileLoc, enemyHit[j].path_number, curWave))
+                                enemyList[-1].posPx[0] += random.randint(-5, 5)
+                                enemyList[-1].posPx[1] += random.randint(-5, 5)
+                                enemyList[-1].status.append(['slow', 1.0, k*0.1 + random.uniform(0,0.05)])
                         # delete if from the table
                         del(enemyList[enemyList.index(enemyHit[j])])
 
