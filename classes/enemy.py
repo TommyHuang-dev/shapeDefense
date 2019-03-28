@@ -25,7 +25,7 @@ class Enemy(object):
         self.speed = float(self.stats['speed']) * (1 + level * 0.01)
         self.armour = int(int(self.stats['armour']) * (1 + level * 0.02))
         self.regeneration = float(self.stats['regeneration']) * (1 + level * 0.05)
-        self.bounty = int(int(self.stats['bounty']) * (1 + level * 0.02))
+        self.bounty = int(self.stats['bounty']) # scaling bounty: int(int(self.stats['bounty']) * (1 + level * 0.02))
         if 'special' in self.stats:
             self.special = self.stats['special']
 
