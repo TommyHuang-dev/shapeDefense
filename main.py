@@ -422,7 +422,7 @@ while True:
     money = 500  # starting monies
     energy = [5, 5]  # amount of power left vs maximum
     income = 50  # monies per round
-    interest = 0.05  # interest (5%) -> get this much bonus gold per unspent gold
+    interest = 0.1  # interest (10%) -> get this much bonus gold per unspent gold
     life = 50  # lose 1 life per enemy; 10 per boss
     currentlyInWave = False  # True when enemies are spawning
 

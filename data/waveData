@@ -126,7 +126,7 @@ turtle
 
 wave 20
 normal boss
-7 0 2
+7 0 1.75
 
 wave 21
 recruit
@@ -163,10 +163,12 @@ speedy boss
 5 3 6
 
 wave 25
-recruit
-60 0 0.25
 landship
-10 1 1.5
+6 0.4 4
+landship
+6 1.0 4
+small jelly
+30 0 0.8
 
 wave 26
 brute boss
@@ -206,7 +208,7 @@ turtle
 small jelly
 16 0.4 1.8
 landship
-10 1.5 2.6
+12 1.5 2.3
 
 wave 30
 turtle boss
