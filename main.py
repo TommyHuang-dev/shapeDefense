@@ -1,4 +1,4 @@
-    from functions import components
+from functions import components
 from functions import creditParse
 from functions import waveParse
 from functions import enemyParse
@@ -39,7 +39,7 @@ def display_stats(sel_tower):
         if sel_tower.energy > 0:
             screen.blit(energyMiniPic, (disL - 228, 410))
             # not enough power
-            if sel_tower.energy + energy[0] > energy[1]:
+            if energy[0] - sel_tower.energy < 0:
                 components.create_text(screen, (disL - 210, 420), str(sel_tower.energy),
                                        False, levelTowerFont, (200, 25, 25))
             # enough power
@@ -422,8 +422,8 @@ while True:
     money = 500  # starting monies
     energy = [5, 5]  # amount of power left vs maximum
     income = 50  # monies per round
-    interest = 0.1  # interest (10%)
-    life = 30  # lose 1 life per enemy; 10 per boss
+    interest = 0.05  # interest (5%) -> get this much bonus gold per unspent gold
+    life = 50  # lose 1 life per enemy; 10 per boss
     currentlyInWave = False  # True when enemies are spawning
 
     # page that its on
