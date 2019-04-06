@@ -9,14 +9,14 @@ class Enemy(object):
         self.status = []  # list of status effects like slow
 
         # convert attributes to stats
-        # increase HP based on wave (+10%) for < 25, (+15%) for 25 < x <= 50, (+20%) for x > 50
+        # increase HP based on wave (+10%) for < 25, (+20%) for 25 < x <= 50, (+30%) for x > 50
         self.maxHP = int(int(self.stats['health']) * (1 + level * 0.1))
         if level > 25:
-            # increase 5% again
-            self.maxHP += int(int(self.stats['health']) * (1 + (level - 25) * 0.05))
+            # increase 10% again
+            self.maxHP += int(int(self.stats['health']) * (1 + (level - 25) * 0.1))
         if level > 50:
-            # increase 5% AGAIN
-            self.maxHP += int(int(self.stats['health']) * (1 + (level - 50) * 0.05))
+            # increase 10% AGAIN
+            self.maxHP += int(int(self.stats['health']) * (1 + (level - 50) * 0.1))
 
         self.curHP = self.maxHP
         # following stats max out at level 50
@@ -25,7 +25,7 @@ class Enemy(object):
         self.speed = float(self.stats['speed']) * (1 + level * 0.01)
         self.armour = int(int(self.stats['armour']) * (1 + level * 0.02))
         self.regeneration = float(self.stats['regeneration']) * (1 + level * 0.05)
-        self.bounty = int(self.stats['bounty']) # scaling bounty: int(int(self.stats['bounty']) * (1 + level * 0.02))
+        self.bounty = int(self.stats['bounty']) # old scaling bounty: int(int(self.stats['bounty']) * (1 + level * 0.02))
         if 'special' in self.stats:
             self.special = self.stats['special']
 

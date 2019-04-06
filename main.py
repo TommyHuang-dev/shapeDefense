@@ -418,11 +418,11 @@ while True:
     pygame.mixer.music.stop()
 
     # ---- IN-GAME SETUP and reset variables----
-    curWave = -1    # current wave, displayed value is 1 more than this
+    curWave = -1    # current wave, displayed value is 1 more than this (starts at -1)
     money = 500  # starting monies
     energy = [5, 5]  # amount of power left vs maximum
-    income = 50  # monies per round
-    interest = 0.1  # interest (10%) -> get this much bonus gold per unspent gold
+    income = 75  # monies per round
+    interest = 0.05  # interest (10%) -> get this much bonus gold per unspent gold
     life = 50  # lose 1 life per enemy; 10 per boss
     currentlyInWave = False  # True when enemies are spawning
 
@@ -992,7 +992,7 @@ while True:
         # money
         screen.blit(moneyPic, (disL - 275, 80))
         components.create_text(screen, (disL - 215, 105), str(int(money)), False, levelInfoFont, (0, 0, 0))
-        components.create_text(screen, (disL - 210, 130), str(int(income)) + "+10%", False, levelSmallInfoFont, (0, 0, 0))
+        components.create_text(screen, (disL - 210, 130), str(int(income)) + "+" + str(int(interest*100)) + "%", False, levelSmallInfoFont, (0, 0, 0))
         # energy
         screen.blit(energyPic, (disL - 150, 80))
         components.create_text(screen, (disL - 100, 110), str(energy[0]) + "/" + str(energy[1]),
