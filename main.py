@@ -7,12 +7,12 @@ from classes import tower
 from classes import map
 from classes import explosion
 from classes import enemy
-import savefiles
 import os.path
 import time
 import pygame
 import random
 import math
+import time
 from pygame import gfxdraw
 import sys
 
@@ -183,10 +183,6 @@ soundLevelSelect = pygame.mixer.Sound("sounds/UI/level_select.wav")
 soundNextWave = pygame.mixer.Sound("sounds/UI/next_wave.wav")
 soundUpgrade = pygame.mixer.Sound("sounds/UI/upgrade.wav")
 
-musicMenu = pygame.mixer.music.load('sounds/menu.ogg')
-pygame.mixer.music.set_volume(0.35)
-pygame.mixer.music.play(-1)
-
 # colours of stuff
 colBackground = [200, 225, 255]
 colPurchaseMenu = [220, 220, 240]
@@ -301,7 +297,10 @@ del(butUpgradeTower[3])  # delete proj_spd button
 while True:
     # ---- INTRO SCREEN ----
     outro = -1
-
+    # intro music
+    musicMenu = pygame.mixer.music.load('sounds/menu.ogg')
+    pygame.mixer.music.set_volume(0.35)
+    pygame.mixer.music.play(-1)
     while intro:
         # should make it 60FPS max
         # dt is the number of seconds since the last frame, use this for calculations instead of fps to make it smoother
@@ -421,10 +420,11 @@ while True:
     curWave = -1    # current wave, displayed value is 1 more than this (starts at -1)
     money = 500  # starting monies
     energy = [5, 5]  # amount of power left vs maximum
-    income = 75  # monies per round
+    income = 100  # monies per round
     interest = 0.05  # interest (10%) -> get this much bonus gold per unspent gold
     life = 50  # lose 1 life per enemy; 10 per boss
     currentlyInWave = False  # True when enemies are spawning
+    deathTimer = -10000
 
     # page that its on
     curPurchasePage = 0
@@ -547,6 +547,8 @@ while True:
             ffCounter = 1
 
         # timers
+        if deathTimer >= 0:
+            deathTimer -= dt * ffCounter
         msgTimer -= dt * ffCounter
         if msgTimer < 0:
             msgTimer = -1
@@ -636,6 +638,7 @@ while True:
                 enemyList[i].move(path[enemyList[i].path_number], dt)
                 # enemy reaches end, take off lives, dont give monies
                 if enemyList[i].reachedEnd and enemyList[i].endTimer <= 0:
+                    money += enemyList[i].bounty
                     if enemyList[i].stats['type'] == 'BOSS':
                         life -= 10
                     else:
@@ -997,7 +1000,11 @@ while True:
         screen.blit(energyPic, (disL - 150, 80))
         components.create_text(screen, (disL - 100, 110), str(energy[0]) + "/" + str(energy[1]),
                                False, levelInfoFont, (0, 0, 0))
-
+        
+        if life <= 0 and deathTimer < -100:
+            msgTimer = 2
+            msgText = "You died!"
+            deathTimer = 2
         # standard message (bottom of screen)
         if msgTimer >= 0:
             components.create_text(screen, (500, disH - 100), msgText, True, levelInfoFont, (150, 25, 25))
@@ -1007,7 +1014,7 @@ while True:
             introScreen -= 1
             colIntro[3] = 10 + introScreen * 5.5
             pygame.gfxdraw.filled_polygon(screen, [[0, 0], [disL, 0], [disL, disH], [0, disH]], colIntro)
-
+        
         # update path ONCE if it was true at all:
         if updatePath:
             path = selectedMap.find_path(placedTowersLoc)
@@ -1015,3 +1022,7 @@ while True:
 
         # update display!
         pygame.display.update()
+
+        if -100 < deathTimer < 0:
+            print("asdf")
+            intro = True

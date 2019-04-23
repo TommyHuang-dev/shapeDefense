@@ -8,7 +8,7 @@ brute
 
 wave 3
 recruit
-10 0 1
+8 0 1.2
 speedy
 12 2 0.75
 
@@ -44,7 +44,7 @@ wave 8
 speedy
 30 0 1
 brute
-12 5 2
+15 3 1.75
 
 wave 9
 recruit
@@ -57,8 +57,6 @@ turtle
 8 10 0.5
 
 wave 10
-brute
-5 0 0.75
 brute boss
 1 1 1
 
@@ -224,7 +222,7 @@ speedy boss
 
 wave 31
 tiny jelly
-100 0 0.4
+120 0 0.333
 speedy
 50 2 0.333
 small jelly
