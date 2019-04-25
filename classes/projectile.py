@@ -2,7 +2,8 @@ import pygame
 import math
 
 class Projectile(object):
-    def __init__(self, xy, vel_xy, damage, range, special, sprite, exp, sound):
+    def __init__(self, xy, vel_xy, damage, range, special, sprite, exp, sound, angle):
+        self.angle = angle
         self.posXYPx = xy
         self.vel = vel_xy
         self.totalVel = math.sqrt(vel_xy[0] ** 2 + vel_xy[1] ** 2)
@@ -33,7 +34,7 @@ class Projectile(object):
             # check collision or out of bounds
             for j in range(len(enemies)):
                 # xy difference
-                diff = [int(self.rectPos[0] - enemies[j].posPx[0]), int(self.rectPos[1] - enemies[j].posPx[1])]
+                diff = [int(self.rectPos[0] - enemies[j].posPx[0] + 5), int(self.rectPos[1] - enemies[j].posPx[1] + 5)]
                 if self.mask.overlap(enemies[j].mask, diff) is not None or self.special[0] == 'AOEslow':
                     # draw sprite one last time before removal
                     display.blit(self.sprite,

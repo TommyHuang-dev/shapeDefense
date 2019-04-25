@@ -196,8 +196,8 @@ type turret
 cost 1
 energy 0
 sprite_base machinegun_base
-damage 1
-rate 20
+damage 0
+rate 10
 range 5
 proj_spd 30.0
 effective_range 1.5
@@ -207,7 +207,7 @@ max_level 2
 special none
 special_val 0
 sprite_turret machinegun_turret
-sprite_proj machinegun_shot
+sprite_proj sniper_shot
 hit_sound machinegun_hit
 end
 

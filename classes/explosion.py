@@ -1,15 +1,20 @@
 import pygame
+import functions.components
+import math
 
 
 # boom!!!
 class Explosion(object):
-    def __init__(self, xy, pictures, scaling):
+    def __init__(self, xy, pictures, scaling, angle):
         self.picList = pictures.copy()
         # rescale image size for splash towers
         self.scale = int(scaling)
         if self.scale != -1:
             for i in range(len(self.picList)):
                 self.picList[i] = pygame.transform.scale(self.picList[i], (self.scale, self.scale))
+        self.rotPicList = []
+        for i in self.picList:
+            self.rotPicList.append(functions.components.rot_center(i, math.degrees(angle)))
         self.posXYPx = xy
         self.timer = 0.1
         self.curpic = 0
@@ -17,7 +22,7 @@ class Explosion(object):
         self.size = self.picList[0].get_size()
 
     def show(self, display, dt):
-        display.blit(self.picList[self.curpic], (self.posXYPx[0] - self.size[0] / 2, self.posXYPx[1] - self.size[1] / 2))
+        display.blit(self.rotPicList[self.curpic], (self.posXYPx[0] - self.size[0] // 2, self.posXYPx[1] - self.size[1] // 2))
         self.timer -= dt
         if self.timer <= 0:
             self.timer = 0.15

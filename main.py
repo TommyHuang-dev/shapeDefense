@@ -234,7 +234,7 @@ creditText = creditParse.parse("data/credits")
 # ---- LOAD CLASSES ----
 # list of purchasable towers (turrets, boosters)
 towerNames = ['Wall', 'Basic Turret', 'Machinegun', 'Sniper Turret', 'Rocket Launcher', 'Freezer', 'Laser Turret',
-              'Power Station', 'Bank']
+              'Power Station', 'Bank', 'Debugger']
 # list of towers and boosters available for purchase, taken from towerNames and boosterNames
 towerList = []
 # UI button initialization
@@ -539,7 +539,7 @@ while True:
             fastForward = False
         if fastForward:
             fps = 120
-            dt *= 3
+            dt *= 0.1
             ffCounter = 1/3
         else:
             fps = 60
@@ -790,10 +790,10 @@ while True:
                 # add explosion pic
                 if projList[i].special[0] == 'splash' or projList[i].special[0] == 'AOEslow':
                     projExplosionList.append(explosion.Explosion(projList[i].posXYPx,
-                                                                 explosionImgList[projList[i].exp], float(projList[i].special[1]) * 100))
+                                                                 explosionImgList[projList[i].exp], float(projList[i].special[1]) * 100, projList[i].angle))
                 elif projList[i].special[0] != 'piercing':
                     projExplosionList.append(explosion.Explosion(projList[i].posXYPx,
-                                                                 explosionImgList[projList[i].exp], -1))
+                                                                 explosionImgList[projList[i].exp], -1, projList[i].angle))
                 # if it has piercing, keep going
                 if projList[i].special[0] == 'piercing' and len(projList[i].hitlist) - 1 < projList[i].special[1]:
                     pass
