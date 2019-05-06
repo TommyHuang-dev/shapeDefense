@@ -44,8 +44,8 @@ end
 22.5-108 | 1150
 name Machinegun
 type turret
-cost 250
-energy 1
+cost 275
+energy 0
 sprite_base machinegun_base
 damage 5 7 9
 rate 4.5 6.5 9 12
@@ -65,8 +65,8 @@ end
 19.5-72 | 1350
 name Sniper Turret
 type turret
-cost 300
-energy 1
+cost 325
+energy 0
 sprite_base sniper_base
 damage  30 45 60 80
 rate 0.65 0.9
@@ -86,8 +86,8 @@ end
 10.5-31 | 1350
 name Rocket Launcher
 type turret
-cost 300
-energy 1
+cost 325
+energy 0
 sprite_base rocket_base
 damage 15 22 28 
 rate 0.7 1.1
@@ -107,8 +107,8 @@ end
 4 | 825
 name Freezer
 type turret
-cost 175
-energy 2
+cost 200
+energy 1
 sprite_base freezer_base
 damage 0 4
 rate 1.0
@@ -130,8 +130,8 @@ end
 18-108 | 3120
 name Laser Turret
 type turret
-cost 600
-energy 2
+cost 650
+energy 1
 sprite_base laser_base
 damage 13 20 28 36
 rate 1.4 2.2 3.0
@@ -169,37 +169,15 @@ sprite_proj none
 hit_sound none
 end
 
-20.0 + 15 | 750
-name Fire Trap
-type trap
-cost 325
-energy 1
-sprite_base rocket_base
-damage 1 2
-rate 10.0
-range 0.55
-proj_spd 0
-effective_range 1.0
-up_cost 175
-up_cost_inc 75
-max_level 3
-special fire
-special_val 3 5
-special_val2 3.0 3.0
-sprite_turret none
-sprite_proj none
-hit_sound none
-end
-
 name Debugger
 type turret
 cost 1
 energy 0
 sprite_base machinegun_base
-damage 0
+damage 1
 rate 10
 range 5
-proj_spd 30.0
+proj_spd 11
 effective_range 1.5
 up_cost 1
 up_cost_inc 0
@@ -207,7 +185,7 @@ max_level 2
 special none
 special_val 0
 sprite_turret machinegun_turret
-sprite_proj sniper_shot
+sprite_proj debugger_shot
 hit_sound machinegun_hit
 end
 
@@ -216,7 +194,7 @@ end
 
 name Power Station
 type booster
-cost 400
+cost 550
 energy -5
 sprite_base power_station
 damage 0

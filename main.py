@@ -539,7 +539,7 @@ while True:
             fastForward = False
         if fastForward:
             fps = 120
-            dt *= 0.1
+            dt *= 3
             ffCounter = 1/3
         else:
             fps = 60

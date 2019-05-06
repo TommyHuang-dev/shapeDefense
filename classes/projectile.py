@@ -34,7 +34,7 @@ class Projectile(object):
             # check collision or out of bounds
             for j in range(len(enemies)):
                 # xy difference
-                diff = [int(self.rectPos[0] - enemies[j].posPx[0] + 5), int(self.rectPos[1] - enemies[j].posPx[1] + 5)]
+                diff = [int(self.rectPos[0] - enemies[j].posPx[0]), int(self.rectPos[1] - enemies[j].posPx[1]) + 3]
                 if self.mask.overlap(enemies[j].mask, diff) is not None or self.special[0] == 'AOEslow':
                     # draw sprite one last time before removal
                     display.blit(self.sprite,

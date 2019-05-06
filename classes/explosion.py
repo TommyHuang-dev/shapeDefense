@@ -19,7 +19,7 @@ class Explosion(object):
         self.timer = 0.1
         self.curpic = 0
         self.stopped = False
-        self.size = self.picList[0].get_size()
+        self.size = self.rotPicList[0].get_size()
 
     def show(self, display, dt):
         display.blit(self.rotPicList[self.curpic], (self.posXYPx[0] - self.size[0] // 2, self.posXYPx[1] - self.size[1] // 2))
