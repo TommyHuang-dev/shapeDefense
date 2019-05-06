@@ -234,7 +234,7 @@ creditText = creditParse.parse("data/credits")
 # ---- LOAD CLASSES ----
 # list of purchasable towers (turrets, boosters)
 towerNames = ['Wall', 'Basic Turret', 'Machinegun', 'Sniper Turret', 'Rocket Launcher', 'Freezer', 'Laser Turret',
-              'Power Station', 'Bank', 'Debugger']
+              'Power Station', 'Bank', 'damage module', 'rate module', 'range module']
 # list of towers and boosters available for purchase, taken from towerNames and boosterNames
 towerList = []
 # UI button initialization
@@ -690,7 +690,11 @@ while True:
                 selectedTower.pos = [gridLoc[0], gridLoc[1]]
                 selectedTower.draw_tower_full(screen, (selectedTower.pos[0] * 50 - 25,
                                                        selectedTower.pos[1] * 50 - 25))
-                selectedTower.draw_range(screen, valid)
+                if selectedTower.type == "turret":
+                    selectedTower.draw_range(screen, valid)
+                elif selectedTower.type == "booster":
+                    # draw adjacent squares
+                    selectedTower.draw_boost_range(screen, valid)
 
                 # place down the tower when selected
                 if mousePressed[0] == 1:
@@ -731,10 +735,17 @@ while True:
                         # update pathing
                         updatePath = True
 
+                        # check booster modules around it
+                        # placedTowers[-1].calc_boost()
+                        placedTowers[-1].update_stats
+
             # don't lock to grid if out of bounds
             elif not valid:
                 selectedTower.draw_tower_full(screen, [mousePos[0], mousePos[1]])
-                selectedTower.draw_range(screen, valid, xy=[mousePos[0], mousePos[1]])
+                if selectedTower.type == "turret":
+                    selectedTower.draw_range(screen, valid, xy=[mousePos[0], mousePos[1]])
+                elif selectedTower.type == "booster":
+                    pass
                 if mousePressed[0] == 1:  # error if user tries to place invalid tower
                     soundError.play()
 
@@ -819,7 +830,10 @@ while True:
 
         # if a tower is viewed, draw its range
         if viewedTower >= 0:
-            placedTowers[viewedTower].draw_range(screen, True)
+            if placedTowers[viewedTower].type == "turret":
+                placedTowers[viewedTower].draw_range(screen, True)
+            elif placedTowers[viewedTower].type == "booster":
+                placedTowers[viewedTower].draw_boost_range(screen, True)
 
         # display enemy healthbar and armour
         if currentlyInWave:

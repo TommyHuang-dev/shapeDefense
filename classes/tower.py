@@ -101,6 +101,14 @@ class Turret(object):
         self.rateBoost = 0
         self.rangeBoost = 0
         self.projBoost = 0
+        for i in adj_tower_list:
+            if i.special == "damage":
+                self.dmgBoost += i.specialVal
+            elif i.special == "rate":
+                self.rateBoost += i.specialVal
+            elif i.special == "range":
+                self.rangeBoost += i.specialVal
+                self.projBoost += (i.specialVal / 2)
 
     def upgrade(self, stat_num):
         # update selling price (1/2 of tower cost + all upgrades)
@@ -167,8 +175,8 @@ class Turret(object):
         xy_vel = [self.projSpd * math.cos(self.rotation) * 50, self.projSpd * -math.sin(self.rotation) * 50]
         temp_spr = components.rot_center(self.spriteProj, math.degrees(self.rotation))
         return projectile.Projectile([self.pos[0] * 50 - 25, self.pos[1] * 50 - 25], xy_vel,
-                                     self.damage, self.range * self.effRange * 50, tempSpecial,
-                                     temp_spr, str(self.stats['sprite_proj'][0]), self.hitSound, self.rotation)
+                                    self.damage, self.range * self.effRange * 50, tempSpecial,
+                                    temp_spr, str(self.stats['sprite_proj'][0]), self.hitSound, self.rotation)
 
     # draws a full turret, centered on a xy coordinate. The first picture is assumed to be the base.
     # rotation is an angle in radians that the turret should rotate
@@ -210,3 +218,11 @@ class Turret(object):
                                     col_range_invalid_outline)
             pygame.gfxdraw.filled_circle(display, xy[0], xy[1], int(self.range * 50),
                                          col_range_invalid)
+    
+    def draw_boost_range(self, display, valid, xy=0):
+        xy = [self.pos[0] * 50 - 25, self.pos[1] * 50 - 25]
+        if self.range == 1:
+            pygame.draw.rect(display, (60, 100, 250), (xy[0] -26, xy[1] -76, 52, 52), 1)  # north
+            pygame.draw.rect(display, (60, 100, 250), (xy[0] +24, xy[1] -26, 52, 52), 1)  # east
+            pygame.draw.rect(display, (60, 100, 250), (xy[0] -26, xy[1] +24, 52, 52), 1)  # south
+            pygame.draw.rect(display, (60, 100, 250), (xy[0] -76, xy[1] -26, 52, 52), 1)  # west
