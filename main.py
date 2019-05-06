@@ -735,9 +735,27 @@ while True:
                         # update pathing
                         updatePath = True
 
-                        # check booster modules around it
-                        # placedTowers[-1].calc_boost()
-                        placedTowers[-1].update_stats
+                        # find all towers adjacent to it
+                        adjacentTowerList = []
+                        for i in placedTowers:
+                            # calculate distance to tower and check if it equals one
+                            if abs(placedTowers[-1].pos[0] - i.pos[0]) + abs(placedTowers[-1].pos[1] - i.pos[1]) == 1:
+                                adjacentTowerList.append(i)
+                        
+                        # update self if turret
+                        if placedTowers[-1].type == "turret":
+                            placedTowers[-1].calc_boost(adjacentTowerList)
+
+                        # update each adjacent tower if booster
+                        elif placedTowers[-1].type == "booster":
+                            secAdjTowerList = []
+                            for i in adjacentTowerList:
+                                for j in placedTowers:
+                                    # calculate distance to tower and check if it equals one
+                                    if abs(i.pos[0] - j.pos[0]) + abs(i.pos[1] - j.pos[1]) == 1:
+                                        secAdjTowerList.append(j)
+
+                                i.calc_boost(adjacentTowerList)
 
             # don't lock to grid if out of bounds
             elif not valid:
@@ -1038,5 +1056,4 @@ while True:
         pygame.display.update()
 
         if -100 < deathTimer < 0:
-            print("asdf")
             intro = True

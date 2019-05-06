@@ -74,13 +74,13 @@ class Turret(object):
     def upgrade_preview(self, stat_num):
         # damage
         if stat_num == 0:
-            return int(self.stats['damage'][self.dmgLevel[0]]) - self.damage
+            return int(self.stats['damage'][self.dmgLevel[0]]) - int(self.stats['damage'][self.dmgLevel[0] - 1])
         # rate
         if stat_num == 1:
-            return (int(float(self.stats['rate'][self.rateLevel[0]]) * 100 - self.rate * 100)) / 100
+            return (int(float(self.stats['rate'][self.rateLevel[0]]) * 100 - float(self.stats['rate'][self.rateLevel[0] - 1]) * 100)) / 100
         # range
         if stat_num == 2:
-            return (int(float(self.stats['range'][self.rangeLevel[0]]) * 100 - self.range * 100)) / 100
+            return (int(float(self.stats['range'][self.rangeLevel[0]]) * 100 - float(self.stats['range'][self.rangeLevel[0] - 1]) * 100)) / 100
         # special
         if stat_num == 3:
             return (int(float(self.stats['special_val'][self.specialLevel[0]]) * 100 - self.specialVal * 100)) / 100
@@ -88,10 +88,10 @@ class Turret(object):
     def update_stats(self, init_up, inc_up, cur_level, dmgl, ratel, rangel, specl):
         # final upgrade cost = initial cost + (increase * (level - 1))
         self.finalUpCost = int(init_up + inc_up * (cur_level - 1))
-        self.damage = int(self.stats['damage'][dmgl - 1] * (1 + self.dmgBoost))
-        self.rate = float(self.stats['rate'][ratel - 1] * (1 + self.rateBoost))
-        self.range = float(self.stats['range'][rangel - 1] * (1 + self.rangeBoost))
-        self.projSpd = float(self.stats['proj_spd'][rangel - 1] * (1 + self.projBoost))
+        self.damage = int(float(self.stats['damage'][dmgl - 1]) * (1 + self.dmgBoost))
+        self.rate = float(float(self.stats['rate'][ratel - 1]) * (1 + self.rateBoost))
+        self.range = float(float(self.stats['range'][rangel - 1]) * (1 + self.rangeBoost))
+        self.projSpd = float(float(self.stats['proj_spd'][rangel - 1]) * (1 + self.projBoost))
         self.specialVal = float(self.stats['special_val'][specl - 1])
         if 'special_val2' in self.stats:  # 2nd special value upgrade
             self.specialVal2 = float(self.stats['special_val2'][specl - 1])
@@ -101,14 +101,18 @@ class Turret(object):
         self.rateBoost = 0
         self.rangeBoost = 0
         self.projBoost = 0
-        for i in adj_tower_list:
-            if i.special == "damage":
-                self.dmgBoost += i.specialVal
-            elif i.special == "rate":
-                self.rateBoost += i.specialVal
-            elif i.special == "range":
-                self.rangeBoost += i.specialVal
-                self.projBoost += (i.specialVal / 2)
+        if len(adj_tower_list) > 0:
+            for i in adj_tower_list:
+                if i.special == "damage":
+                    self.dmgBoost += i.specialVal
+                elif i.special == "rate":
+                    self.rateBoost += i.specialVal
+                elif i.special == "range":
+                    self.rangeBoost += i.specialVal
+                    self.projBoost += (i.specialVal / 2)
+        
+            self.update_stats(self.initialUpCost, self.upCostInc, self.curLevel,
+                            self.dmgLevel[0], self.rateLevel[0], self.rangeLevel[0], self.specialLevel[0])
 
     def upgrade(self, stat_num):
         # update selling price (1/2 of tower cost + all upgrades)
