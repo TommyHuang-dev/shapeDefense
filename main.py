@@ -117,6 +117,24 @@ def display_stats(sel_tower):
                             # update income on upgrade
                             if sel_tower.special == 'income':
                                 income += sel_tower.specialVal
+                            
+                            # update boosts
+                            adjacentTowerList = []
+                            for i in placedTowers:
+                                # calculate distance to tower and check if it equals one
+                                if abs(sel_tower.pos[0] - i.pos[0]) + abs(sel_tower.pos[1] - i.pos[1]) == 1:
+                                    adjacentTowerList.append(i)
+                            # update each adjacent tower if booster
+                            if sel_tower.type == "booster":
+                                for i in adjacentTowerList:
+                                    secAdjTowerList = []
+                                    for j in placedTowers:
+                                        # calculate distance to tower and check if it equals one
+                                        if abs(i.pos[0] - j.pos[0]) + abs(i.pos[1] - j.pos[1]) == 1:
+                                            secAdjTowerList.append(j)
+
+                                    i.calc_boost(secAdjTowerList)
+                            
                         # not enough money; yell at player :D
                         elif money < sel_tower.finalUpCost: # not enough money
                             soundError.play()
@@ -558,6 +576,7 @@ while True:
         else:
             masterWaveTimer = 0
 
+        i = 0
         while i < len(projExplosionList):
             projExplosionList[i].show(screen, dt)
             if projExplosionList[i].stopped:
@@ -748,14 +767,14 @@ while True:
 
                         # update each adjacent tower if booster
                         elif placedTowers[-1].type == "booster":
-                            secAdjTowerList = []
                             for i in adjacentTowerList:
+                                secAdjTowerList = []
                                 for j in placedTowers:
                                     # calculate distance to tower and check if it equals one
                                     if abs(i.pos[0] - j.pos[0]) + abs(i.pos[1] - j.pos[1]) == 1:
                                         secAdjTowerList.append(j)
 
-                                i.calc_boost(adjacentTowerList)
+                                i.calc_boost(secAdjTowerList)
 
             # don't lock to grid if out of bounds
             elif not valid:
@@ -1000,13 +1019,32 @@ while True:
                                 if placedTowers[viewedTower].energy < 0:
                                     energy[1] += placedTowers[viewedTower].energy
                                     energy[0] += placedTowers[viewedTower].energy
-                                else:
+                                else:  # remove da tower
                                     energy[0] += placedTowers[viewedTower].energy
                                 # update monies
                                 money += int(placedTowers[viewedTower].sellPrice)
                                 soundSell.play()
                                 if placedTowers[viewedTower].special == 'income':  # update income on sell
                                     income -= placedTowers[viewedTower].specialVal
+                                
+                                # check boosts
+                                placedTowers[viewedTower].specialVal = 0
+                                adjacentTowerList = []
+                                for i in placedTowers:
+                                    # calculate distance to tower and check if it equals one
+                                    if abs(placedTowers[viewedTower].pos[0] - i.pos[0]) + abs(placedTowers[viewedTower].pos[1] - i.pos[1]) == 1:
+                                        adjacentTowerList.append(i)
+                                # update each adjacent tower if booster
+                                if placedTowers[viewedTower].type == "booster":
+                                    for i in adjacentTowerList:
+                                        secAdjTowerList = []
+                                        for j in placedTowers:
+                                            # calculate distance to tower and check if it equals one
+                                            if abs(i.pos[0] - j.pos[0]) + abs(i.pos[1] - j.pos[1]) == 1:
+                                                secAdjTowerList.append(j)
+
+                                        i.calc_boost(secAdjTowerList)
+
                                 del placedTowers[viewedTower]
                                 del placedTowersLoc[viewedTower]
                                 updatePath = True  # reset path
