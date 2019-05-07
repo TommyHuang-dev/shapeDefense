@@ -212,10 +212,10 @@ sprite_proj none
 hit_sound none
 end
 
-750
+725
 name damage module
 type booster
-cost 250
+cost 225
 energy 1
 sprite_base generic_base
 damage 0
@@ -227,16 +227,16 @@ up_cost 200
 up_cost_inc 100
 max_level 3
 special damage
-special_val 0.2 0.3 0.4
+special_val 0.15 0.25 0.4
 sprite_turret none
 sprite_proj none
 hit_sound none
 end
 
-675
+650
 name rate module
 type booster
-cost 225
+cost 200
 energy 1
 sprite_base generic_base
 damage 0
@@ -248,15 +248,16 @@ up_cost 175
 up_cost_inc 100
 max_level 3
 special rate
-special_val 0.2 0.3 0.4
+special_val 0.15 0.25 0.4
 sprite_turret none
 sprite_proj none
 hit_sound none
 end
 
+650
 name range module
 type booster
-cost 225
+cost 200
 energy 1
 sprite_base generic_base
 damage 0
@@ -268,7 +269,7 @@ up_cost 175
 up_cost_inc 100
 max_level 3
 special range
-special_val 0.2 0.3 0.4
+special_val 0.15 0.25 0.4
 sprite_turret none
 sprite_proj none
 hit_sound none
@@ -278,7 +279,7 @@ name Bank
 type booster
 cost 600
 energy 0
-sprite_base generic_base
+sprite_base bank
 damage 0
 rate 0
 range 0
