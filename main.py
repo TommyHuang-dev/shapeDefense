@@ -71,13 +71,13 @@ def display_stats(sel_tower):
         components.create_text(screen, (disL - 200, 460), str(sel_tower.damage), False, levelTowerFont, (0, 0, 100))
         # firerate
         components.create_text(screen, (disL - 280, 495), '  Rate:', False, levelTowerFont, (0, 0, 0))
-        components.create_text(screen, (disL - 200, 495), str(round(sel_tower.rate, 1)), False, levelTowerFont, (0, 0, 100))
+        components.create_text(screen, (disL - 200, 495), str(round(sel_tower.rate, 2)), False, levelTowerFont, (0, 0, 100))
         # range
         components.create_text(screen, (disL - 280, 530), 'Range:', False, levelTowerFont, (0, 0, 0))
-        components.create_text(screen, (disL - 200, 530), str(round(sel_tower.range, 1)), False, levelTowerFont, (0, 0, 100))
+        components.create_text(screen, (disL - 200, 530), str(round(sel_tower.range, 2)), False, levelTowerFont, (0, 0, 100))
         # proj speed
         components.create_text(screen, (disL - 280, 565), ' P.Spd:', False, levelTowerFont, (0, 0, 0))
-        components.create_text(screen, (disL - 200, 565), str(round(sel_tower.projSpd, 1)), False, levelTowerFont, (0, 0, 100))
+        components.create_text(screen, (disL - 200, 565), str(round(sel_tower.projSpd, 2)), False, levelTowerFont, (0, 0, 100))
     if sel_tower.special != 'none':
         components.create_text(screen, (disL - 280, 600), sel_tower.special + ":", False, levelTowerFont, (0, 0, 0))
         components.create_text(screen, (disL - 200, 600), sel_tower.specialVal, False, levelTowerFont, (0, 0, 100))

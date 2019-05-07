@@ -194,7 +194,7 @@ end
 
 name Power Station
 type booster
-cost 600
+cost 750
 energy -5
 sprite_base power_station
 damage 0
@@ -212,40 +212,40 @@ sprite_proj none
 hit_sound none
 end
 
-725
+750
 name damage module
 type booster
 cost 225
 energy 1
-sprite_base generic_base
+sprite_base dmg_module
 damage 0
 rate 0
 range 1
 proj_spd 1.0
 effective_range 0
-up_cost 200
-up_cost_inc 100
+up_cost 225
+up_cost_inc 75
 max_level 3
 special damage
-special_val 0.15 0.25 0.4
+special_val 0.1 0.2 0.3
 sprite_turret none
 sprite_proj none
 hit_sound none
 end
 
-650
+750
 name rate module
 type booster
-cost 200
+cost 225
 energy 1
-sprite_base generic_base
+sprite_base rate_module
 damage 0
 rate 0
 range 1
 proj_spd 1.0
 effective_range 0
-up_cost 175
-up_cost_inc 100
+up_cost 225
+up_cost_inc 75
 max_level 3
 special rate
 special_val 0.15 0.25 0.4
@@ -254,19 +254,19 @@ sprite_proj none
 hit_sound none
 end
 
-650
+750
 name range module
 type booster
-cost 200
+cost 225
 energy 1
-sprite_base generic_base
+sprite_base range_module
 damage 0
 rate 0
 range 1
 proj_spd 1.0
 effective_range 0
-up_cost 175
-up_cost_inc 100
+up_cost 225
+up_cost_inc 75
 max_level 3
 special range
 special_val 0.15 0.25 0.4

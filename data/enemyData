@@ -93,10 +93,10 @@ sprite speedy_boss
 name landship
 type BOSS
 movement_type GROUND
-health 50
+health 45
 regeneration 0
 armour 3
-speed 2.2
+speed 2.1
 radius 19
 death_spawn_enemy recruit
 death_spawn_val 4
