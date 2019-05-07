@@ -41,7 +41,7 @@ sprite_proj basic_shot
 hit_sound basic_hit
 end
 
-22.5-108 | 1150
+22.5-108 | 1175
 name Machinegun
 type turret
 cost 275
@@ -62,19 +62,19 @@ sprite_proj machinegun_shot
 hit_sound machinegun_hit
 end
 
-19.5-72 | 1350
+21-85 | 1500
 name Sniper Turret
 type turret
-cost 325
+cost 350
 energy 0
 sprite_base sniper_base
-damage  30 45 60 80
-rate 0.65 0.9
+damage  30 45 65 85
+rate 0.7 1.0
 range 6.5 9.0
 proj_spd 35.0 40.0
 effective_range 1.2
-up_cost 140
-up_cost_inc 35
+up_cost 150
+up_cost_inc 40
 max_level 6
 special none
 special_val 0
@@ -83,63 +83,64 @@ sprite_proj sniper_shot
 hit_sound sniper_hit
 end
 
-10.5-31 | 1350
+10.8-32.5 | 1500
 name Rocket Launcher
 type turret
-cost 325
+cost 350
 energy 0
 sprite_base rocket_base
-damage 15 22 28 
-rate 0.7 1.1
+damage 18 25 
+rate 0.6 0.9 1.3
 range 4.0 5.5
-proj_spd 15.0 16.0
+proj_spd 15.5 17.0
 effective_range 1.2
-up_cost 140
-up_cost_inc 35
+up_cost 150
+up_cost_inc 40
 max_level 6
 special splash
-special_val 0.8 1.2
+special_val 0.9 1.3
 sprite_turret rocket_turret
 sprite_proj rocket_shot
 hit_sound rocket_hit
 end
 
-4 | 825
+- AOEslow: val is slow strength, val2 is duration
+4 | 1100
 name Freezer
 type turret
 cost 200
 energy 1
 sprite_base freezer_base
 damage 0 4
-rate 1.0
-range 1.4 1.8 2.2
-proj_spd 1.0 1.0 1.0
+rate 1.2
+range 1.5 2.0 2.5
+proj_spd 0 0 0
 effective_range -0.1
-up_cost 70
-up_cost_inc 30
+up_cost 90
+up_cost_inc 45
 max_level 6
 special AOEslow
 special_val 0.6 0.75 0.9
-special_val2 0.6 0.6 0.6
+special_val2 0.5 0.5 0.5
 sprite_turret none
 sprite_proj ice_shot
 hit_sound ice_hit
 desc slows enemies nearby and lowers regeneration
 end
 
-18-108 | 3120
+16.8-90 | 2770
 name Laser Turret
 type turret
-cost 650
+cost 550
 energy 1
 sprite_base laser_base
-damage 13 20 28 36
-rate 1.4 2.2 3.0
-range 5.0 7.0
+damage 14 21 28 36
+rate 1.2 1.8 2.5
+range 4.5 6.5
 proj_spd 30 30
 effective_range 1.2
-up_cost 180
-up_cost_inc 60
+up_cost 160
+up_cost_inc 50
 max_level 8
 special piercing
 special_val 1 3
@@ -212,10 +213,10 @@ sprite_proj none
 hit_sound none
 end
 
-750
+1200
 name damage module
 type booster
-cost 225
+cost 400
 energy 1
 sprite_base dmg_module
 damage 0
@@ -223,8 +224,8 @@ rate 0
 range 1
 proj_spd 1.0
 effective_range 0
-up_cost 225
-up_cost_inc 75
+up_cost 325
+up_cost_inc 150
 max_level 3
 special damage
 special_val 0.1 0.2 0.3
@@ -236,7 +237,7 @@ end
 750
 name rate module
 type booster
-cost 225
+cost 400
 energy 1
 sprite_base rate_module
 damage 0
@@ -244,8 +245,8 @@ rate 0
 range 1
 proj_spd 1.0
 effective_range 0
-up_cost 225
-up_cost_inc 75
+up_cost 325
+up_cost_inc 150
 max_level 3
 special rate
 special_val 0.15 0.25 0.4
@@ -257,7 +258,7 @@ end
 750
 name range module
 type booster
-cost 225
+cost 400
 energy 1
 sprite_base range_module
 damage 0
@@ -265,8 +266,8 @@ rate 0
 range 1
 proj_spd 1.0
 effective_range 0
-up_cost 225
-up_cost_inc 75
+up_cost 325
+up_cost_inc 150
 max_level 3
 special range
 special_val 0.15 0.25 0.4
