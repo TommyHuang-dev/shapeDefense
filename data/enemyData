@@ -41,7 +41,7 @@ sprite speedy
 name turtle
 type NORMAL
 movement_type GROUND
-health 18
+health 20
 regeneration 1.0
 armour 4
 speed 1.8
@@ -106,7 +106,7 @@ sprite landship
 name turtle boss
 type BOSS
 movement_type GROUND
-health 125
+health 130
 regeneration 4.0
 armour 6
 speed 0.9

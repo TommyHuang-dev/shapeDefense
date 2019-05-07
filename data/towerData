@@ -20,14 +20,14 @@ sprite_proj none
 hit_sound none
 end
 
-7.8-24 | 320
+8.2-25.2 | 320
 name Basic Turret
 type turret
 cost 100
 energy 0
 sprite_base basic_base
-damage 6 9 12
-rate 1.3 2.0
+damage 7 10 14
+rate 1.2 1.8
 range 3.2 4.5
 proj_spd 15.0 18.0
 effective_range 1.1
