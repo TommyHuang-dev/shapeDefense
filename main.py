@@ -435,7 +435,7 @@ while True:
     pygame.mixer.music.stop()
 
     # ---- IN-GAME SETUP and reset variables----
-    curWave = -1    # current wave, displayed value is 1 more than this (starts at -1)
+    curWave = 13    # current wave, displayed value is 1 more than this (starts at -1)
     money = 500  # starting monies
     energy = [5, 5]  # amount of power left vs maximum
     income = 100  # monies per round

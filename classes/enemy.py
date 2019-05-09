@@ -10,15 +10,19 @@ class Enemy(object):
 
         # convert attributes to stats
         # increase HP based on level:
-        # 10% for wave 1 to 20
-        # 20% for wave 21 to 40
-        # 30% for wave 41 and above
+        # 10% for wave 1 to 15
+        # 20% for wave 16 to 30
+        # 30% for wave 31 to 50
+        # 40% for every wave afterwards
         self.maxHP = int(int(self.stats['health']) * (1 + level * 0.1))
-        if level > 20:
-            # increase 10% again
-            self.maxHP += int(int(self.stats['health']) * (1 + (level - 25) * 0.1))
-        if level > 40:
-            # increase 10% AGAIN
+        if level > 15:
+            # increase 10% again after level 15
+            self.maxHP += int(int(self.stats['health']) * (1 + (level - 15) * 0.1))
+        if level > 30:
+            # increase 10% after level 30
+            self.maxHP += int(int(self.stats['health']) * (1 + (level - 30) * 0.1))
+        if level > 30:
+            # increase 10% AGAIN!!! after level 50
             self.maxHP += int(int(self.stats['health']) * (1 + (level - 50) * 0.1))
 
         self.curHP = self.maxHP
@@ -27,7 +31,7 @@ class Enemy(object):
             level = 50
         self.speed = float(self.stats['speed']) * (1 + level * 0.01)
         self.armour = int(int(self.stats['armour']) * (1 + level * 0.02))
-        self.regeneration = float(self.stats['regeneration']) * (1 + level * 0.05)
+        self.regeneration = float(self.stats['regeneration']) * (1 + level * 0.06)
         self.bounty = int(self.stats['bounty']) # old scaling bounty: int(int(self.stats['bounty']) * (1 + level * 0.02))
         if 'special' in self.stats:
             self.special = self.stats['special']
