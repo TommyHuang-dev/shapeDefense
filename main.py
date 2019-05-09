@@ -657,7 +657,7 @@ while True:
                 enemyList[i].move(path[enemyList[i].path_number], dt)
                 # enemy reaches end, take off lives, dont give monies
                 if enemyList[i].reachedEnd and enemyList[i].endTimer <= 0:
-                    money += enemyList[i].bounty
+                    #  money += enemyList[i].bounty  -> this is to give money even if enemy escapes
                     if enemyList[i].stats['type'] == 'BOSS':
                         life -= 10
                     else:

@@ -12,7 +12,7 @@ EXAMPLE:
 spawns
 0 2 21 2    // start and exit
 obstacles
-2 3 3 6     // 2x4 rectangle obstacle
+2 3 2 4     // 2x4 rectangle obstacle
 
 The resulting map would look like this:
 S---------------------E

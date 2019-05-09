@@ -88,7 +88,7 @@ class Turret(object):
     def update_stats(self, init_up, inc_up, cur_level, dmgl, ratel, rangel, specl):
         # final upgrade cost = initial cost + (increase * (level - 1))
         self.finalUpCost = int(init_up + inc_up * (cur_level - 1))
-        self.damage = int(float(self.stats['damage'][dmgl - 1]) * (1 + self.dmgBoost))
+        self.damage = int(round(float(self.stats['damage'][dmgl - 1]) * (1 + self.dmgBoost), 0))
         self.rate = float(float(self.stats['rate'][ratel - 1]) * (1 + self.rateBoost))
         self.range = float(float(self.stats['range'][rangel - 1]) * (1 + self.rangeBoost))
         self.projSpd = float(float(self.stats['proj_spd'][rangel - 1]) * (1 + self.projBoost))
