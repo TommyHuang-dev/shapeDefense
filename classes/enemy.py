@@ -9,12 +9,15 @@ class Enemy(object):
         self.status = []  # list of status effects like slow
 
         # convert attributes to stats
-        # increase HP based on wave (+10%) for < 25, (+20%) for 25 < x <= 50, (+30%) for x > 50
+        # increase HP based on level:
+        # 10% for wave 1 to 20
+        # 20% for wave 21 to 40
+        # 30% for wave 41 and above
         self.maxHP = int(int(self.stats['health']) * (1 + level * 0.1))
-        if level > 25:
+        if level > 20:
             # increase 10% again
             self.maxHP += int(int(self.stats['health']) * (1 + (level - 25) * 0.1))
-        if level > 50:
+        if level > 40:
             # increase 10% AGAIN
             self.maxHP += int(int(self.stats['health']) * (1 + (level - 50) * 0.1))
 

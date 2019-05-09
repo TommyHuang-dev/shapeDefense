@@ -224,7 +224,7 @@ rate 0
 range 1
 proj_spd 1.0
 effective_range 0
-up_cost 325
+up_cost 350
 up_cost_inc 150
 max_level 3
 special damage
@@ -245,7 +245,7 @@ rate 0
 range 1
 proj_spd 1.0
 effective_range 0
-up_cost 325
+up_cost 350
 up_cost_inc 150
 max_level 3
 special rate
@@ -266,7 +266,7 @@ rate 0
 range 1
 proj_spd 1.0
 effective_range 0
-up_cost 325
+up_cost 350
 up_cost_inc 150
 max_level 3
 special range
