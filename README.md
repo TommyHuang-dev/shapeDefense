@@ -19,12 +19,12 @@ TODO:
 - exploding_projectile (projectile with AOE); special value for radius of explosion
 - piercing (shots pierce enemies); special value is how many enemies they can hit
 - aura (area of effect centered on tower); no special value, the area of effect is equal to the tower's range.
-- chain (targets the nearest enemy and continually damages it); special value determines how many times it will leap to a new target.
+- chain [NEW] (targets the nearest enemy and continually damages it); special value determines how many times it will leap to a new target.
 
 'hit_special' tags:
 - none: no effect, only damage. This is the default if no tag is specified
 - slow: slows enemies by a percentage and reduces health regeneration slightly (half the percentage). Special values determine the magnitude of the slow and how long it lasts for. If multiple slows are on a enemy, only the biggest one applies.
-- poison: deals damage over time to enemies and removes all health regeneration. Special values determine damage per second and the duration in seconds. Only the largest poison applies.
-- fire: deals high damage over time, but cancels out slowing effects. Special values determines damage per second and duration in seconds. Only most intense fire applies.
-- weakness: increases damage dealt to enemy after armour reductions. Special values determine the percentage bonus and duration. Only one weakness can apply.
-- ignore_armour: this tower's attacks ignore a percentage of armour on enemies. If the number is greater than 100% then it will do bonus damage against enemies with armour.
+- poison [NEW]: deals damage over time to enemies and removes all health regeneration. Special values determine damage per second and the duration in seconds. Only the largest poison applies.
+- fire [NEW]: deals high damage over time, but cancels out slowing effects. Special values determines damage per second and duration in seconds. Only most intense fire applies.
+- weakness [NEW]: increases damage dealt to enemy after armour reductions. Special values determine the percentage bonus and duration. Only one weakness can apply.
+- ignore_armour [NEW]: this tower's attacks ignore a percentage of armour on enemies. If the number is greater than 100% then it will do bonus damage against enemies with armour.
