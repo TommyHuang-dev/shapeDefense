@@ -162,51 +162,51 @@ speedy boss
 
 wave 25
 landship
-6 0.4 4
+5 2.5 7
 landship
-6 1.0 4
+5 3.0 7
 small jelly
-30 0 0.8
+40 0 1.0
 
 wave 26
 brute boss
-2 0 3
+2 0 7
 speedy boss
-2 2 3
+2 2 7
 small jelly
-10 3 0.5
+12 3 1.0
 
 wave 27
 turtle
-120 0 0.333
+100 0 0.4
 
 wave 28
 big jelly
 1 2 1
 brute
-20 0 0.3
+15 0 0.4
 big jelly
 2 10 4
 brute
-30 8 0.25
+20 8 0.3
 big jelly
-2 19 4
+2 20 4
 brute
-30 17 0.25
+20 18 0.3
 
 wave 29
 recruit
-16 0 1.8
+15 0 2.0
 brute
-16 0.1 1.8
+15 0.2 2.0
 speedy
-16 0.2 1.8
+15 0.4 2.0
 turtle
-16 0.3 1.8
+15 0.6 2.0
 small jelly
-16 0.4 1.8
+15 0.8 2.0
 landship
-12 1.5 2.3
+10 1.5 2.6
 
 wave 30
 turtle boss
@@ -224,9 +224,9 @@ wave 31
 tiny jelly
 120 0 0.333
 speedy
-50 2 0.333
+40 2 0.333
 small jelly
-50 20 0.4
+40 20 0.4
 
 wave 32
 turtle

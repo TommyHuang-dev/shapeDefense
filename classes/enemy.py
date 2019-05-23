@@ -13,7 +13,7 @@ class Enemy(object):
         # 10% for wave 1 to 15
         # 20% for wave 16 to 30
         # 30% for wave 31 to 50
-        # 40% for every wave afterwards
+        # 50% for every wave afterwards
         self.maxHP = int(int(self.stats['health']) * (1 + level * 0.1))
         if level > 15:
             # increase 10% again after level 15
@@ -22,17 +22,22 @@ class Enemy(object):
             # increase 10% after level 30
             self.maxHP += int(int(self.stats['health']) * (1 + (level - 30) * 0.1))
         if level > 30:
-            # increase 10% AGAIN!!! after level 50
-            self.maxHP += int(int(self.stats['health']) * (1 + (level - 50) * 0.1))
+            # increase 20% AGAIN!!! after level 50
+            self.maxHP += int(int(self.stats['health']) * (1 + (level - 50) * 0.2))
 
         self.curHP = self.maxHP
+        # regen bonuses max out at level 75 (+5% per level)
+        if level > 75:
+            level = 50
+        self.regeneration = float(self.stats['regeneration']) * (1 + level * 0.05)
         # following stats max out at level 50
         if level > 50:
             level = 50
-        self.speed = float(self.stats['speed']) * (1 + level * 0.01)
-        self.armour = int(int(self.stats['armour']) * (1 + level * 0.02))
-        self.regeneration = float(self.stats['regeneration']) * (1 + level * 0.06)
-        self.bounty = round(int(self.stats['bounty']) * (1 + level * 0.01), 0)
+        self.speed = float(self.stats['speed']) * (1 + level * 0.01)  # speed from 1x -> 1.5x
+        self.armour = int(int(self.stats['armour']) * (1 + level * 0.02))  # armour 1x -> 2x
+        self.bounty = round(int(self.stats['bounty']) * (1 + level * 0.01), 0)  # bounty from 1x -> 1.5x
+        if level > 30:
+            self.regeneration = float(self.stats['regeneration']) * ((1 + level - 25) * 0.05)  # additional 5% regen per level from lvl 30 to 50
         if 'special' in self.stats:
             self.special = self.stats['special']
 
