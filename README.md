@@ -14,9 +14,9 @@ read modding_info.txt if you would like to change around the stats of various to
 TODO:
 - Separate the 'special' tags of towers into two different tags that determine how the towers hit enemies ('targeting'), and the effect of the hit on enemies (hit_special) (e.g. the freezer tower would become "aura" and "slow" instead of "AOE_slow"). Targeting will have one special value associated with it, hit_special will have up to two values.
 
-'target' tags:
+'targeting' tags:
 - projectile (regular gun); no special value
-- exploding_projectile (projectile with AOE); special value for radius of explosion
+- splash (projectile with AOE); special value for radius of explosion
 - piercing (shots pierce enemies); special value is how many enemies they can hit
 - aura (area of effect centered on tower); no special value, the area of effect is equal to the tower's range.
 - chain [NEW] (targets the nearest enemy and continually damages it); special value determines how many times it will leap to a new target.
