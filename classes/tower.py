@@ -27,7 +27,6 @@ class Turret(object):
         self.dmgLevel = [1, len(self.stats['damage'])]
         self.rateLevel = [1, len(self.stats['rate'])]
         self.rangeLevel = [1, len(self.stats['range'])]  # also includes projectile speed
-        self.specialLevel = [1, len(self.stats['special_val'])]
 
         # module effect stats
         self.dmgBoost = 0
@@ -42,10 +41,30 @@ class Turret(object):
         self.upCostInc = int(self.stats['up_cost_inc'][0])
         self.finalUpCost = int(self.stats['up_cost'][0])
         self.sellPrice = self.cost / 2  # float, convert to int when actually selling
+
+        # get targeting stats
+        self.targetLevel = [1, 1]
+        self.targeting = self.stats['targeting'][0]
+        if 'targeting_val' in self.stats:
+            self.targeting_val = float(self.stats['targeting_val'][0])
+            self.targetLevel = [1, len(self.stats['targeting_val'])]
+        else:
+            self.targeting = 'projectile'
+
+        # get special stats
+        self.specialLevel = [1, 1]
         self.special = self.stats['special'][0]
-        self.specialVal = self.stats['special_val'][0]
-        if 'special_val2' in self.stats:
-            self.specialVal2 = self.stats['special_val2'][0]
+        if self.special != 'none':  # cool special effect values
+            if 'special_val' in self.stats:
+                self.specialVal = self.stats['special_val'][0]
+                self.specialLevel = [1, len(self.stats['special_val'])]
+                if 'special_val2' in self.stats:
+                    self.specialVal2 = self.stats['special_val2'][0]
+        else:
+            self.special = 'none'
+            self.specialVal = 0
+        
+        
         # range * effRange = how far the projectile actually goes
         self.effRange = float(self.stats['effective_range'][0])
         self.reload = 0.01
@@ -92,7 +111,8 @@ class Turret(object):
         self.rate = float(float(self.stats['rate'][ratel - 1]) * (1 + self.rateBoost))
         self.range = float(float(self.stats['range'][rangel - 1]) * (1 + self.rangeBoost))
         self.projSpd = float(float(self.stats['proj_spd'][rangel - 1]) * (1 + self.projBoost))
-        self.specialVal = float(self.stats['special_val'][specl - 1])
+        if 'special_val' in self.stats:
+            self.specialVal = float(self.stats['special_val'][specl - 1])
         if 'special_val2' in self.stats:  # 2nd special value upgrade
             self.specialVal2 = float(self.stats['special_val2'][specl - 1])
 

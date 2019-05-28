@@ -435,7 +435,7 @@ while True:
     pygame.mixer.music.stop()
 
     # ---- IN-GAME SETUP and reset variables----
-    curWave = 38  # current wave, displayed value is 1 more than this (starts at -1)
+    curWave = -1  # current wave, displayed value is 1 more than this (starts at -1)
     money = 500  # starting monies
     energy = [5, 5]  # amount of power left vs maximum
     income = 100  # monies per round
@@ -915,8 +915,8 @@ while True:
                     # make sure you don't place towers during a wave
                     selectedTower = 'none'
                     # reset tower CD
-                    for i in range(len(placedTowers)):
-                        placedTowers[i].reload = 0.05
+                    for i in placedTowers:
+                        i.reload = 0.05
 
         # next wave text
         components.create_text(screen, (butNextWave[0] + butNextWave[2] // 2, butNextWave[1] + butNextWave[3] // 2),
