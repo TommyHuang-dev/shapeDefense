@@ -72,7 +72,7 @@ small jelly
 
 wave 13
 recruit
-50 0 0.5
+40 0 0.6
 brute
 6 2 0.6
 brute
@@ -118,13 +118,13 @@ big jelly
 
 wave 19
 brute
-35 0 0.9
+32 0 1.0
 turtle
-35 2 0.9
+32 2 1.0
 
 wave 20
 normal boss
-6 0 2.0
+7 0 2.0
 
 wave 21
 recruit
@@ -210,15 +210,15 @@ landship
 
 wave 30
 turtle boss
-3 2 9
+4 2 8.5
 brute boss
-3 3 9
+4 3 8.5
 normal boss
-3 4 9
+4 4 8.5
 big jelly
-2 14 9
+2 21 8.5
 speedy boss
-3 6 9
+4 5 8.5
 
 wave 31
 tiny jelly
