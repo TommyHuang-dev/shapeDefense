@@ -836,19 +836,20 @@ while True:
                         del(enemyList[enemyList.index(enemyHit[j])])
 
                 # add explosion pic
-                if projList[i].special[0] == 'splash' or projList[i].special[0] == 'AOEslow':
+                if projList[i].targeting[0] == 'splash' or projList[i].targeting[0] == 'aura':
                     projExplosionList.append(explosion.Explosion(projList[i].posXYPx,
-                                                                 explosionImgList[projList[i].exp], float(projList[i].special[1]) * 100, projList[i].angle))
-                elif projList[i].special[0] != 'piercing':
+                                                                 explosionImgList[projList[i].exp], float(projList[i].targeting[1]) * 100, projList[i].angle))
+                elif projList[i].targeting[0] != 'piercing':
                     projExplosionList.append(explosion.Explosion(projList[i].posXYPx,
                                                                  explosionImgList[projList[i].exp], -1, projList[i].angle))
                 # if it has piercing, keep going
-                if projList[i].special[0] == 'piercing' and len(projList[i].hitlist) - 1 < projList[i].special[1]:
-                    pass
+                if projList[i].targeting[0] == 'piercing':
+                    if len(projList[i].hitlist) > projList[i].targeting[1]:
+                        projExplosionList.append(explosion.Explosion(projList[i].posXYPx,
+                                                                    explosionImgList[projList[i].exp], -1, projList[i].angle))
 
-                else:
-                    del (projList[i])
-                    i -= 1
+                        del (projList[i])
+                        i -= 1
 
             elif projList[i].distance[0] > projList[i].distance[1]:  # projectile expires
                 del(projList[i])

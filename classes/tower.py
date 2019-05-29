@@ -46,23 +46,28 @@ class Turret(object):
         self.targetLevel = [1, 1]
         self.targeting = self.stats['targeting'][0]
         if 'targeting_val' in self.stats:
-            self.targeting_val = float(self.stats['targeting_val'][0])
+            self.targetingVal = float(self.stats['targeting_val'][0])
             self.targetLevel = [1, len(self.stats['targeting_val'])]
+        elif self.targeting == 'aura':
+            self.targetingVal = range
         else:
-            self.targeting = 'projectile'
+            self.targetingVal = 0
 
         # get special stats
         self.specialLevel = [1, 1]
         self.special = self.stats['special'][0]
         if self.special != 'none':  # cool special effect values
             if 'special_val' in self.stats:
-                self.specialVal = self.stats['special_val'][0]
+                self.specialVal = float(self.stats['special_val'][0])
                 self.specialLevel = [1, len(self.stats['special_val'])]
                 if 'special_val2' in self.stats:
-                    self.specialVal2 = self.stats['special_val2'][0]
+                    self.specialVal2 = float(self.stats['special_val2'][0])
+                else:
+                    self.specialVal2 = 0
         else:
             self.special = 'none'
             self.specialVal = 0
+            self.specialVal2 = 0
         
         
         # range * effRange = how far the projectile actually goes
@@ -190,16 +195,16 @@ class Turret(object):
             self.canFire = True
 
         # pass special values to shot
-        if self.special == "AOEslow":
-            tempSpecial = [self.special, self.range, self.specialVal, self.specialVal2]
-        else:
-            tempSpecial = [self.special, self.specialVal]
+        tempTargeting = [self.targeting, self.targetingVal]
+        if self.targeting == 'aura':
+            tempTargeting[1] = self.range
+        tempSpecial = [self.special, self.specialVal, self.specialVal2]
 
         self.canFire = False
         xy_vel = [self.projSpd * math.cos(self.rotation) * 50, self.projSpd * -math.sin(self.rotation) * 50]
         temp_spr = components.rot_center(self.spriteProj, math.degrees(self.rotation))
         return projectile.Projectile([self.pos[0] * 50 - 25, self.pos[1] * 50 - 25], xy_vel,
-                                    self.damage, self.range * self.effRange * 50, tempSpecial,
+                                    self.damage, self.range * self.effRange * 50, tempTargeting, tempSpecial,
                                     temp_spr, str(self.stats['sprite_proj'][0]), self.hitSound, self.rotation)
 
     # draws a full turret, centered on a xy coordinate. The first picture is assumed to be the base.

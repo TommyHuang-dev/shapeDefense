@@ -115,8 +115,8 @@ class Enemy(object):
     def inflict_damage(self, damage, specials):
         if damage > self.armour:
             self.curHP -= damage - self.armour
-        if specials[0] == 'AOEslow':
-            self.status.append(['slow', specials[2], specials[3]])  # name, magnitude, duration
+        if specials[0] == 'slow':
+            self.status.append(['slow', specials[1], specials[2]])  # name, magnitude, duration
 
     # draw da hp bar and armour symbol
     def draw_bar(self, display, a_pic):
