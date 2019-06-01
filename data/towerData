@@ -122,7 +122,7 @@ effective_range -0.1
 up_cost 90
 up_cost_inc 45
 max_level 6
-targeting aura
+targeting pulse
 special slow
 special_val 0.6 0.75 0.85
 special_val2 0.8 0.8 0.8

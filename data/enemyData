@@ -14,8 +14,8 @@ sprite recruit
 name brute
 type NORMAL
 movement_type GROUND
-health 25
-regeneration 3.0
+health 28
+regeneration 2.0
 armour 0
 speed 1.5
 radius 12
@@ -66,8 +66,8 @@ sprite common_boss
 name brute boss
 type BOSS
 movement_type GROUND
-health 175
-regeneration 10.0
+health 200
+regeneration 8.0
 armour 0
 speed 1.0
 radius 18

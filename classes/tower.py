@@ -48,15 +48,13 @@ class Turret(object):
         if 'targeting_val' in self.stats:
             self.targetingVal = float(self.stats['targeting_val'][0])
             self.targetingLevel = [1, len(self.stats['targeting_val'])]
-        elif self.targeting == 'aura':
-            self.targetingVal = range
         else:
-            self.targetingVal = [0]
+            self.targetingVal = 0
 
         # get special stats
         self.specialLevel = [1, 1]
         self.special = self.stats['special'][0]
-        self.specialVal = [0]
+        self.specialVal = 0
         if self.special != 'none':  # cool special effect values
             if 'special_val' in self.stats:
                 self.specialVal = float(self.stats['special_val'][0])
@@ -121,7 +119,10 @@ class Turret(object):
         self.range = float(float(self.stats['range'][rangel - 1]) * (1 + self.rangeBoost))
         self.projSpd = float(float(self.stats['proj_spd'][rangel - 1]) * (1 + self.projBoost))
         if 'targeting_val' in self.stats:
-            self.targetingVal = float(self.stats['targeting_val'][targetl - 1])
+            if self.targeting == 'pulse':
+                self.targetingVal = self.range
+            else:
+                self.targetingVal = float(self.stats['targeting_val'][targetl - 1])
         if 'special_val' in self.stats:
             self.specialVal = float(self.stats['special_val'][specl - 1])
         if 'special_val2' in self.stats:  # 2nd special value upgrade
@@ -204,7 +205,7 @@ class Turret(object):
 
         # pass special values to shot
         tempTargeting = [self.targeting, self.targetingVal]
-        if self.targeting == 'aura':
+        if self.targeting == 'pulse':
             tempTargeting[1] = self.range
         tempSpecial = [self.special, self.specialVal, self.specialVal2]
 

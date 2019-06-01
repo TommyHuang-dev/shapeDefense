@@ -36,12 +36,12 @@ class Projectile(object):
             for j in range(len(enemies)):
                 # xy difference
                 diff = [int(self.rectPos[0] - enemies[j].posPx[0]), int(self.rectPos[1] - enemies[j].posPx[1]) + 3]
-                if self.mask.overlap(enemies[j].mask, diff) is not None or self.targeting[0] == 'aura':
+                if self.mask.overlap(enemies[j].mask, diff) is not None or self.targeting[0] == 'pulse':
                     # draw sprite one last time before removal
                     display.blit(self.sprite,
                                  (int(self.posXYPx[0] - self.size[0] / 2), int(self.posXYPx[1] - self.size[1] / 2)))
                     # explosion
-                    if self.targeting[0] == 'splash' or self.targeting[0] == 'aura':
+                    if self.targeting[0] == 'splash' or self.targeting[0] == 'pulse':
                         for k in range(len(enemies)):
                             aoe = self.targeting[1] * 50
                             dist = math.sqrt((self.posXYPx[0] - enemies[k].posPx[0]) ** 2 +
