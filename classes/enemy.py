@@ -87,7 +87,7 @@ class Enemy(object):
                     del self.status[i]
                     i -= 1
                 i += 1
-        slow_regen_multi = 1 - biggest_slow
+        slow_regen_multi = 1 - (biggest_slow / 2)
         # bosses are less affected by slow, but fully affected by the HP regen reduction
         if self.stats['type'] == 'BOSS':
             biggest_slow = biggest_slow * 0.75

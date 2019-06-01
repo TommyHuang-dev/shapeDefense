@@ -43,19 +43,20 @@ class Turret(object):
         self.sellPrice = self.cost / 2  # float, convert to int when actually selling
 
         # get targeting stats
-        self.targetLevel = [1, 1]
+        self.targetingLevel = [1, 1]
         self.targeting = self.stats['targeting'][0]
         if 'targeting_val' in self.stats:
             self.targetingVal = float(self.stats['targeting_val'][0])
-            self.targetLevel = [1, len(self.stats['targeting_val'])]
+            self.targetingLevel = [1, len(self.stats['targeting_val'])]
         elif self.targeting == 'aura':
             self.targetingVal = range
         else:
-            self.targetingVal = 0
+            self.targetingVal = [0]
 
         # get special stats
         self.specialLevel = [1, 1]
         self.special = self.stats['special'][0]
+        self.specialVal = [0]
         if self.special != 'none':  # cool special effect values
             if 'special_val' in self.stats:
                 self.specialVal = float(self.stats['special_val'][0])
@@ -90,7 +91,7 @@ class Turret(object):
 
         # update all stats to match da level one
         self.update_stats(self.initialUpCost, self.upCostInc, self.curLevel,
-                          self.dmgLevel[0], self.rateLevel[0], self.rangeLevel[0], self.specialLevel[0])
+                          self.dmgLevel[0], self.rateLevel[0], self.rangeLevel[0], self.targetingLevel[0], self.specialLevel[0])
         self.placed = False  # becomes true after the tower is placed down
         self.pos = [0, 0]
         tar = []  # targetting purposes
@@ -100,22 +101,27 @@ class Turret(object):
         if stat_num == 0:
             return int(self.stats['damage'][self.dmgLevel[0]]) - int(self.stats['damage'][self.dmgLevel[0] - 1])
         # rate
-        if stat_num == 1:
+        elif stat_num == 1:
             return (int(float(self.stats['rate'][self.rateLevel[0]]) * 100 - float(self.stats['rate'][self.rateLevel[0] - 1]) * 100)) / 100
         # range
-        if stat_num == 2:
+        elif stat_num == 2:
             return (int(float(self.stats['range'][self.rangeLevel[0]]) * 100 - float(self.stats['range'][self.rangeLevel[0] - 1]) * 100)) / 100
-        # special
-        if stat_num == 3:
+        # targeting
+        elif  stat_num == 3:
+            return (int(float(self.stats['targeting_val'][self.targetingLevel[0]]) * 100 - self.targetingVal * 100)) / 100
+        # special effect
+        elif stat_num == 4:
             return (int(float(self.stats['special_val'][self.specialLevel[0]]) * 100 - self.specialVal * 100)) / 100
 
-    def update_stats(self, init_up, inc_up, cur_level, dmgl, ratel, rangel, specl):
+    def update_stats(self, init_up, inc_up, cur_level, dmgl, ratel, rangel, targetl, specl):
         # final upgrade cost = initial cost + (increase * (level - 1))
         self.finalUpCost = int(init_up + inc_up * (cur_level - 1))
         self.damage = int(round(float(self.stats['damage'][dmgl - 1]) * (1 + self.dmgBoost), 0))
         self.rate = float(float(self.stats['rate'][ratel - 1]) * (1 + self.rateBoost))
         self.range = float(float(self.stats['range'][rangel - 1]) * (1 + self.rangeBoost))
         self.projSpd = float(float(self.stats['proj_spd'][rangel - 1]) * (1 + self.projBoost))
+        if 'targeting_val' in self.stats:
+            self.targetingVal = float(self.stats['targeting_val'][targetl - 1])
         if 'special_val' in self.stats:
             self.specialVal = float(self.stats['special_val'][specl - 1])
         if 'special_val2' in self.stats:  # 2nd special value upgrade
@@ -137,7 +143,7 @@ class Turret(object):
                     self.projBoost += (i.specialVal / 2)
         
             self.update_stats(self.initialUpCost, self.upCostInc, self.curLevel,
-                            self.dmgLevel[0], self.rateLevel[0], self.rangeLevel[0], self.specialLevel[0])
+                            self.dmgLevel[0], self.rateLevel[0], self.rangeLevel[0], self.targetingLevel[0], self.specialLevel[0])
 
     def upgrade(self, stat_num):
         # update selling price (1/2 of tower cost + all upgrades)
@@ -151,10 +157,12 @@ class Turret(object):
         elif stat_num == 2:
             self.rangeLevel[0] += 1
         elif stat_num == 3:
+            self.targetingLevel[0] += 1
+        elif stat_num == 4:
             self.specialLevel[0] += 1
 
         self.update_stats(self.initialUpCost, self.upCostInc, self.curLevel,
-                          self.dmgLevel[0], self.rateLevel[0], self.rangeLevel[0], self.specialLevel[0])
+                          self.dmgLevel[0], self.rateLevel[0], self.rangeLevel[0], self.targetingLevel[0], self.specialLevel[0])
 
     # rotate the gun
     def rotate(self, angle):
