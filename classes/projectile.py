@@ -17,7 +17,7 @@ class Projectile(object):
         self.rectPos = [self.posXYPx[0] - self.size[0] / 2, self.posXYPx[1] - self.size[1]]  # top left corner pos
         self.exp = exp + "-hit"
         self.sound = sound
-        if self.targeting[0] == 'piercing':  # list of enemies that were already hit
+        if self.targeting[0] == 'pierce':  # list of enemies that were already hit
             self.hitlist = []
 
     # updates the projectile and then returns a list of enemies hit (can be multiple if the projectile is exploding
@@ -49,7 +49,7 @@ class Projectile(object):
                             if dist <= aoe + int(enemies[k].stats['radius']) * 0.71:
                                 collided.append(enemies[k])
                         return collided
-                    elif self.targeting[0] == 'piercing':
+                    elif self.targeting[0] == 'pierce':
                         # append pierced enemy to list so it doesnt hit it multiple times
                         if enemies[j] not in self.hitlist and len(self.hitlist) <= self.targeting[1]:
                             collided.append(enemies[j])

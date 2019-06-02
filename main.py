@@ -261,8 +261,8 @@ creditText = creditParse.parse("data/credits")
 # ---- LOAD CLASSES ----
 # list of purchasable towers (turrets, boosters)
 towerNames = ['Wall', 'Basic Turret', 'Freezer', 'Machinegun', 'Sniper Turret', 'Rocket Launcher',  'Laser Turret',
-              'Power Station', 'Bank', 'damage module', 'rate module', 'range module']
-# list of towers and boosters available for purchase, taken from towerNames and boosterNames
+              'Power Station', 'Bank', 'damage module', 'rate module', 'range module'] 
+              # list of towers and boosters available for purchase, taken from towerNames and boosterNames
 towerList = []
 # UI button initialization
 butListTowers = []
@@ -298,6 +298,8 @@ for i in range(len(towerList)):
 # switch page button image for puchase menu
 imgNextPage = load_pics("images/UI/", "nextPg")
 imgPrevPage = load_pics("images/UI/", "prevPg")
+imgNextPageHover = load_pics("images/UI/", "nextPgHover")
+imgPrevPageHover = load_pics("images/UI/", "prevPgHover")
 butNextPage = pygame.Rect(disL - 125 + 2, butListTowers[0][1] + 153 + 2,
                           imgNextPage.get_width() - 4, imgNextPage.get_height() - 4)
 butPrevPage = pygame.Rect(disL - 205 + 2, butListTowers[0][1] + 153 - 2,
@@ -846,7 +848,7 @@ while True:
                     i -= 1
 
                 # if it has piercing, keep going
-                elif projList[i].targeting[0] == 'piercing' and len(projList[i].hitlist) <= projList[i].targeting[1]:
+                elif projList[i].targeting[0] == 'pierce' and len(projList[i].hitlist) <= projList[i].targeting[1]:
                     pass
                 else:
                     projExplosionList.append(explosion.Explosion(projList[i].posXYPx,
@@ -928,13 +930,19 @@ while True:
 
         # switch page buttons
         if curPurchasePage > 0:  # previous page
-            screen.blit(imgPrevPage, (disL - 205, butListTowers[0][1] + 153))
+            if butPrevPage.collidepoint(mousePos[0], mousePos[1]):  # highlight on hover
+                screen.blit(imgPrevPageHover, (disL - 205, butListTowers[0][1] + 153))
+            else:
+                screen.blit(imgPrevPage, (disL - 205, butListTowers[0][1] + 153))
             # get hit box and mouse click
             if butPrevPage.collidepoint(mousePos[0], mousePos[1]) and mousePressed[0] == 1:
                 soundClick.play()
                 curPurchasePage -= 1
         if curPurchasePage < (len(towerList) - 1) // 6:  # next page
-            screen.blit(imgNextPage, (disL - 125, butListTowers[0][1] + 153))
+            if butNextPage.collidepoint(mousePos[0], mousePos[1]):  # highlight on hover
+                screen.blit(imgNextPageHover, (disL - 125, butListTowers[0][1] + 153))
+            else:
+                screen.blit(imgNextPage, (disL - 125, butListTowers[0][1] + 153))
             # get hit box and mouse click
             if butNextPage.collidepoint(mousePos[0], mousePos[1]) and mousePressed[0] == 1:
                 soundClick.play()
