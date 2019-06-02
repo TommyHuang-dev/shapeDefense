@@ -20,7 +20,7 @@ special none
 hit_sound none
 end
 
-8-25.6 | $100-350
+7.8-24 | $100-350
 name Basic Turret
 type turret
 cost 100
@@ -28,8 +28,8 @@ energy 0
 sprite_base basic_base
 sprite_turret basic_turret
 sprite_proj basic_shot
-damage 8 12 16
-rate 1.0 1.6
+damage 6 9 12
+rate 1.3 2.0
 range 3.2 4.5
 proj_spd 15.0 18.0
 effective_range 1.1
@@ -176,7 +176,7 @@ end
 -----boosters-----
 
 name Power Station
-type booster
+type utility
 cost 600
 energy -3
 sprite_base power_station
@@ -259,7 +259,7 @@ hit_sound none
 end
 
 name Bank
-type booster
+type utility
 cost 600
 energy 0
 sprite_base bank
