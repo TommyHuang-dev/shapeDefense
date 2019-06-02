@@ -259,8 +259,7 @@ class Turret(object):
     
     def draw_boost_range(self, display, valid, xy=0):
         xy = [self.pos[0] * 50 - 25, self.pos[1] * 50 - 25]
-        if self.range > 0:
-            pygame.draw.rect(display, (60, 100, 250), (xy[0] -26, xy[1] -76, 52, 52), 1)  # north
-            pygame.draw.rect(display, (60, 100, 250), (xy[0] +24, xy[1] -26, 52, 52), 1)  # east
-            pygame.draw.rect(display, (60, 100, 250), (xy[0] -26, xy[1] +24, 52, 52), 1)  # south
-            pygame.draw.rect(display, (60, 100, 250), (xy[0] -76, xy[1] -26, 52, 52), 1)  # west
+        pygame.draw.rect(display, (60, 100, 250), (xy[0] -26, xy[1] -76, 52, 52), 1)  # north
+        pygame.draw.rect(display, (60, 100, 250), (xy[0] +24, xy[1] -26, 52, 52), 1)  # east
+        pygame.draw.rect(display, (60, 100, 250), (xy[0] -26, xy[1] +24, 52, 52), 1)  # south
+        pygame.draw.rect(display, (60, 100, 250), (xy[0] -76, xy[1] -26, 52, 52), 1)  # west

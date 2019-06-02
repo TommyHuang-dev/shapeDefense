@@ -28,23 +28,23 @@ def display_stats(sel_tower):
         # not enough money
         if sel_tower.cost > money:
             # display cost as red text
-            components.create_text(screen, (disL - 100, 400), "$" + str(sel_tower.cost),
+            components.create_text(screen, (disL - 100, 410), "$" + str(sel_tower.cost),
                                    True, levelTowerFont2, (200, 25, 25))
         # enough monies
         else:
             # display cost
-            components.create_text(screen, (disL - 100, 400), "$" + str(sel_tower.cost),
+            components.create_text(screen, (disL - 100, 410), "$" + str(sel_tower.cost),
                                    True, levelTowerFont2, (0, 0, 0))
         # power pic
         if sel_tower.energy > 0:
-            screen.blit(energyMiniPic, (disL - 105, 430))
+            screen.blit(energyMiniPic, (disL - 110, 440))
             # not enough power
             if energy[0] - sel_tower.energy < 0:
-                components.create_text(screen, (disL - 70, 440), str(sel_tower.energy),
+                components.create_text(screen, (disL - 90, 450), str(sel_tower.energy),
                                        False, levelTowerFont2, (200, 25, 25))
             # enough power
             else:
-                components.create_text(screen, (disL - 70, 440), str(sel_tower.energy),
+                components.create_text(screen, (disL - 90, 450), str(sel_tower.energy),
                                        False, levelTowerFont2, (0, 0, 0))
 
     # placed tower, display level
@@ -62,8 +62,8 @@ def display_stats(sel_tower):
                                False, levelTowerFont2, (0, 0, 0))
         # energies
         if sel_tower.energy > 0:
-            screen.blit(energyMiniPic, (disL - 88, 430))
-            components.create_text(screen, (disL - 70, 440), str(sel_tower.energy),
+            screen.blit(energyMiniPic, (disL - 98, 460))
+            components.create_text(screen, (disL - 75, 470), str(sel_tower.energy),
                                        False, levelTowerFont2, (0, 0, 0))
 
     # name
@@ -93,11 +93,11 @@ def display_stats(sel_tower):
 
     # display upgrade cost
     if sel_tower.curLevel < sel_tower.maxLevel and sel_tower.placed:
-        screen.blit(imgUpArrow, (disL - 98 - len(str(sel_tower.finalUpCost)) * 5, 444))
+        screen.blit(imgUpArrow, (disL - 100, 424))
         if money >= sel_tower.finalUpCost:
-            components.create_text(screen, (disL - 70, 460), str(sel_tower.finalUpCost), True, levelTowerFont2, (0, 0, 0))
+            components.create_text(screen, (disL - 75, 440), str(sel_tower.finalUpCost), False, levelTowerFont2, (0, 0, 0))
         else:
-            components.create_text(screen, (disL - 70, 460), str(sel_tower.finalUpCost), True, levelTowerFont2, (200, 25, 25))
+            components.create_text(screen, (disL - 75, 440), str(sel_tower.finalUpCost), False, levelTowerFont2, (200, 25, 25))
     # draw buttons
     if sel_tower.placed:
         cur_stat = 0
@@ -304,7 +304,7 @@ butPrevPage = pygame.Rect(disL - 205 + 2, butListTowers[0][1] + 153 - 2,
                           imgPrevPage.get_width() - 4, imgPrevPage.get_height() - 4)
 
 # selling a tower button
-butSell = pygame.Rect(disL - 100, 510, 80, 50)
+butSell = pygame.Rect(disL - 100, 520, 80, 50)
 
 # upgrading tower buttons
 butUpgrades = [pygame.Rect(disL - 60, 470 + i * 50, 30, 30) for i in range(5)]
@@ -684,7 +684,7 @@ while True:
             placedTowers[i].draw_tower_base(screen, [placedTowers[i].pos[0] * 50 - 25,
                                                      placedTowers[i].pos[1] * 50 - 25])
         # if a tower is viewed, draw the red outline here (before gun, after base)
-        if viewedTower >= 0:
+        if viewedTower >= 0 and placedTowers[viewedTower].type != "booster":
             pygame.draw.rect(screen, (200, 75, 75), (placedTowers[viewedTower].pos[0] * 50 - 50,
                                                      placedTowers[viewedTower].pos[1] * 50 - 50, 50, 50), 3)
 
