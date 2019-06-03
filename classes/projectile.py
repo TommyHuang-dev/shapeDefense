@@ -24,7 +24,7 @@ class Projectile(object):
     def update(self, time, display, enemies):
         collided = []
         # check every 10 spaces for stuffs
-        num_intervals = int(self.totalVel * time / 10) + 1
+        num_intervals = int(self.totalVel * time / 8) + 1
         time /= num_intervals
         for i in range(num_intervals):
             # move self (avg 10 tiles)
