@@ -154,3 +154,15 @@ death_spawn_val 3
 bounty 5
 sprite big_jelly
 
+name rick astley
+type BOSS
+movement_type GROUND
+health 600
+regeneration 20
+speed 0.8
+armour 0
+radius 17
+death_spawn_enemy none
+death_spawn_val 0
+bounty 100
+sprite rick_rolled

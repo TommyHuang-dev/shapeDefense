@@ -456,7 +456,7 @@ while True:
     # page that its on
     curPurchasePage = 0
 
-    # developer cheats (konami code)
+    # cheats (konami code)
     cheatVal = 0  # +1 everytime you press the correct key, otherwise resets to 0
     cheatList = [pygame.K_UP, pygame.K_UP, pygame.K_DOWN, pygame.K_DOWN,
                  pygame.K_LEFT, pygame.K_RIGHT, pygame.K_LEFT, pygame.K_RIGHT, pygame.K_a, pygame.K_b]
