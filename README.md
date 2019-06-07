@@ -13,6 +13,7 @@ read modding_info.txt if you would like to change around the stats of various to
 
 TODO:
 - Separate the 'special' tags of towers into two different tags that determine how the towers hit enemies ('targeting'), and the effect of the hit on enemies (hit_special) (e.g. the freezer tower would become "aura" and "slow" instead of "AOE_slow"). Targeting will have one special value associated with it, hit_special will have up to two values.
+- Infinite, procedurally generated waves after wave 40
 
 'targeting' tags:
 - projectile (regular gun); no special value
