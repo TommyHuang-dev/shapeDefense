@@ -18,6 +18,7 @@ max_level 1
 targeting none
 special none
 hit_sound none
+description It's a wall! Use it to cheaply redirect enemies.
 end
 
 7.8-24 | $100-350
@@ -39,6 +40,7 @@ max_level 5
 targeting projectile
 special none
 hit_sound basic_hit
+description A cheap and reliable turret that can be upgraded to deal a considerable amount of damage.
 end
 
 24-110 | $275-1275
@@ -60,6 +62,7 @@ max_level 6
 targeting projectile
 special none
 hit_sound machinegun_hit
+description This tower has a very high rate of fire, but low damage. It is less effective against armoured units.
 end
 
 20-78 | $275-1275

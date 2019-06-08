@@ -118,9 +118,9 @@ big jelly
 
 wave 19
 brute
-32 0 1.0
+30 0 1.1
 turtle
-32 2 1.0
+30 2 1.1
 
 wave 20
 normal boss
@@ -272,10 +272,10 @@ speedy
 
 wave 39
 turtle boss
-15 1 0.8
+15 1 1.5
 big jelly
-30 1.4 0.4
+30 1.4 0.8
 
 wave 40
 rick astley
-20 2 2.0
+10 2 3.0

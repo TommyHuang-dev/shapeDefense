@@ -76,22 +76,24 @@ class Enemy(object):
 
         # slows and other status effects
         temp_speed = self.speed
-        biggest_slow = 0
+        slow_spd = 1.0
         i = 0
         while i < len(self.status):
             if 'slow' in self.status[i]:  # slowed
-                if self.status[i][1] > biggest_slow:
-                    biggest_slow = self.status[i][1]
+                # slows stack diminishingly
+                slow_spd *= (1-self.status[i][1])
+                
                 self.status[i][2] -= time  # reduce slow timer, delete status effect after it runs out
                 if self.status[i][2] <= 0:
                     del self.status[i]
                     i -= 1
                 i += 1
-        slow_regen_multi = 1 - (biggest_slow / 2)
+
+        slow_regen_multi = slow_spd
         # bosses are less affected by slow, but fully affected by the HP regen reduction
         if self.stats['type'] == 'BOSS':
             biggest_slow = biggest_slow * 0.75
-        temp_speed *= (1 - biggest_slow)  # apply slow
+        temp_speed *= slow_spd  # apply slow
 
         # delay to center the enemy and not immediately change direction
         self.direction_delay -= time * temp_speed
@@ -115,8 +117,10 @@ class Enemy(object):
     def inflict_damage(self, damage, specials):
         if damage > self.armour:
             self.curHP -= damage - self.armour
-        if specials[0] == 'slow':
-            self.status.append(['slow', specials[1], specials[2]])  # name, magnitude, duration
+        elif damage > 0:  # minimum of 1 damage each hit if the attack deals damage
+            self.curHP -= 1
+        if specials[0] != 'none':
+            self.status.append([specials[0], specials[1], specials[2]])  # name, magnitude, duration
 
     # draw da hp bar and armour symbol
     def draw_bar(self, display, a_pic):

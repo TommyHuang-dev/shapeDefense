@@ -157,8 +157,8 @@ sprite big_jelly
 name rick astley
 type BOSS
 movement_type GROUND
-health 600
-regeneration 20
+health 750
+regeneration 15
 speed 0.8
 armour 0
 radius 17
