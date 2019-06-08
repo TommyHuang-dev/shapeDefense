@@ -27,7 +27,6 @@ class Turret(object):
         self.dmgLevel = [1, len(self.stats['damage'])]
         self.rateLevel = [1, len(self.stats['rate'])]
         self.rangeLevel = [1, len(self.stats['range'])]  # also includes projectile speed
-        self.specialLevel = [1, len(self.stats['special_val'])]
 
         # module effect stats
         self.dmgBoost = 0
@@ -42,10 +41,34 @@ class Turret(object):
         self.upCostInc = int(self.stats['up_cost_inc'][0])
         self.finalUpCost = int(self.stats['up_cost'][0])
         self.sellPrice = self.cost / 2  # float, convert to int when actually selling
+
+        # get targeting stats
+        self.targetingLevel = [1, 1]
+        self.targeting = self.stats['targeting'][0]
+        if 'targeting_val' in self.stats:
+            self.targetingVal = float(self.stats['targeting_val'][0])
+            self.targetingLevel = [1, len(self.stats['targeting_val'])]
+        else:
+            self.targetingVal = 0
+
+        # get special stats
+        self.specialLevel = [1, 1]
         self.special = self.stats['special'][0]
-        self.specialVal = self.stats['special_val'][0]
-        if 'special_val2' in self.stats:
-            self.specialVal2 = self.stats['special_val2'][0]
+        self.specialVal = 0
+        if self.special != 'none':  # cool special effect values
+            if 'special_val' in self.stats:
+                self.specialVal = float(self.stats['special_val'][0])
+                self.specialLevel = [1, len(self.stats['special_val'])]
+                if 'special_val2' in self.stats:
+                    self.specialVal2 = float(self.stats['special_val2'][0])
+                else:
+                    self.specialVal2 = 0
+        else:
+            self.special = 'none'
+            self.specialVal = 0
+            self.specialVal2 = 0
+        
+        
         # range * effRange = how far the projectile actually goes
         self.effRange = float(self.stats['effective_range'][0])
         self.reload = 0.01
@@ -66,7 +89,7 @@ class Turret(object):
 
         # update all stats to match da level one
         self.update_stats(self.initialUpCost, self.upCostInc, self.curLevel,
-                          self.dmgLevel[0], self.rateLevel[0], self.rangeLevel[0], self.specialLevel[0])
+                          self.dmgLevel[0], self.rateLevel[0], self.rangeLevel[0], self.targetingLevel[0], self.specialLevel[0])
         self.placed = False  # becomes true after the tower is placed down
         self.pos = [0, 0]
         tar = []  # targetting purposes
@@ -76,23 +99,32 @@ class Turret(object):
         if stat_num == 0:
             return int(self.stats['damage'][self.dmgLevel[0]]) - int(self.stats['damage'][self.dmgLevel[0] - 1])
         # rate
-        if stat_num == 1:
+        elif stat_num == 1:
             return (int(float(self.stats['rate'][self.rateLevel[0]]) * 100 - float(self.stats['rate'][self.rateLevel[0] - 1]) * 100)) / 100
         # range
-        if stat_num == 2:
+        elif stat_num == 2:
             return (int(float(self.stats['range'][self.rangeLevel[0]]) * 100 - float(self.stats['range'][self.rangeLevel[0] - 1]) * 100)) / 100
-        # special
-        if stat_num == 3:
+        # targeting
+        elif  stat_num == 3:
+            return (int(float(self.stats['targeting_val'][self.targetingLevel[0]]) * 100 - self.targetingVal * 100)) / 100
+        # special effect
+        elif stat_num == 4:
             return (int(float(self.stats['special_val'][self.specialLevel[0]]) * 100 - self.specialVal * 100)) / 100
 
-    def update_stats(self, init_up, inc_up, cur_level, dmgl, ratel, rangel, specl):
+    def update_stats(self, init_up, inc_up, cur_level, dmgl, ratel, rangel, targetl, specl):
         # final upgrade cost = initial cost + (increase * (level - 1))
         self.finalUpCost = int(init_up + inc_up * (cur_level - 1))
         self.damage = int(round(float(self.stats['damage'][dmgl - 1]) * (1 + self.dmgBoost), 0))
         self.rate = float(float(self.stats['rate'][ratel - 1]) * (1 + self.rateBoost))
         self.range = float(float(self.stats['range'][rangel - 1]) * (1 + self.rangeBoost))
         self.projSpd = float(float(self.stats['proj_spd'][rangel - 1]) * (1 + self.projBoost))
-        self.specialVal = float(self.stats['special_val'][specl - 1])
+        if 'targeting_val' in self.stats:
+            if self.targeting == 'pulse':
+                self.targetingVal = self.range
+            else:
+                self.targetingVal = float(self.stats['targeting_val'][targetl - 1])
+        if 'special_val' in self.stats:
+            self.specialVal = float(self.stats['special_val'][specl - 1])
         if 'special_val2' in self.stats:  # 2nd special value upgrade
             self.specialVal2 = float(self.stats['special_val2'][specl - 1])
 
@@ -112,7 +144,7 @@ class Turret(object):
                     self.projBoost += (i.specialVal / 2)
         
             self.update_stats(self.initialUpCost, self.upCostInc, self.curLevel,
-                            self.dmgLevel[0], self.rateLevel[0], self.rangeLevel[0], self.specialLevel[0])
+                            self.dmgLevel[0], self.rateLevel[0], self.rangeLevel[0], self.targetingLevel[0], self.specialLevel[0])
 
     def upgrade(self, stat_num):
         # update selling price (1/2 of tower cost + all upgrades)
@@ -126,10 +158,12 @@ class Turret(object):
         elif stat_num == 2:
             self.rangeLevel[0] += 1
         elif stat_num == 3:
+            self.targetingLevel[0] += 1
+        elif stat_num == 4:
             self.specialLevel[0] += 1
 
         self.update_stats(self.initialUpCost, self.upCostInc, self.curLevel,
-                          self.dmgLevel[0], self.rateLevel[0], self.rangeLevel[0], self.specialLevel[0])
+                          self.dmgLevel[0], self.rateLevel[0], self.rangeLevel[0], self.targetingLevel[0], self.specialLevel[0])
 
     # rotate the gun
     def rotate(self, angle):
@@ -170,16 +204,16 @@ class Turret(object):
             self.canFire = True
 
         # pass special values to shot
-        if self.special == "AOEslow":
-            tempSpecial = [self.special, self.range, self.specialVal, self.specialVal2]
-        else:
-            tempSpecial = [self.special, self.specialVal]
+        tempTargeting = [self.targeting, self.targetingVal]
+        if self.targeting == 'pulse':
+            tempTargeting[1] = self.range
+        tempSpecial = [self.special, self.specialVal, self.specialVal2]
 
         self.canFire = False
         xy_vel = [self.projSpd * math.cos(self.rotation) * 50, self.projSpd * -math.sin(self.rotation) * 50]
         temp_spr = components.rot_center(self.spriteProj, math.degrees(self.rotation))
         return projectile.Projectile([self.pos[0] * 50 - 25, self.pos[1] * 50 - 25], xy_vel,
-                                    self.damage, self.range * self.effRange * 50, tempSpecial,
+                                    self.damage, self.range * self.effRange * 50, tempTargeting, tempSpecial,
                                     temp_spr, str(self.stats['sprite_proj'][0]), self.hitSound, self.rotation)
 
     # draws a full turret, centered on a xy coordinate. The first picture is assumed to be the base.
@@ -225,8 +259,7 @@ class Turret(object):
     
     def draw_boost_range(self, display, valid, xy=0):
         xy = [self.pos[0] * 50 - 25, self.pos[1] * 50 - 25]
-        if self.range > 0:
-            pygame.draw.rect(display, (60, 100, 250), (xy[0] -26, xy[1] -76, 52, 52), 1)  # north
-            pygame.draw.rect(display, (60, 100, 250), (xy[0] +24, xy[1] -26, 52, 52), 1)  # east
-            pygame.draw.rect(display, (60, 100, 250), (xy[0] -26, xy[1] +24, 52, 52), 1)  # south
-            pygame.draw.rect(display, (60, 100, 250), (xy[0] -76, xy[1] -26, 52, 52), 1)  # west
+        pygame.draw.rect(display, (60, 100, 250), (xy[0] -26, xy[1] -76, 52, 52), 1)  # north
+        pygame.draw.rect(display, (60, 100, 250), (xy[0] +24, xy[1] -26, 52, 52), 1)  # east
+        pygame.draw.rect(display, (60, 100, 250), (xy[0] -26, xy[1] +24, 52, 52), 1)  # south
+        pygame.draw.rect(display, (60, 100, 250), (xy[0] -76, xy[1] -26, 52, 52), 1)  # west

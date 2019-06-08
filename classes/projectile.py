@@ -2,13 +2,14 @@ import pygame
 import math
 
 class Projectile(object):
-    def __init__(self, xy, vel_xy, damage, range, special, sprite, exp, sound, angle):
+    def __init__(self, xy, vel_xy, damage, range, targeting, special, sprite, exp, sound, angle):
         self.angle = angle
         self.posXYPx = xy
         self.vel = vel_xy
         self.totalVel = math.sqrt(vel_xy[0] ** 2 + vel_xy[1] ** 2)
         self.damage = damage
         self.distance = [0, range]  # current traveled, max
+        self.targeting = targeting
         self.special = special
         self.sprite = sprite
         self.mask = pygame.mask.from_surface(sprite, 90)
@@ -16,14 +17,14 @@ class Projectile(object):
         self.rectPos = [self.posXYPx[0] - self.size[0] / 2, self.posXYPx[1] - self.size[1]]  # top left corner pos
         self.exp = exp + "-hit"
         self.sound = sound
-        if self.special[0] == 'piercing':
+        if self.targeting[0] == 'pierce':  # list of enemies that were already hit
             self.hitlist = []
 
     # updates the projectile and then returns a list of enemies hit (can be multiple if the projectile is exploding
     def update(self, time, display, enemies):
         collided = []
         # check every 10 spaces for stuffs
-        num_intervals = int(self.totalVel * time / 10) + 1
+        num_intervals = int(self.totalVel * time / 8) + 1
         time /= num_intervals
         for i in range(num_intervals):
             # move self (avg 10 tiles)
@@ -35,22 +36,22 @@ class Projectile(object):
             for j in range(len(enemies)):
                 # xy difference
                 diff = [int(self.rectPos[0] - enemies[j].posPx[0]), int(self.rectPos[1] - enemies[j].posPx[1]) + 3]
-                if self.mask.overlap(enemies[j].mask, diff) is not None or self.special[0] == 'AOEslow':
+                if self.mask.overlap(enemies[j].mask, diff) is not None or self.targeting[0] == 'pulse':
                     # draw sprite one last time before removal
                     display.blit(self.sprite,
                                  (int(self.posXYPx[0] - self.size[0] / 2), int(self.posXYPx[1] - self.size[1] / 2)))
                     # explosion
-                    if self.special[0] == 'splash' or self.special[0] == 'AOEslow':
+                    if self.targeting[0] == 'splash' or self.targeting[0] == 'pulse':
                         for k in range(len(enemies)):
-                            aoe = float(self.special[1]) * 50
+                            aoe = self.targeting[1] * 50
                             dist = math.sqrt((self.posXYPx[0] - enemies[k].posPx[0]) ** 2 +
                                              (self.posXYPx[1] - enemies[k].posPx[1]) ** 2)
-                            if dist < aoe + int(enemies[k].stats['radius']) / 2:
+                            if dist <= aoe + int(enemies[k].stats['radius']) * 0.71:
                                 collided.append(enemies[k])
                         return collided
-                    elif self.special[0] == 'piercing':
+                    elif self.targeting[0] == 'pierce':
                         # append pierced enemy to list so it doesnt hit it multiple times
-                        if enemies[j] not in self.hitlist:
+                        if enemies[j] not in self.hitlist and len(self.hitlist) <= self.targeting[1]:
                             collided.append(enemies[j])
                             self.hitlist.append(enemies[j])
                             return collided

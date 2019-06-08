@@ -28,28 +28,28 @@ def display_stats(sel_tower):
         # not enough money
         if sel_tower.cost > money:
             # display cost as red text
-            components.create_text(screen, (disL - 150, 420), "$" + str(sel_tower.cost),
-                                   True, levelTowerFont, (200, 25, 25))
+            components.create_text(screen, (disL - 100, 410), "$" + str(sel_tower.cost),
+                                   True, levelTowerFont2, (200, 25, 25))
         # enough monies
         else:
             # display cost
-            components.create_text(screen, (disL - 150, 420), "$" + str(sel_tower.cost),
-                                   True, levelTowerFont, (0, 0, 0))
+            components.create_text(screen, (disL - 100, 410), "$" + str(sel_tower.cost),
+                                   True, levelTowerFont2, (0, 0, 0))
         # power pic
         if sel_tower.energy > 0:
-            screen.blit(energyMiniPic, (disL - 228, 410))
+            screen.blit(energyMiniPic, (disL - 110, 440))
             # not enough power
             if energy[0] - sel_tower.energy < 0:
-                components.create_text(screen, (disL - 210, 420), str(sel_tower.energy),
-                                       False, levelTowerFont, (200, 25, 25))
+                components.create_text(screen, (disL - 90, 450), str(sel_tower.energy),
+                                       False, levelTowerFont2, (200, 25, 25))
             # enough power
             else:
-                components.create_text(screen, (disL - 210, 420), str(sel_tower.energy),
-                                       False, levelTowerFont, (0, 0, 0))
+                components.create_text(screen, (disL - 90, 450), str(sel_tower.energy),
+                                       False, levelTowerFont2, (0, 0, 0))
 
     # placed tower, display level
     elif sel_tower.placed:
-        temp_str = "level "
+        temp_str = "lvl "
         if sel_tower.curLevel > 1 and sel_tower.curLevel == sel_tower.maxLevel:  # max level
             temp_str += "MAX"
         elif sel_tower.maxLevel == 1:  # not upgradable (i.e. walls)
@@ -58,41 +58,50 @@ def display_stats(sel_tower):
             temp_str += str(sel_tower.curLevel)
             temp_str += str(" / " + str(sel_tower.maxLevel))
         # level :D
-        components.create_text(screen, (disL - 265, 425), temp_str,
-                               False, levelTowerFont, (0, 0, 0))
+        components.create_text(screen, (disL - 100, 410), temp_str,
+                               False, levelTowerFont2, (0, 0, 0))
+        # energies
+        if sel_tower.energy > 0:
+            screen.blit(energyMiniPic, (disL - 98, 460))
+            components.create_text(screen, (disL - 75, 470), str(sel_tower.energy),
+                                       False, levelTowerFont2, (0, 0, 0))
 
     # name
-    components.create_text(screen, (disL - 150, 380), sel_tower.name, True,
+    components.create_text(screen, (disL - 150, 365), sel_tower.name, True,
                            levelTowerTitleFont, (0, 50, 175))
+    
     # display stats
     if sel_tower.type == 'turret':
         # damage
-        components.create_text(screen, (disL - 280, 460), '  Dmg:', False, levelTowerFont, (0, 0, 0))
-        components.create_text(screen, (disL - 200, 460), str(sel_tower.damage), False, levelTowerFont, (0, 0, 100))
+        components.create_text(screen, (disL - 280, 410), '  Dmg:', False, levelTowerFont, (0, 0, 0))
+        components.create_text(screen, (disL - 225, 410), str(sel_tower.damage), False, levelTowerFont, (0, 0, 100))
         # firerate
-        components.create_text(screen, (disL - 280, 495), '  Rate:', False, levelTowerFont, (0, 0, 0))
-        components.create_text(screen, (disL - 200, 495), str(round(sel_tower.rate, 2)), False, levelTowerFont, (0, 0, 100))
+        components.create_text(screen, (disL - 280, 440), '  Rate:', False, levelTowerFont, (0, 0, 0))
+        components.create_text(screen, (disL - 225, 440), str(round(sel_tower.rate, 2)), False, levelTowerFont, (0, 0, 100))
         # range
-        components.create_text(screen, (disL - 280, 530), 'Range:', False, levelTowerFont, (0, 0, 0))
-        components.create_text(screen, (disL - 200, 530), str(round(sel_tower.range, 2)), False, levelTowerFont, (0, 0, 100))
+        components.create_text(screen, (disL - 280, 470), 'Range:', False, levelTowerFont, (0, 0, 0))
+        components.create_text(screen, (disL - 225, 470), str(round(sel_tower.range, 2)), False, levelTowerFont, (0, 0, 100))
         # proj speed
-        components.create_text(screen, (disL - 280, 565), ' P.Spd:', False, levelTowerFont, (0, 0, 0))
-        components.create_text(screen, (disL - 200, 565), str(round(sel_tower.projSpd, 2)), False, levelTowerFont, (0, 0, 100))
+        components.create_text(screen, (disL - 280, 500), ' P.Spd:', False, levelTowerFont, (0, 0, 0))
+        components.create_text(screen, (disL - 225, 500), str(round(sel_tower.projSpd, 2)), False, levelTowerFont, (0, 0, 100))
+    if sel_tower.targeting != 'projectile' and sel_tower.targeting != 'none' and sel_tower.targeting != 'pulse':
+        components.create_text(screen, (disL - 280, 530), sel_tower.targeting + ":", False, levelTowerFont, (0, 0, 0))
+        components.create_text(screen, (disL - 225, 530), sel_tower.targetingVal, False, levelTowerFont, (0, 0, 100))
     if sel_tower.special != 'none':
-        components.create_text(screen, (disL - 280, 600), sel_tower.special + ":", False, levelTowerFont, (0, 0, 0))
-        components.create_text(screen, (disL - 200, 600), sel_tower.specialVal, False, levelTowerFont, (0, 0, 100))
+        components.create_text(screen, (disL - 280, 560), sel_tower.special + ":", False, levelTowerFont, (0, 0, 0))
+        components.create_text(screen, (disL - 225, 560), sel_tower.specialVal, False, levelTowerFont, (0, 0, 100))
 
     # display upgrade cost
     if sel_tower.curLevel < sel_tower.maxLevel and sel_tower.placed:
-        screen.blit(imgUpArrow, (disL - 75 - len(str(sel_tower.finalUpCost)) * 5, 410))
+        screen.blit(imgUpArrow, (disL - 100, 424))
         if money >= sel_tower.finalUpCost:
-            components.create_text(screen, (disL - 50, 425), str(sel_tower.finalUpCost), True, levelTowerFont, (0, 0, 0))
+            components.create_text(screen, (disL - 75, 440), str(sel_tower.finalUpCost), False, levelTowerFont2, (0, 0, 0))
         else:
-            components.create_text(screen, (disL - 50, 425), str(sel_tower.finalUpCost), True, levelTowerFont, (200, 25, 25))
+            components.create_text(screen, (disL - 75, 440), str(sel_tower.finalUpCost), False, levelTowerFont2, (200, 25, 25))
     # draw buttons
     if sel_tower.placed:
         cur_stat = 0
-        for i in [sel_tower.dmgLevel, sel_tower.rateLevel, sel_tower.rangeLevel, sel_tower.specialLevel]:
+        for i in [sel_tower.dmgLevel, sel_tower.rateLevel, sel_tower.rangeLevel, sel_tower.targetingLevel, sel_tower.specialLevel]:
             # if it is not max level, draw the button
             if i[0] < i[1]:
                 # get input
@@ -100,7 +109,7 @@ def display_stats(sel_tower):
                 pygame.draw.rect(screen, (25, 25, 25), butUpgradeTower[cur_stat], 1)
                 # preview the stat increase
                 if butUpgradeTower[cur_stat].collidepoint(mousePos[0], mousePos[1]):
-                    components.create_text(screen, (disL - 120, butUpgradeTower[cur_stat][1] + 10),
+                    components.create_text(screen, (butUpgradeTower[cur_stat][0] - 22 - len(str(sel_tower.upgrade_preview(cur_stat))) * 6, butUpgradeTower[cur_stat][1] + 10),
                                            "+" + str(sel_tower.upgrade_preview(cur_stat)), False, levelTowerFont, (25, 175, 25))
                     # draw outline if you have enough money
                     if money >= sel_tower.finalUpCost:
@@ -176,17 +185,17 @@ msLevelSelectFont = pygame.font.SysFont('Trebuchet MS', 32, False)
 msMenuButFont = pygame.font.SysFont('Trebuchet MS', 45, True)
 msHeaderFont = pygame.font.SysFont('Trebuchet MS', 40, True)
 msHeaderFont.set_underline(True)
+creditHeaderFont = pygame.font.SysFont('Trebuchet MS', 24, True)
+creditBodyFont = pygame.font.SysFont('Trebuchet MS', 18, False)
 
 levelInfoFont = pygame.font.SysFont('Trebuchet MS', 28, False)
-levelSmallInfoFont = pygame.font.SysFont('Trebuchet MS', 20, False)
-levelTowerTitleFont = pygame.font.SysFont('Trebuchet MS', 28, True)
+levelSmallInfoFont = pygame.font.SysFont('Trebuchet MS',18, False)
+levelTowerTitleFont = pygame.font.SysFont('Trebuchet MS', 24, True)
 levelTowerTitleFont.set_underline(True)
-levelTowerFont = pygame.font.SysFont('Trebuchet MS', 22, False)
+levelTowerFont = pygame.font.SysFont('Trebuchet MS', 16, False)
+levelTowerFont2 = pygame.font.SysFont('Trebuchet MS', 18, True)
 levelNextWaveFont = pygame.font.SysFont('Trebuchet MS', 40, True)
 levelFastFont = pygame.font.SysFont('Trebuchet MS', 12, False)
-
-creditHeaderFont = pygame.font.SysFont('Trebuchet MS', 30, True)
-creditBodyFont = pygame.font.SysFont('Trebuchet MS', 24, False)
 
 # initialize maps
 mapList = ["1", "2", "3", "4", "5", "6"]  # map file names
@@ -251,9 +260,9 @@ creditText = creditParse.parse("data/credits")
 
 # ---- LOAD CLASSES ----
 # list of purchasable towers (turrets, boosters)
-towerNames = ['Wall', 'Basic Turret', 'Machinegun', 'Sniper Turret', 'Rocket Launcher', 'Freezer', 'Laser Turret',
-              'Power Station', 'Bank', 'damage module', 'rate module', 'range module']
-# list of towers and boosters available for purchase, taken from towerNames and boosterNames
+towerNames = ['Wall', 'Basic Turret', 'Freezer', 'Machinegun', 'Sniper Turret', 'Rocket Launcher',  'Laser Turret',
+              'Power Station', 'Bank', 'damage module', 'rate module', 'range module'] 
+              # list of towers and boosters available for purchase, taken from towerNames and boosterNames
 towerList = []
 # UI button initialization
 butListTowers = []
@@ -266,11 +275,11 @@ for i in range(len(towerNames)):
 # create turret buttons
 for i in range(6):
     if i % 3 == 0:
-        butListTowers.append(pygame.Rect(disL - 270, 170 + (i // 3) * 80, 70, 70))
+        butListTowers.append(pygame.Rect(disL - 270, 155 + (i // 3) * 80, 70, 70))
     elif i % 3 == 1:
-        butListTowers.append(pygame.Rect(disL - 185, 170 + (i // 3) * 80, 70, 70))
+        butListTowers.append(pygame.Rect(disL - 185, 155 + (i // 3) * 80, 70, 70))
     elif i % 3 == 2:
-        butListTowers.append(pygame.Rect(disL - 100, 170 + (i // 3) * 80, 70, 70))
+        butListTowers.append(pygame.Rect(disL - 100, 155 + (i // 3) * 80, 70, 70))
 
 # projectile image loading (uses a dictionary)
 explosionImgList = {}
@@ -289,13 +298,15 @@ for i in range(len(towerList)):
 # switch page button image for puchase menu
 imgNextPage = load_pics("images/UI/", "nextPg")
 imgPrevPage = load_pics("images/UI/", "prevPg")
-butNextPage = pygame.Rect(disL - 130 + 2, butListTowers[0][1] + 150 + 2,
+imgNextPageHover = load_pics("images/UI/", "nextPgHover")
+imgPrevPageHover = load_pics("images/UI/", "prevPgHover")
+butNextPage = pygame.Rect(disL - 125 + 2, butListTowers[0][1] + 153 + 2,
                           imgNextPage.get_width() - 4, imgNextPage.get_height() - 4)
-butPrevPage = pygame.Rect(disL - 200 + 2, butListTowers[0][1] + 150 - 2,
+butPrevPage = pygame.Rect(disL - 205 + 2, butListTowers[0][1] + 153 - 2,
                           imgPrevPage.get_width() - 4, imgPrevPage.get_height() - 4)
 
 # selling a tower button
-butSell = pygame.Rect(disL - 250, disH - 120, 200, 30)
+butSell = pygame.Rect(disL - 100, 520, 80, 50)
 
 # upgrading tower buttons
 butUpgrades = [pygame.Rect(disL - 60, 470 + i * 50, 30, 30) for i in range(5)]
@@ -305,9 +316,7 @@ butNextWave = pygame.Rect(disL - 275, disH - 70, 250, 60)
 colNextWaveBut = [[175, 175, 175], [15, 215, 110]]  # colour for round in progress vs. not in progress
 
 # upgrade tower buttons (there are 4)
-# x = 280
-# 460, 495, 530, 565, 600
-butUpgradeTower = [pygame.Rect(disL - 60, 450 + i * 35, 20, 20) for i in range(5)]
+butUpgradeTower = [pygame.Rect(disL - 140, 400 + i * 30, 20, 20) for i in range(6)]
 del(butUpgradeTower[3])  # delete proj_spd button
 
 
@@ -393,7 +402,8 @@ while True:
             components.create_text(screen, (400, 340), creditText[0], False, creditHeaderFont, (0, 0, 0))
             # create rest of credits
             for i in range(1, len(creditText)):
-                components.create_text(screen, (400, 340 + i * 30), creditText[i], False, creditBodyFont, (0, 0, 0))
+                xVal = 400
+                components.create_text(screen, (xVal, 340 + i * 22), creditText[i], False, creditBodyFont, (0, 0, 0))
 
         # title text
         screen.blit(picTitle, (250, 50))
@@ -435,7 +445,7 @@ while True:
     pygame.mixer.music.stop()
 
     # ---- IN-GAME SETUP and reset variables----
-    curWave = 38  # current wave, displayed value is 1 more than this (starts at -1)
+    curWave = -1  # current wave, displayed value is 1 more than this (starts at -1)
     money = 500  # starting monies
     energy = [5, 5]  # amount of power left vs maximum
     income = 100  # monies per round
@@ -447,7 +457,7 @@ while True:
     # page that its on
     curPurchasePage = 0
 
-    # developer cheats (konami code)
+    # cheats (konami code)
     cheatVal = 0  # +1 everytime you press the correct key, otherwise resets to 0
     cheatList = [pygame.K_UP, pygame.K_UP, pygame.K_DOWN, pygame.K_DOWN,
                  pygame.K_LEFT, pygame.K_RIGHT, pygame.K_LEFT, pygame.K_RIGHT, pygame.K_a, pygame.K_b]
@@ -465,7 +475,8 @@ while True:
     msgTimer = -1  # timer in seconds
     msgText = ""
 
-    # placed towers
+    # placed towers and wall connectors
+    wallConnect = []  # list of connecting sections of wall: format [[[tile1x, tile1y],[tile2x, tile2y]], ...]
     placedTowers = []  # list of tower objects, placed down
     placedTowersLoc = []  # used so that you cant overlap two towers
 
@@ -540,7 +551,7 @@ while True:
                     if cheatVal > len(cheatList) - 1:
                         # give a ton of money and life
                         cheatVal = 0
-                        money = 10000
+                        money = 9999
                         life = 200
                 else:  # reset value if the cheat wasnt properly done
                     cheatVal = 0
@@ -583,10 +594,6 @@ while True:
                 del(projExplosionList[i])
             else:
                 i += 1
-
-        # make sure money doesn't go over maximum of 10000
-        if money > 10000:
-            money = 10000
 
         # ---- BACKGROUND ----
         screen.fill(selectedMap.colBackground)
@@ -675,15 +682,25 @@ while True:
             money *= (1 + interest)
 
         # ---- TOWERS ----
+        # draw wall connector
+        ignoreList = []
+        for i in wallConnect:
+            pygame.draw.rect(screen, (140, 140, 140), (i[0][0] * 50 - 30, i[0][1] * 50 - 30, 
+                    i[1][0] * 50 - i[0][0] * 50 + 10, i[1][1] * 50 - i[0][1] * 50 + 10))
+            pygame.draw.rect(screen, (25, 25, 25), (i[0][0] * 50 - 30, i[0][1] * 50 - 30, 
+                    i[1][0] * 50 - i[0][0] * 50 + 10, i[1][1] * 50 - i[0][1] * 50 + 10), 1)
+
         # draw placed towers:
-        # tower base
-        for i in range(len(placedTowers)):
-            placedTowers[i].draw_tower_base(screen, [placedTowers[i].pos[0] * 50 - 25,
-                                                     placedTowers[i].pos[1] * 50 - 25])
+        # tower base    
+        for i in placedTowers:
+            i.draw_tower_base(screen, [i.pos[0] * 50 - 25, i.pos[1] * 50 - 25])
         # if a tower is viewed, draw the red outline here (before gun, after base)
         if viewedTower >= 0:
-            pygame.draw.rect(screen, (200, 75, 75), (placedTowers[viewedTower].pos[0] * 50 - 50,
-                                                     placedTowers[viewedTower].pos[1] * 50 - 50, 50, 50), 3)
+            outlineMask = (pygame.mask.from_surface(placedTowers[viewedTower].spriteBase)).outline()
+            ptList = []
+            for i in outlineMask:
+                ptList.append([i[0] + placedTowers[viewedTower].pos[0] * 50 - 50, i[1] + placedTowers[viewedTower].pos[1] * 50 - 50])
+            pygame.draw.lines(screen, (240, 25, 25), False, ptList, 2)
 
         # tower gun
         for i in range(len(placedTowers)):
@@ -761,6 +778,12 @@ while True:
                             if abs(placedTowers[-1].pos[0] - i.pos[0]) + abs(placedTowers[-1].pos[1] - i.pos[1]) == 1:
                                 adjacentTowerList.append(i)
                         
+                        # wall connections
+                        for i in adjacentTowerList:
+                            if placedTowers[-1].type == "wall" or i.type == "wall":
+                                wallConnect.append([placedTowers[-1].pos, i.pos])
+                        print(wallConnect)
+
                         # update self if turret
                         if placedTowers[-1].type == "turret":
                             placedTowers[-1].calc_boost(adjacentTowerList)
@@ -836,17 +859,18 @@ while True:
                         del(enemyList[enemyList.index(enemyHit[j])])
 
                 # add explosion pic
-                if projList[i].special[0] == 'splash' or projList[i].special[0] == 'AOEslow':
+                if projList[i].targeting[0] == 'splash' or projList[i].targeting[0] == 'pulse':
                     projExplosionList.append(explosion.Explosion(projList[i].posXYPx,
-                                                                 explosionImgList[projList[i].exp], float(projList[i].special[1]) * 100, projList[i].angle))
-                elif projList[i].special[0] != 'piercing':
+                                                                 explosionImgList[projList[i].exp], float(projList[i].targeting[1]) * 100, projList[i].angle))
+                    del (projList[i])
+                    i -= 1
+
+                # if it has piercing, keep going
+                elif projList[i].targeting[0] == 'pierce' and len(projList[i].hitlist) <= projList[i].targeting[1]:
+                    pass
+                else:
                     projExplosionList.append(explosion.Explosion(projList[i].posXYPx,
                                                                  explosionImgList[projList[i].exp], -1, projList[i].angle))
-                # if it has piercing, keep going
-                if projList[i].special[0] == 'piercing' and len(projList[i].hitlist) - 1 < projList[i].special[1]:
-                    pass
-
-                else:
                     del (projList[i])
                     i -= 1
 
@@ -886,9 +910,9 @@ while True:
         pygame.draw.line(screen, selectedMap.colObs, (disL - 300, 0), (disL - 300, disH), 3)
 
         # sub dividers, from top to bottom
-        pygame.draw.line(screen, (70, 70, 70), (disL - 300, butListTowers[0][1] - 20), (disL, butListTowers[0][1] - 20))
-        pygame.draw.line(screen, (70, 70, 70), (disL - 300, butListTowers[0][1] + 180),
-                         (disL, butListTowers[0][1] + 180))
+        pygame.draw.line(screen, (70, 70, 70), (disL - 300, butListTowers[0][1] - 18), (disL, butListTowers[0][1] - 18))
+        pygame.draw.line(screen, (70, 70, 70), (disL - 300, butListTowers[0][1] + 185),
+                         (disL, butListTowers[0][1] + 185))
         pygame.draw.line(screen, (70, 70, 70), (disL - 300, disH - 80),
                          (disL, disH - 80))
 
@@ -915,8 +939,8 @@ while True:
                     # make sure you don't place towers during a wave
                     selectedTower = 'none'
                     # reset tower CD
-                    for i in range(len(placedTowers)):
-                        placedTowers[i].reload = 0.05
+                    for i in placedTowers:
+                        i.reload = 0.05
 
         # next wave text
         components.create_text(screen, (butNextWave[0] + butNextWave[2] // 2, butNextWave[1] + butNextWave[3] // 2),
@@ -924,13 +948,19 @@ while True:
 
         # switch page buttons
         if curPurchasePage > 0:  # previous page
-            screen.blit(imgPrevPage, (disL - 200, butListTowers[0][1] + 150))
+            if butPrevPage.collidepoint(mousePos[0], mousePos[1]):  # highlight on hover
+                screen.blit(imgPrevPageHover, (disL - 205, butListTowers[0][1] + 153))
+            else:
+                screen.blit(imgPrevPage, (disL - 205, butListTowers[0][1] + 153))
             # get hit box and mouse click
             if butPrevPage.collidepoint(mousePos[0], mousePos[1]) and mousePressed[0] == 1:
                 soundClick.play()
                 curPurchasePage -= 1
         if curPurchasePage < (len(towerList) - 1) // 6:  # next page
-            screen.blit(imgNextPage, (disL - 130, butListTowers[0][1] + 150))
+            if butNextPage.collidepoint(mousePos[0], mousePos[1]):  # highlight on hover
+                screen.blit(imgNextPageHover, (disL - 125, butListTowers[0][1] + 153))
+            else:
+                screen.blit(imgNextPage, (disL - 125, butListTowers[0][1] + 153))
             # get hit box and mouse click
             if butNextPage.collidepoint(mousePos[0], mousePos[1]) and mousePressed[0] == 1:
                 soundClick.play()
@@ -1003,9 +1033,11 @@ while True:
                     # sell button
                     pygame.draw.rect(screen, (225, 100, 100), butSell)
                     # text of sell button
-                    components.create_text(screen, (butSell[0] + butSell[2] // 2, butSell[1] + butSell[3] // 2),
-                                           'SELL FOR $' + str(int(placedTowers[viewedTower].sellPrice)),
-                                           True, levelTowerFont, (0, 0, 0))
+                    components.create_text(screen, (butSell[0] + butSell[2] // 2, butSell[1] + butSell[3] // 2 - 12),
+                                           'SELL FOR', True, levelTowerFont, (0, 0, 0))
+                    components.create_text(screen, (butSell[0] + butSell[2] // 2, butSell[1] + butSell[3] // 2 + 12),
+                                           "$" + str(int(placedTowers[viewedTower].sellPrice)), True, levelTowerFont, (0, 0, 0))
+                                           
                     # interact with sell button
                     if butSell.collidepoint(mousePos[0], mousePos[1]) and not currentlyInWave:
                         pygame.draw.rect(screen, (0, 0, 0), butSell, 3)
@@ -1056,19 +1088,23 @@ while True:
                     else:
                         pygame.draw.rect(screen, (0, 0, 0), butSell, 1)
 
+        # limit money to 9999
+        if money > 9999:
+            money = 9999
+
         # info about money, life, etc.
         # life
-        screen.blit(lifePic, (disL - 275, 20))
-        components.create_text(screen, (disL - 215, 50), str(life), False, levelInfoFont, (0, 0, 0))
+        screen.blit(lifePic, (disL - 280, 20))
+        components.create_text(screen, (disL - 230, 40), str(life), False, levelInfoFont, (0, 0, 0))
         # wave
-        components.create_text(screen, (disL - 145, 50), "wave  " + str(curWave + 1), False, levelInfoFont, (0, 0, 0))
+        components.create_text(screen, (disL - 140, 40), "wave  " + str(curWave + 1), False, levelInfoFont, (0, 0, 0))
         # money
-        screen.blit(moneyPic, (disL - 275, 80))
-        components.create_text(screen, (disL - 215, 105), str(int(money)), False, levelInfoFont, (0, 0, 0))
-        components.create_text(screen, (disL - 210, 130), str(int(income)) + "+" + str(int(interest*100)) + "%", False, levelSmallInfoFont, (0, 0, 0))
+        screen.blit(moneyPic, (disL - 280, 70))
+        components.create_text(screen, (disL - 230, 90), str(int(money)), False, levelInfoFont, (0, 0, 0))
+        components.create_text(screen, (disL - 225, 112), str(int(income)) + " + " + str(int(interest*100)) + "%", False, levelSmallInfoFont, (0, 0, 0))
         # energy
-        screen.blit(energyPic, (disL - 150, 80))
-        components.create_text(screen, (disL - 100, 110), str(energy[0]) + "/" + str(energy[1]),
+        screen.blit(energyPic, (disL - 150, 70))
+        components.create_text(screen, (disL - 110, 90), str(energy[0]) + "/" + str(energy[1]),
                                False, levelInfoFont, (0, 0, 0))
         
         if life <= 0 and deathTimer < -100:
