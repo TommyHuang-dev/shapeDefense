@@ -782,7 +782,6 @@ while True:
                         for i in adjacentTowerList:
                             if placedTowers[-1].type == "wall" or i.type == "wall":
                                 wallConnect.append([placedTowers[-1].pos, i.pos])
-                        print(wallConnect)
 
                         # update self if turret
                         if placedTowers[-1].type == "turret":
@@ -1058,7 +1057,7 @@ while True:
                                 soundSell.play()
                                 if placedTowers[viewedTower].special == 'income':  # update income on sell
                                     income -= placedTowers[viewedTower].specialVal
-                                
+
                                 # check boosts
                                 placedTowers[viewedTower].specialVal = 0
                                 adjacentTowerList = []
@@ -1066,6 +1065,18 @@ while True:
                                     # calculate distance to tower and check if it equals one
                                     if abs(placedTowers[viewedTower].pos[0] - i.pos[0]) + abs(placedTowers[viewedTower].pos[1] - i.pos[1]) == 1:
                                         adjacentTowerList.append(i)
+                                # update wall connections
+                                i = 0
+                                while i < len(adjacentTowerList):
+                                    if placedTowers[-1].type == "wall" or adjacentTowerList[i].type == "wall":
+                                        if [[placedTowers[-1].pos], [adjacentTowerList[i].pos]] in wallConnect:
+                                            del(placedTowers[placedTowers.index([[placedTowers[-1].pos], [adjacentTowerList[i].pos]])])
+                                            i -= 1
+                                        if [[adjacentTowerList[i].pos], [placedTowers[-1].pos]] in wallConnect:
+                                            del(placedTowers[placedTowers.index([[adjacentTowerList[i].pos], [placedTowers[-1].pos]])])
+                                            i -= 1
+                                    
+                                    i += 1
                                 # update each adjacent tower if booster
                                 if placedTowers[viewedTower].type == "booster":
                                     for i in adjacentTowerList:
