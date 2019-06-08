@@ -476,7 +476,7 @@ while True:
     msgText = ""
 
     # placed towers and wall connectors
-    wallConnect = []  # list of connecting sections of wall: format [[tileX, tileY], ...]
+    wallConnect = []  # list of connecting sections of wall: format [[[tile1x, tile1y],[tile2x, tile2y]], ...]
     placedTowers = []  # list of tower objects, placed down
     placedTowersLoc = []  # used so that you cant overlap two towers
 
@@ -683,6 +683,12 @@ while True:
 
         # ---- TOWERS ----
         # draw wall connector
+        ignoreList = []
+        for i in wallConnect:
+            pygame.draw.rect(screen, (140, 140, 140), (i[0][0] * 50 - 30, i[0][1] * 50 - 30, 
+                    i[1][0] * 50 - i[0][0] * 50 + 10, i[1][1] * 50 - i[0][1] * 50 + 10))
+            pygame.draw.rect(screen, (25, 25, 25), (i[0][0] * 50 - 30, i[0][1] * 50 - 30, 
+                    i[1][0] * 50 - i[0][0] * 50 + 10, i[1][1] * 50 - i[0][1] * 50 + 10), 1)
 
         # draw placed towers:
         # tower base    
@@ -773,11 +779,9 @@ while True:
                                 adjacentTowerList.append(i)
                         
                         # wall connections
-                        if placedTowers[-1].type == "wall":
-                            wallConnect.append(placedTowers[-1].pos)
                         for i in adjacentTowerList:
-                            if (placedTowers[-1].type == "wall" or i.type == "wall") and i.pos not in wallConnect:
-                                wallConnect.append(i.pos)
+                            if placedTowers[-1].type == "wall" or i.type == "wall":
+                                wallConnect.append([placedTowers[-1].pos, i.pos])
                         print(wallConnect)
 
                         # update self if turret
