@@ -475,7 +475,8 @@ while True:
     msgTimer = -1  # timer in seconds
     msgText = ""
 
-    # placed towers
+    # placed towers and wall connectors
+    wallConnect = []  # list of connecting sections of wall: format [[tileX, tileY], ...]
     placedTowers = []  # list of tower objects, placed down
     placedTowersLoc = []  # used so that you cant overlap two towers
 
@@ -681,17 +682,19 @@ while True:
             money *= (1 + interest)
 
         # ---- TOWERS ----
+        # draw wall connector
+
         # draw placed towers:
-        # tower base
-        for i in placedTowers:
-            if i.name == "Wall":
-                pass
+        # tower base    
         for i in placedTowers:
             i.draw_tower_base(screen, [i.pos[0] * 50 - 25, i.pos[1] * 50 - 25])
         # if a tower is viewed, draw the red outline here (before gun, after base)
-        if viewedTower >= 0 and placedTowers[viewedTower].type != "booster":
-            pygame.draw.rect(screen, (200, 75, 75), (placedTowers[viewedTower].pos[0] * 50 - 50,
-                                                     placedTowers[viewedTower].pos[1] * 50 - 50, 50, 50), 3)
+        if viewedTower >= 0:
+            outlineMask = (pygame.mask.from_surface(placedTowers[viewedTower].spriteBase)).outline()
+            ptList = []
+            for i in outlineMask:
+                ptList.append([i[0] + placedTowers[viewedTower].pos[0] * 50 - 50, i[1] + placedTowers[viewedTower].pos[1] * 50 - 50])
+            pygame.draw.lines(screen, (240, 25, 25), False, ptList, 2)
 
         # tower gun
         for i in range(len(placedTowers)):
@@ -769,6 +772,14 @@ while True:
                             if abs(placedTowers[-1].pos[0] - i.pos[0]) + abs(placedTowers[-1].pos[1] - i.pos[1]) == 1:
                                 adjacentTowerList.append(i)
                         
+                        # wall connections
+                        if placedTowers[-1].type == "wall":
+                            wallConnect.append(placedTowers[-1].pos)
+                        for i in adjacentTowerList:
+                            if (placedTowers[-1].type == "wall" or i.type == "wall") and i.pos not in wallConnect:
+                                wallConnect.append(i.pos)
+                        print(wallConnect)
+
                         # update self if turret
                         if placedTowers[-1].type == "turret":
                             placedTowers[-1].calc_boost(adjacentTowerList)

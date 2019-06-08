@@ -117,20 +117,20 @@ energy 1
 sprite_base freezer_base
 sprite_turret none
 sprite_proj ice_shot
-damage 0 6
-rate 0.7
-range 1.5 2.1 2.7
+damage 1 5
+rate 1.0
+range 1.5 2.0 2.5
 proj_spd 0 0 0
-effective_range -0.1
+effective_range -1
 up_cost 90
 up_cost_inc 45
 max_level 6
 targeting pulse
 special slow
-special_val 0.6 0.75 0.85
-special_val2 0.8 0.8 0.8
+special_val 0.5 0.65 0.8
+special_val2 0.75 0.75 0.75
 hit_sound ice_hit
-desc slows enemies nearby and lowers regeneration
+description This tower does very little damage, but emits a pulsing aura which slows all enemies hit.
 end
 
 18-75 | $525-2565
