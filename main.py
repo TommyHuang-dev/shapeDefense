@@ -185,6 +185,8 @@ msLevelSelectFont = pygame.font.SysFont('Trebuchet MS', 32, False)
 msMenuButFont = pygame.font.SysFont('Trebuchet MS', 45, True)
 msHeaderFont = pygame.font.SysFont('Trebuchet MS', 40, True)
 msHeaderFont.set_underline(True)
+creditHeaderFont = pygame.font.SysFont('Trebuchet MS', 24, True)
+creditBodyFont = pygame.font.SysFont('Trebuchet MS', 18, False)
 
 levelInfoFont = pygame.font.SysFont('Trebuchet MS', 28, False)
 levelSmallInfoFont = pygame.font.SysFont('Trebuchet MS',18, False)
@@ -194,8 +196,6 @@ levelTowerFont = pygame.font.SysFont('Trebuchet MS', 16, False)
 levelTowerFont2 = pygame.font.SysFont('Trebuchet MS', 18, True)
 levelNextWaveFont = pygame.font.SysFont('Trebuchet MS', 40, True)
 levelFastFont = pygame.font.SysFont('Trebuchet MS', 12, False)
-creditHeaderFont = pygame.font.SysFont('Trebuchet MS', 30, True)
-creditBodyFont = pygame.font.SysFont('Trebuchet MS', 24, False)
 
 # initialize maps
 mapList = ["1", "2", "3", "4", "5", "6"]  # map file names
@@ -402,7 +402,8 @@ while True:
             components.create_text(screen, (400, 340), creditText[0], False, creditHeaderFont, (0, 0, 0))
             # create rest of credits
             for i in range(1, len(creditText)):
-                components.create_text(screen, (400, 340 + i * 30), creditText[i], False, creditBodyFont, (0, 0, 0))
+                xVal = 400
+                components.create_text(screen, (xVal, 340 + i * 22), creditText[i], False, creditBodyFont, (0, 0, 0))
 
         # title text
         screen.blit(picTitle, (250, 50))
@@ -682,9 +683,11 @@ while True:
         # ---- TOWERS ----
         # draw placed towers:
         # tower base
-        for i in range(len(placedTowers)):
-            placedTowers[i].draw_tower_base(screen, [placedTowers[i].pos[0] * 50 - 25,
-                                                     placedTowers[i].pos[1] * 50 - 25])
+        for i in placedTowers:
+            if i.name == "Wall":
+                pass
+        for i in placedTowers:
+            i.draw_tower_base(screen, [i.pos[0] * 50 - 25, i.pos[1] * 50 - 25])
         # if a tower is viewed, draw the red outline here (before gun, after base)
         if viewedTower >= 0 and placedTowers[viewedTower].type != "booster":
             pygame.draw.rect(screen, (200, 75, 75), (placedTowers[viewedTower].pos[0] * 50 - 50,

@@ -7,8 +7,7 @@ def parse(file_name):
         if len(line.strip()) == 0:
             text_info.append("")
         else:
-            cur_line = line.split()
-            cur_line = ' '.join(map(str, cur_line))  # joins all words together
+            cur_line = line.strip()
             text_info.append(cur_line)
 
     return text_info
