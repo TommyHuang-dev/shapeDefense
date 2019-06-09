@@ -605,8 +605,8 @@ while True:
         # path display stuff
         if not currentlyInWave:
             for i in range(len(path)):
-                for j in range(len(path[i])):
-                    pygame.draw.circle(screen, (0, 0, 0), (path[i][j][0] * 50 - 25, path[i][j][1] * 50 - 25), 2)
+                lines = [[path[i][a][0] * 50 - 25, path[i][a][1] * 50 - 25] for a in range(len(path[i]))]
+                pygame.draw.lines(screen, (50, 50, 50), False, lines, 1)
 
         # path line indicators (on hover)
         for i in range(len(pathRect)):
@@ -685,10 +685,10 @@ while True:
         # draw wall connector
         ignoreList = []
         for i in wallConnect:
-            pygame.draw.rect(screen, (140, 140, 140), (i[0][0] * 50 - 30, i[0][1] * 50 - 30, 
-                    i[1][0] * 50 - i[0][0] * 50 + 10, i[1][1] * 50 - i[0][1] * 50 + 10))
-            pygame.draw.rect(screen, (25, 25, 25), (i[0][0] * 50 - 30, i[0][1] * 50 - 30, 
-                    i[1][0] * 50 - i[0][0] * 50 + 10, i[1][1] * 50 - i[0][1] * 50 + 10), 1)
+            pygame.draw.rect(screen, (140, 140, 140), (i[0][0] * 50 - 32, i[0][1] * 50 - 32, 
+                    i[1][0] * 50 - i[0][0] * 50 + 14, i[1][1] * 50 - i[0][1] * 50 + 14))
+            pygame.draw.rect(screen, (25, 25, 25), (i[0][0] * 50 - 32, i[0][1] * 50 - 32, 
+                    i[1][0] * 50 - i[0][0] * 50 + 14, i[1][1] * 50 - i[0][1] * 50 + 14), 1)
 
         # draw placed towers:
         # tower base    
@@ -1068,14 +1068,15 @@ while True:
                                 # update wall connections
                                 i = 0
                                 while i < len(adjacentTowerList):
-                                    if placedTowers[-1].type == "wall" or adjacentTowerList[i].type == "wall":
-                                        if [[placedTowers[-1].pos], [adjacentTowerList[i].pos]] in wallConnect:
-                                            del(placedTowers[placedTowers.index([[placedTowers[-1].pos], [adjacentTowerList[i].pos]])])
+                                    if placedTowers[viewedTower].type == "wall" or adjacentTowerList[i].type == "wall":
+                                        if [placedTowers[viewedTower].pos, adjacentTowerList[i].pos] in wallConnect:
+                                            print('hi')
+                                            del(wallConnect[wallConnect.index([placedTowers[viewedTower].pos, adjacentTowerList[i].pos])])
                                             i -= 1
-                                        if [[adjacentTowerList[i].pos], [placedTowers[-1].pos]] in wallConnect:
-                                            del(placedTowers[placedTowers.index([[adjacentTowerList[i].pos], [placedTowers[-1].pos]])])
+                                        if [adjacentTowerList[i].pos, placedTowers[viewedTower].pos] in wallConnect:
+                                            print('bye')
+                                            del(wallConnect[wallConnect.index([adjacentTowerList[i].pos, placedTowers[viewedTower].pos])])
                                             i -= 1
-                                    
                                     i += 1
                                 # update each adjacent tower if booster
                                 if placedTowers[viewedTower].type == "booster":
