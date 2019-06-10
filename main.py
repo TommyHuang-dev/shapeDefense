@@ -2,6 +2,7 @@ from functions import components
 from functions import creditParse
 from functions import waveParse
 from functions import enemyParse
+from functions import waveGenerator
 from classes import spawner
 from classes import tower
 from classes import map
@@ -15,7 +16,6 @@ import math
 import time
 from pygame import gfxdraw
 import sys
-
 
 def load_pics(folder, name):
     location = folder + name + ".png"
@@ -99,7 +99,7 @@ def display_stats(sel_tower):
         else:
             components.create_text(screen, (disL - 75, 440), str(sel_tower.finalUpCost), False, levelTowerFont2, (200, 25, 25))
     # draw buttons
-    if sel_tower.placed:
+    if sel_tower.curLevel < sel_tower.maxLevel and sel_tower.placed:
         cur_stat = 0
         for i in [sel_tower.dmgLevel, sel_tower.rateLevel, sel_tower.rangeLevel, sel_tower.targetingLevel, sel_tower.specialLevel]:
             # if it is not max level, draw the button
@@ -261,7 +261,7 @@ creditText = creditParse.parse("data/credits")
 # ---- LOAD CLASSES ----
 # list of purchasable towers (turrets, boosters)
 towerNames = ['Wall', 'Basic Turret', 'Freezer', 'Machinegun', 'Sniper Turret', 'Rocket Launcher',  'Laser Turret',
-              'Power Station', 'Bank', 'damage module', 'rate module', 'range module'] 
+              'Power Station', 'Bank', 'damage module', 'rate module', 'range module', 'Debugger'] 
               # list of towers and boosters available for purchase, taken from towerNames and boosterNames
 towerList = []
 # UI button initialization
@@ -445,11 +445,11 @@ while True:
     pygame.mixer.music.stop()
 
     # ---- IN-GAME SETUP and reset variables----
-    curWave = -1  # current wave, displayed value is 1 more than this (starts at -1)
+    curWave = 38  # current wave, displayed value is 1 more than this (starts at -1)
     money = 500  # starting monies
     energy = [5, 5]  # amount of power left vs maximum
     income = 100  # monies per round
-    interest = 0.05  # interest (10%) -> get this much bonus gold per unspent gold
+    interest = 0.05  # interest (5%) -> get this much bonus gold per unspent gold
     life = 50  # lose 1 life per enemy; 10 per boss
     currentlyInWave = False  # True when enemies are spawning
     deathTimer = -10000
@@ -940,6 +940,10 @@ while True:
                     # reset tower CD
                     for i in placedTowers:
                         i.reload = 0.05
+
+                    # procedurally generate waves after wave 40:
+                    if curWave >= 40:
+                        waveInfo.append(waveGenerator.generate(curWave + 1))
 
         # next wave text
         components.create_text(screen, (butNextWave[0] + butNextWave[2] // 2, butNextWave[1] + butNextWave[3] // 2),

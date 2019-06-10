@@ -238,25 +238,25 @@ speedy
 brute
 50 0 0.5
 speedy boss
-8 2 3
+12 2 2.2
 
 wave 34
 recruit
 50 0 0.15
 brute boss
-3 1.0 1.0
+4 1.0 1.0
 normal boss
-3 1.2 1.0
+4 1.2 1.0
 speedy boss
-3 1.4 1.0
+4 1.4 1.0
 
 wave 35
 turtle boss
-12 1 1.2
+15 1 2.0
 
 wave 36
 landship
-50 1 0.25
+80 1 0.333
 
 wave 37
 brute boss
@@ -278,4 +278,4 @@ big jelly
 
 wave 40
 rick astley
-10 2 3.0
+12 2 2.5

@@ -88,11 +88,14 @@ class Enemy(object):
                     del self.status[i]
                     i -= 1
                 i += 1
-
-        slow_regen_multi = slow_spd
-        # bosses are less affected by slow, but fully affected by the HP regen reduction
+        if slow_spd < 0:  # make sure enemies dont go backwards lol
+            slow_spd = 0
+        
+        # bosses are less affected by slows
         if self.stats['type'] == 'BOSS':
-            slow_spd += (1 - slow_spd) * 0.25
+            slow_spd += (1 - slow_spd) * 0.3
+        
+        slow_regen_multi = slow_spd  # regen reduction
         temp_speed *= slow_spd  # apply slow
 
         # delay to center the enemy and not immediately change direction

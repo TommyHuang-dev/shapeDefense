@@ -162,16 +162,19 @@ energy 0
 sprite_base machinegun_base
 sprite_turret machinegun_turret
 sprite_proj debugger_shot
-damage 1
-rate 10
+damage 50 100
+rate 2 4
 range 5
-proj_spd 11
+proj_spd 20
 effective_range 1.5
 up_cost 1
 up_cost_inc 0
-max_level 2
-targeting projectile
-special none
+max_level 3
+targeting splash
+targeting_val 0.75
+special slow
+special_val 0.5
+special_val2 0.5
 hit_sound machinegun_hit
 end
 
