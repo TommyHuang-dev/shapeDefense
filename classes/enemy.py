@@ -35,7 +35,7 @@ class Enemy(object):
             level = 50
         self.speed = float(self.stats['speed']) * (1 + level * 0.01)  # speed from 1x -> 1.5x
         self.armour = int(int(self.stats['armour']) * (1 + level * 0.02))  # armour 1x -> 2x
-        self.bounty = round(int(self.stats['bounty']) * (1 + level * 0.01), 0)  # bounty from 1x -> 1.5x
+        self.bounty = round(int(self.stats['bounty']) * (1 + level * 0.02), 0)  # bounty from 1x -> 2x
         if level > 30:
             self.regeneration = float(self.stats['regeneration']) * ((1 + level - 25) * 0.05)  # additional 5% regen per level from lvl 30 to 50
         if 'special' in self.stats:
