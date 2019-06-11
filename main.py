@@ -261,7 +261,7 @@ creditText = creditParse.parse("data/credits")
 # ---- LOAD CLASSES ----
 # list of purchasable towers (turrets, boosters)
 towerNames = ['Wall', 'Basic Turret', 'Freezer', 'Machinegun', 'Sniper Turret', 'Rocket Launcher',  'Laser Turret',
-              'Power Station', 'Bank', 'damage module', 'rate module', 'range module', 'Debugger'] 
+              'Power Station', 'Bank'] 
               # list of towers and boosters available for purchase, taken from towerNames and boosterNames
 towerList = []
 # UI button initialization
@@ -445,11 +445,10 @@ while True:
     pygame.mixer.music.stop()
 
     # ---- IN-GAME SETUP and reset variables----
-    curWave = 38  # current wave, displayed value is 1 more than this (starts at -1)
+    curWave = -1  # current wave, displayed value is 1 more than this (starts at -1)
     money = 500  # starting monies
     energy = [5, 5]  # amount of power left vs maximum
     income = 100  # monies per round
-    interest = 0.05  # interest (5%) -> get this much bonus gold per unspent gold
     life = 50  # lose 1 life per enemy; 10 per boss
     currentlyInWave = False  # True when enemies are spawning
     deathTimer = -10000
@@ -551,7 +550,7 @@ while True:
                     if cheatVal > len(cheatList) - 1:
                         # give a ton of money and life
                         cheatVal = 0
-                        money = 9999
+                        money = 20000
                         life = 200
                 else:  # reset value if the cheat wasnt properly done
                     cheatVal = 0
@@ -679,21 +678,18 @@ while True:
             currentlyInWave = False
             # INCOME! :D
             money += income
-            money *= (1 + interest)
 
         # ---- TOWERS ----
-        # draw wall connector
-        ignoreList = []
-        for i in wallConnect:
-            pygame.draw.rect(screen, (140, 140, 140), (i[0][0] * 50 - 32, i[0][1] * 50 - 32, 
-                    i[1][0] * 50 - i[0][0] * 50 + 14, i[1][1] * 50 - i[0][1] * 50 + 14))
-            pygame.draw.rect(screen, (25, 25, 25), (i[0][0] * 50 - 32, i[0][1] * 50 - 32, 
-                    i[1][0] * 50 - i[0][0] * 50 + 14, i[1][1] * 50 - i[0][1] * 50 + 14), 1)
-
         # draw placed towers:
         # tower base    
         for i in placedTowers:
             i.draw_tower_base(screen, [i.pos[0] * 50 - 25, i.pos[1] * 50 - 25])
+        
+        # draw wall connector, connects walls together to make it look cool
+        for i in wallConnect:
+            pygame.draw.rect(screen, (140, 140, 140), (i[0][0] * 50 - 46, i[0][1] * 50 - 46, 
+                    i[1][0] * 50 - i[0][0] * 50 + 42, i[1][1] * 50 - i[0][1] * 50 + 42))
+        
         # if a tower is viewed, draw the red outline here (before gun, after base)
         if viewedTower >= 0:
             outlineMask = (pygame.mask.from_surface(placedTowers[viewedTower].spriteBase)).outline()
@@ -780,7 +776,7 @@ while True:
                         
                         # wall connections
                         for i in adjacentTowerList:
-                            if placedTowers[-1].type == "wall" or i.type == "wall":
+                            if placedTowers[-1].type == "wall" and i.type == "wall":
                                 wallConnect.append([placedTowers[-1].pos, i.pos])
 
                         # update self if turret
@@ -1072,7 +1068,7 @@ while True:
                                 # update wall connections
                                 i = 0
                                 while i < len(adjacentTowerList):
-                                    if placedTowers[viewedTower].type == "wall" or adjacentTowerList[i].type == "wall":
+                                    if placedTowers[viewedTower].type == "wall" and adjacentTowerList[i].type == "wall":
                                         if [placedTowers[viewedTower].pos, adjacentTowerList[i].pos] in wallConnect:
                                             print('hi')
                                             del(wallConnect[wallConnect.index([placedTowers[viewedTower].pos, adjacentTowerList[i].pos])])
@@ -1104,9 +1100,9 @@ while True:
                     else:
                         pygame.draw.rect(screen, (0, 0, 0), butSell, 1)
 
-        # limit money to 9999
-        if money > 9999:
-            money = 9999
+        # limit money to 20000
+        if money > 20000:
+            money = 20000
 
         # info about money, life, etc.
         # life
@@ -1117,7 +1113,7 @@ while True:
         # money
         screen.blit(moneyPic, (disL - 280, 70))
         components.create_text(screen, (disL - 230, 90), str(int(money)), False, levelInfoFont, (0, 0, 0))
-        components.create_text(screen, (disL - 225, 112), str(int(income)) + " + " + str(int(interest*100)) + "%", False, levelSmallInfoFont, (0, 0, 0))
+        components.create_text(screen, (disL - 225, 112), "+" + str(int(income)), False, levelSmallInfoFont, (0, 0, 0))
         # energy
         screen.blit(energyPic, (disL - 150, 70))
         components.create_text(screen, (disL - 110, 90), str(energy[0]) + "/" + str(energy[1]),
