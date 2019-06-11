@@ -20,8 +20,8 @@ def generate(wave):
     # wave 38 has 975 powerTotal and 26 powerRate
     # wave 40 has 960 powerTotal and 32 powerRate
     powerRandom = random.uniform(-4,4)  # make total power and rate inversely related
-    powerTotal = (wave * 16) ** 1.05 + powerRandom * 50
-    powerRate = 2 + wave * 0.7 - powerRandom * 1.0
+    powerTotal = (wave * 18) ** 1.04 + powerRandom * 50
+    powerRate = 1 + wave * 0.65 - powerRandom * 1.0
     # number of different enemy types to spawn
     numEnemies = random.randint(2, 4)
 
