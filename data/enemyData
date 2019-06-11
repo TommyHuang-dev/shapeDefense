@@ -42,7 +42,7 @@ type NORMAL
 movement_type GROUND
 health 20
 regeneration 1.0
-armour 4
+armour 5
 speed 1.8
 radius 13
 death_spawn_enemy none
@@ -99,7 +99,7 @@ speed 2.0
 radius 19
 death_spawn_enemy recruit
 death_spawn_val 4
-bounty 8
+bounty 6
 sprite landship
 
 name turtle boss
@@ -107,7 +107,7 @@ type BOSS
 movement_type GROUND
 health 140
 regeneration 3.0
-armour 6
+armour 7
 speed 0.9
 radius 20
 death_spawn_enemy none
@@ -157,7 +157,7 @@ sprite big_jelly
 name rick astley
 type BOSS
 movement_type GROUND
-health 750
+health 700
 regeneration 15
 speed 0.8
 armour 0
