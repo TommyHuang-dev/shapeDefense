@@ -12,32 +12,35 @@ class Enemy(object):
         # increase HP based on level:
         # 10% for wave 1 to 15
         # 20% for wave 16 to 30
-        # 30% for wave 31 to 50
-        # 50% for every wave afterwards
+        # 40% for wave 31 to 50
+        # 70% from wave 51 to 75
+        # 100% for every wave afterwards
         self.maxHP = int(int(self.stats['health']) * (1 + level * 0.1))
         if level > 15:
             # increase 10% again after level 15
             self.maxHP += int(int(self.stats['health']) * (1 + (level - 15) * 0.1))
         if level > 30:
-            # increase 10% after level 30
-            self.maxHP += int(int(self.stats['health']) * (1 + (level - 30) * 0.1))
-        if level > 30:
-            # increase 20% AGAIN!!! after level 50
-            self.maxHP += int(int(self.stats['health']) * (1 + (level - 50) * 0.2))
-
+            # increase 20% after level 30
+            self.maxHP += int(int(self.stats['health']) * (1 + (level - 30) * 0.2))
+        if level > 50:
+            # increase 30% AGAIN!!! after level 50
+            self.maxHP += int(int(self.stats['health']) * (1 + (level - 50) * 0.3))
+        if level > 75:
+            # final increase: after level 75
+            self.maxHP += int(int(self.stats['health']) * (1 + (level - 70) * 0.3))
         self.curHP = self.maxHP
         # regen bonuses max out at level 75 (+5% per level)
         if level > 75:
             level = 50
         self.regeneration = float(self.stats['regeneration']) * (1 + level * 0.05)
+        if level > 30:
+            self.regeneration += float(self.stats['regeneration']) * ((1 + level - 30) * 0.05)  # additional 5% regen per level from lvl 30 to 75
         # following stats max out at level 50
         if level > 50:
             level = 50
-        self.speed = float(self.stats['speed']) * (1 + level * 0.01)  # speed from 1x -> 1.5x
+        self.speed = float(self.stats['speed']) * (1 + level * 0.008)  # speed from 1x -> 1.4x
         self.armour = int(int(self.stats['armour']) * (1 + level * 0.02))  # armour 1x -> 2x
         self.bounty = round(int(self.stats['bounty']) * (1 + level * 0.02), 0)  # bounty from 1x -> 2x
-        if level > 30:
-            self.regeneration = float(self.stats['regeneration']) * ((1 + level - 25) * 0.05)  # additional 5% regen per level from lvl 30 to 50
         if 'special' in self.stats:
             self.special = self.stats['special']
 
@@ -61,7 +64,7 @@ class Enemy(object):
         self.tileLoc = [pos[0] // 50 + 1, pos[1] // 50 + 1]
         # change direction delay if the new tile is different
         if prevLoc != self.tileLoc:
-            self.direction_delay = 0.5
+            self.direction_delay = 0.45
 
     # move tiles based on the pre-designated path
     def move(self, path, time):
