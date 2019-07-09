@@ -92,9 +92,9 @@ sprite speedy_boss
 name landship
 type BOSS
 movement_type GROUND
-health 45
+health 40
 regeneration 0
-armour 3
+armour 4
 speed 2.0
 radius 19
 death_spawn_enemy recruit
@@ -157,7 +157,7 @@ sprite big_jelly
 name rick astley
 type BOSS
 movement_type GROUND
-health 700
+health 600
 regeneration 15
 speed 0.8
 armour 0
