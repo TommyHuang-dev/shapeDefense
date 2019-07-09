@@ -12,7 +12,7 @@ class Projectile(object):
         self.targeting = targeting
         self.special = special
         self.sprite = sprite
-        self.mask = pygame.mask.from_surface(sprite, 90)
+        self.mask = pygame.mask.from_surface(sprite, 20)
         self.size = sprite.get_size()
         self.rectPos = [self.posXYPx[0] - self.size[0] / 2, self.posXYPx[1] - self.size[1]]  # top left corner pos
         self.exp = exp + "-hit"
@@ -35,7 +35,7 @@ class Projectile(object):
             # check collision or out of bounds
             for j in range(len(enemies)):
                 # xy difference
-                diff = [int(self.rectPos[0] - enemies[j].posPx[0]), int(self.rectPos[1] - enemies[j].posPx[1]) + 3]
+                diff = [int(self.rectPos[0] - enemies[j].posPx[0]), int(self.rectPos[1] - enemies[j].posPx[1])]
                 if self.mask.overlap(enemies[j].mask, diff) is not None or self.targeting[0] == 'pulse':
                     # draw sprite one last time before removal
                     display.blit(self.sprite,

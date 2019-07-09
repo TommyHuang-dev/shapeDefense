@@ -97,11 +97,11 @@ sprite_proj rocket_shot
 damage 12 17 25
 rate 0.85 1.2 1.6
 range 4.0 5.75
-proj_spd 15.5 18.0
+proj_spd 15.0 17.5
 effective_range 1.2
 up_cost 120
 up_cost_inc 30
-max_level 6
+max_level 7
 targeting splash
 targeting_val 0.9 1.3
 special none
@@ -184,19 +184,17 @@ energy 0
 sprite_base machinegun_base
 sprite_turret machinegun_turret
 sprite_proj debugger_shot
-damage 30
-rate 8
+damage 2 4 6
+rate 10
 range 5
-proj_spd 20
+proj_spd 60
 effective_range 1.5
 up_cost 1
 up_cost_inc 0
 max_level 3
-targeting splash
-targeting_val 0.4
-special slow
-special_val 0.4
-special_val2 0.4
+targeting pierce
+targeting_val 5
+special none
 hit_sound machinegun_hit
 end
 
@@ -298,11 +296,11 @@ rate 0
 range 0
 proj_spd 1.0
 effective_range 0
-up_cost 550
-up_cost_inc 0
-max_level 2
+up_cost 500
+up_cost_inc 400
+max_level 3
 targeting none
 special income
-special_val 75 150
+special_val 40 75 140
 hit_sound none
 end
