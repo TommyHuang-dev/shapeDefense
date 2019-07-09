@@ -42,9 +42,9 @@ small jelly
 
 wave 8
 speedy
-30 0 0.8
+30 0 0.7
 brute
-15 1 1.6
+15 1 1.4
 
 wave 9
 recruit
@@ -136,23 +136,23 @@ landship
 
 wave 22
 turtle boss
-2 2 18
+2 2 20
 turtle
-30 0 1.0
+30 0 1.2
 
 wave 23
 turtle
-10 0 0.45
+10 0 0.4
 speedy
-12 1 0.35
+12 1 0.3
 turtle
-11 8 0.45
+11 9 0.4
 speedy
-13 9 0.35
+13 10 0.33
 turtle
-12 17 0.45
+12 19 0.4
 speedy
-14 18 0.35
+14 20 0.3
 
 wave 24
 brute
@@ -178,7 +178,7 @@ small jelly
 
 wave 27
 turtle
-100 0 0.4
+100 0 0.5
 
 wave 28
 big jelly
@@ -210,23 +210,23 @@ landship
 
 wave 30
 turtle boss
-4 2 8.5
+4 2 8.25
 brute boss
-4 3 8.5
+4 3 8.25
 normal boss
-4 4 8.5
+4 4 8.25
 big jelly
-2 21 8.5
+2 21 8.25
 speedy boss
-4 5 8.5
+4 5 8.25
 
 wave 31
 tiny jelly
-120 0 0.333
+140 0 0.3
 speedy
-40 2 0.333
+40 2 0.4
 small jelly
-40 20 0.4
+40 22 0.45
 
 wave 32
 turtle
@@ -238,44 +238,44 @@ speedy
 brute
 50 0 0.5
 speedy boss
-12 2 2.2
+10 2 2.75
 
 wave 34
 recruit
-50 0 0.15
+60 0 0.15
 brute boss
-4 1.0 1.0
+4 1.0 1.4
 normal boss
-4 1.2 1.0
+4 1.2 1.4
 speedy boss
-4 1.4 1.0
+4 1.4 1.4
 
 wave 35
 turtle boss
-15 1 2.0
+15 1 2.4
 
 wave 36
 landship
-70 1 0.5
+70 1 0.6
 
 wave 37
 brute boss
-40 1 0.8
+40 1 1.0
 
 wave 38
 brute
-150 1 0.25
+150 1 0.3
 turtle
-150 2.5 0.25
+150 2.5 0.3
 speedy
-150 4 0.25
+150 4 0.3
 
 wave 39
 turtle boss
-15 1 1.5
+15 1 2.0
 big jelly
-30 1.4 0.8
+25 1.4 1.3
 
 wave 40
 rick astley
-12 2 2.5
+12 2 2.75
