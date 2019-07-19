@@ -261,7 +261,7 @@ creditText = creditParse.parse("data/credits")
 # ---- LOAD CLASSES ----
 # list of purchasable towers (turrets, boosters)
 towerNames = ['Wall', 'Basic Turret', 'Freezer', 'Machinegun', 'Sniper Turret', 'Rocket Launcher',  'Laser Turret',
-              'Power Station', 'Bank'] 
+              'Power Station', 'Bank', 'Debugger'] 
               # list of towers and boosters available for purchase, taken from towerNames and boosterNames
 towerList = []
 # UI button initialization
@@ -440,7 +440,7 @@ while True:
                 sys.exit()
 
         pygame.display.update()
-
+        
     # stop intro song
     pygame.mixer.music.stop()
 
@@ -448,7 +448,7 @@ while True:
     curWave = -1  # current wave, displayed value is 1 more than this (starts at -1)
     money = 500  # starting monies
     energy = [5, 5]  # amount of power left vs maximum
-    income = 100  # monies per round
+    income = 150  # monies per round
     life = 50  # lose 1 life per enemy; 10 per boss
     currentlyInWave = False  # True when enemies are spawning
     deathTimer = -10000
@@ -551,7 +551,7 @@ while True:
                         # give a ton of money and life
                         cheatVal = 0
                         money = 20000
-                        life = 200
+                        life = 500
                 else:  # reset value if the cheat wasnt properly done
                     cheatVal = 0
 
@@ -750,7 +750,7 @@ while True:
                         msgText = "Tower blocks path!"
                     else:
                         soundPlaced.play()
-                        # copy as a NEW object
+                        # copy as a NEW object 
                         placedTowers.append(tower.Turret(selectedTower.name))
                         # energy
                         if selectedTower.energy < 0:
