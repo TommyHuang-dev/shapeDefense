@@ -160,6 +160,10 @@ def display_stats(sel_tower):
 # Easy: -15% cost for stuff, -15% enemy HP, -25% score
 # Normal: default values
 # Hard: +15% cost for stuff, +15% enemy HP, +25% score
+# TODO: add air units
+# ignores barriers
+# new tower: antiair gun (2x-3x dmg vs air units)
+# certain towers cant hit air units (freezer
 
 
 # ---- SETUP (only ran once) ----
