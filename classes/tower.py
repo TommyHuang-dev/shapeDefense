@@ -24,9 +24,6 @@ class Turret(object):
         self.type = self.stats['type'][0]
         self.curLevel = 1
         self.maxLevel = int(self.stats['max_level'][0])
-        self.dmgLevel = [1, len(self.stats['damage'])]
-        self.rateLevel = [1, len(self.stats['rate'])]
-        self.rangeLevel = [1, len(self.stats['range'])]  # also includes projectile speed
 
         # module effect stats
         self.dmgBoost = 0
@@ -37,28 +34,22 @@ class Turret(object):
         # initialize stats from towerParse
         self.cost = int(self.stats['cost'][0])
         self.energy = int(self.stats['energy'][0])
-        self.initialUpCost = int(self.stats['up_cost'][0])
-        self.upCostInc = int(self.stats['up_cost_inc'][0])
-        self.finalUpCost = int(self.stats['up_cost'][0])
+        self.upCost = int(self.stats['up_cost'][0])
         self.sellPrice = self.cost / 2  # float, convert to int when actually selling
 
         # get targeting stats
-        self.targetingLevel = [1, 1]
         self.targeting = self.stats['targeting'][0]
         if 'targeting_val' in self.stats:
             self.targetingVal = float(self.stats['targeting_val'][0])
-            self.targetingLevel = [1, len(self.stats['targeting_val'])]
         else:
             self.targetingVal = 0
 
         # get special stats
-        self.specialLevel = [1, 1]
         self.special = self.stats['special'][0]
         self.specialVal = 0
         if self.special != 'none':  # cool special effect values
             if 'special_val' in self.stats:
                 self.specialVal = float(self.stats['special_val'][0])
-                self.specialLevel = [1, len(self.stats['special_val'])]
                 if 'special_val2' in self.stats:
                     self.specialVal2 = float(self.stats['special_val2'][0])
                 else:
@@ -88,45 +79,41 @@ class Turret(object):
         self.canFire = False
 
         # update all stats to match da level one
-        self.update_stats(self.initialUpCost, self.upCostInc, self.curLevel,
-                          self.dmgLevel[0], self.rateLevel[0], self.rangeLevel[0], self.targetingLevel[0], self.specialLevel[0])
+        self.update_stats(self.curLevel)
+        if self.maxLevel > 1:
+            self.upgrade_preview(self.curLevel)
         self.placed = False  # becomes true after the tower is placed down
         self.pos = [0, 0]
         tar = []  # targetting purposes
 
-    def upgrade_preview(self, stat_num):
-        # damage
-        if stat_num == 0:
-            return int(self.stats['damage'][self.dmgLevel[0]]) - int(self.stats['damage'][self.dmgLevel[0] - 1])
-        # rate
-        elif stat_num == 1:
-            return (int(float(self.stats['rate'][self.rateLevel[0]]) * 100 - float(self.stats['rate'][self.rateLevel[0] - 1]) * 100)) / 100
-        # range
-        elif stat_num == 2:
-            return (int(float(self.stats['range'][self.rangeLevel[0]]) * 100 - float(self.stats['range'][self.rangeLevel[0] - 1]) * 100)) / 100
-        # targeting
-        elif  stat_num == 3:
-            return (int(float(self.stats['targeting_val'][self.targetingLevel[0]]) * 100 - self.targetingVal * 100)) / 100
-        # special effect
-        elif stat_num == 4:
-            return (int(float(self.stats['special_val'][self.specialLevel[0]]) * 100 - self.specialVal * 100)) / 100
+    def upgrade_preview(self, cur_level):
+        # preview da stats
+        self.preview_damage = int(round(float(self.stats['damage'][cur_level]) * (1 + self.dmgBoost), 0))
+        self.preview_rate = float(float(self.stats['rate'][cur_level]) * (1 + self.rateBoost))
+        self.preview_range = float(float(self.stats['range'][cur_level]) * (1 + self.rangeBoost))
+        self.preview_projSpd = float(float(self.stats['proj_spd'][cur_level]) * (1 + self.projBoost))
+        if 'targeting_val' in self.stats:
+            self.preview_targetingVal = float(self.stats['targeting_val'][cur_level])
+        if 'special_val' in self.stats:
+            self.preview_specialVal = float(self.stats['special_val'][cur_level])
 
-    def update_stats(self, init_up, inc_up, cur_level, dmgl, ratel, rangel, targetl, specl):
+    def update_stats(self, cur_level):
         # final upgrade cost = initial cost + (increase * (level - 1))
-        self.finalUpCost = int(init_up + inc_up * (cur_level - 1))
-        self.damage = int(round(float(self.stats['damage'][dmgl - 1]) * (1 + self.dmgBoost), 0))
-        self.rate = float(float(self.stats['rate'][ratel - 1]) * (1 + self.rateBoost))
-        self.range = float(float(self.stats['range'][rangel - 1]) * (1 + self.rangeBoost))
-        self.projSpd = float(float(self.stats['proj_spd'][rangel - 1]) * (1 + self.projBoost))
+        if self.curLevel < self.maxLevel:
+            self.upCost = int(self.stats['up_cost'][cur_level - 1])
+        self.damage = int(round(float(self.stats['damage'][cur_level - 1]) * (1 + self.dmgBoost), 0))
+        self.rate = float(float(self.stats['rate'][cur_level - 1]) * (1 + self.rateBoost))
+        self.range = float(float(self.stats['range'][cur_level - 1]) * (1 + self.rangeBoost))
+        self.projSpd = float(float(self.stats['proj_spd'][cur_level - 1]) * (1 + self.projBoost))
         if 'targeting_val' in self.stats:
             if self.targeting == 'pulse':
                 self.targetingVal = self.range
             else:
-                self.targetingVal = float(self.stats['targeting_val'][targetl - 1])
+                self.targetingVal = float(self.stats['targeting_val'][cur_level - 1])
         if 'special_val' in self.stats:
-            self.specialVal = float(self.stats['special_val'][specl - 1])
+            self.specialVal = float(self.stats['special_val'][cur_level - 1])
         if 'special_val2' in self.stats:  # 2nd special value upgrade
-            self.specialVal2 = float(self.stats['special_val2'][specl - 1])
+            self.specialVal2 = float(self.stats['special_val2'][cur_level - 1])
 
     def calc_boost(self, adj_tower_list):
         self.dmgBoost = 0
@@ -143,27 +130,17 @@ class Turret(object):
                     self.rangeBoost += i.specialVal
                     self.projBoost += (i.specialVal / 2)
         
-            self.update_stats(self.initialUpCost, self.upCostInc, self.curLevel,
-                            self.dmgLevel[0], self.rateLevel[0], self.rangeLevel[0], self.targetingLevel[0], self.specialLevel[0])
+            self.update_stats(self.curLevel)
+            self.upgrade_preview(self.curLevel)
 
-    def upgrade(self, stat_num):
+    def upgrade(self):
         # update selling price (1/2 of tower cost + all upgrades)
-        self.sellPrice += self.finalUpCost / 2
+        self.sellPrice += self.upCost // 2
         # increment level and stuffs asdf
         self.curLevel += 1
-        if stat_num == 0:
-            self.dmgLevel[0] += 1
-        elif stat_num == 1:
-            self.rateLevel[0] += 1
-        elif stat_num == 2:
-            self.rangeLevel[0] += 1
-        elif stat_num == 3:
-            self.targetingLevel[0] += 1
-        elif stat_num == 4:
-            self.specialLevel[0] += 1
-
-        self.update_stats(self.initialUpCost, self.upCostInc, self.curLevel,
-                          self.dmgLevel[0], self.rateLevel[0], self.rangeLevel[0], self.targetingLevel[0], self.specialLevel[0])
+        self.update_stats(self.curLevel)
+        if self.curLevel < self.maxLevel:
+            self.upgrade_preview(self.curLevel)
 
     # rotate the gun
     def rotate(self, angle):
