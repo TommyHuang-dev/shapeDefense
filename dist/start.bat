@@ -1,1 +1,0 @@
-start /d "main/" main.exe
