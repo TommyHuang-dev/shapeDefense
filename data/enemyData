@@ -1,7 +1,7 @@
 name recruit
 type NORMAL
 movement_type GROUND
-health 12
+health 10
 regeneration 0.0
 armour 0
 speed 2.5
@@ -14,8 +14,8 @@ sprite recruit
 name brute
 type NORMAL
 movement_type GROUND
-health 25
-regeneration 3
+health 20
+regeneration 3.0
 armour 0
 speed 1.5
 radius 12
@@ -27,7 +27,7 @@ sprite brute
 name speedy
 type NORMAL
 movement_type GROUND
-health 10
+health 8
 regeneration 0
 armour 0
 speed 4.25
@@ -40,9 +40,9 @@ sprite speedy
 name turtle
 type NORMAL
 movement_type GROUND
-health 20
+health 16
 regeneration 1.0
-armour 5
+armour 4
 speed 1.8
 radius 13
 death_spawn_enemy none
@@ -53,10 +53,10 @@ sprite turtle
 name normal boss
 type BOSS
 movement_type GROUND
-health 100
-regeneration 4.0
+health 75
+regeneration 3.0
 armour 0
-speed 1.75
+speed 1.6
 radius 18
 death_spawn_enemy none
 death_spawn_val 0
@@ -66,8 +66,8 @@ sprite common_boss
 name brute boss
 type BOSS
 movement_type GROUND
-health 200
-regeneration 8.0
+health 275
+regeneration 12.0
 armour 0
 speed 1.0
 radius 18
@@ -79,22 +79,22 @@ sprite brute_boss
 name speedy boss
 type BOSS
 movement_type GROUND
-health 100
+health 150
 regeneration 0.0
 armour 0
 speed 3.0
 radius 16
 death_spawn_enemy none
 death_spawn_val 0
-bounty 15
+bounty 16
 sprite speedy_boss
 
 name landship
 type BOSS
 movement_type GROUND
-health 40
+health 70
 regeneration 0
-armour 4
+armour 5
 speed 2.0
 radius 19
 death_spawn_enemy recruit
@@ -105,10 +105,10 @@ sprite landship
 name turtle boss
 type BOSS
 movement_type GROUND
-health 140
-regeneration 3.0
-armour 7
-speed 0.9
+health 200
+regeneration 6.0
+armour 10
+speed 0.85
 radius 20
 death_spawn_enemy none
 death_spawn_val 0
@@ -118,8 +118,8 @@ sprite turtle_boss
 name tiny jelly
 type NORMAL
 movement_type GROUND
-health 7
-regeneration 1.5
+health 10
+regeneration 3.0
 armour 0
 speed 3.2
 radius 8
@@ -131,8 +131,8 @@ sprite tiny_jelly
 name small jelly
 type NORMAL
 movement_type GROUND
-health 18
-regeneration 4.5
+health 25
+regeneration 8.0
 armour 0
 speed 2.4
 radius 13
@@ -144,8 +144,8 @@ sprite small_jelly
 name big jelly
 type BOSS
 movement_type GROUND
-health 50
-regeneration 9
+health 80
+regeneration 16.0
 armour 2
 speed 1.6
 radius 16
@@ -157,12 +157,51 @@ sprite big_jelly
 name rick astley
 type BOSS
 movement_type GROUND
-health 600
-regeneration 15
-speed 0.8
+health 750
+regeneration 20
+speed 0.75
 armour 0
 radius 17
 death_spawn_enemy none
 death_spawn_val 0
-bounty 100
+bounty 50
 sprite rick_rolled
+
+name flying thing
+type NORMAL
+movement_type AIR
+health 20
+regeneration 0
+speed 1.8
+armour 0
+radius 10
+death_spawn_enemy none
+death_spawn_val 0
+bounty 2
+sprite recruit
+
+name flying thing mk 2
+type NORMAL
+movement_type AIR
+health 40
+regeneration 3.0
+speed 2.0
+armour 0
+radius 10
+death_spawn_enemy none
+death_spawn_val 0
+bounty 4
+sprite recruit
+
+name airship
+type BOSS
+movement_type AIR
+health 120
+regeneration 0.0
+speed 1.2
+armour 4
+radius 10
+death_spawn_enemy flying thing
+death_spawn_val 5
+bounty 8
+sprite recruit

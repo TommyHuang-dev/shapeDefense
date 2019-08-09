@@ -10,28 +10,28 @@ class Enemy(object):
 
         # convert attributes to stats
         # increase HP based on level:
-        # 10% for wave 1 to 15
-        # 20% for wave 16 to 30
-        # 40% for wave 31 to 50
-        # 70% from wave 51 to 75
+        # 15% for wave 1 to 15
+        # 25% for wave 16 to 30
+        # 50% for wave 31 to 50
+        # 75% from wave 51 to 75
         # 100% for every wave afterwards
-        self.maxHP = int(int(self.stats['health']) * (1 + level * 0.1))
+        self.maxHP = int(int(self.stats['health']) * (1 + level * 0.15))
         if level > 15:
             # increase 10% again after level 15
             self.maxHP += int(int(self.stats['health']) * (1 + (level - 15) * 0.1))
         if level > 30:
-            # increase 20% after level 30
-            self.maxHP += int(int(self.stats['health']) * (1 + (level - 30) * 0.2))
+            # increase 25% after level 30
+            self.maxHP += int(int(self.stats['health']) * (1 + (level - 30) * 0.25))
         if level > 50:
-            # increase 30% AGAIN!!! after level 50
-            self.maxHP += int(int(self.stats['health']) * (1 + (level - 50) * 0.3))
+            # increase 25% AGAIN!!! after level 50
+            self.maxHP += int(int(self.stats['health']) * (1 + (level - 50) * 0.25))
         if level > 75:
             # final increase: after level 75
-            self.maxHP += int(int(self.stats['health']) * (1 + (level - 70) * 0.3))
+            self.maxHP += int(int(self.stats['health']) * (1 + (level - 75) * 0.25))
         self.curHP = self.maxHP
         # regen bonuses max out at level 75 (+5% per level)
         if level > 75:
-            level = 50
+            level = 75
         self.regeneration = float(self.stats['regeneration']) * (1 + level * 0.05)
         if level > 30:
             self.regeneration += float(self.stats['regeneration']) * ((1 + level - 30) * 0.05)  # additional 5% regen per level from lvl 30 to 75
@@ -40,7 +40,7 @@ class Enemy(object):
             level = 50
         self.speed = float(self.stats['speed']) * (1 + level * 0.008)  # speed from 1x -> 1.4x
         self.armour = int(int(self.stats['armour']) * (1 + level * 0.02))  # armour 1x -> 2x
-        self.bounty = round(int(self.stats['bounty']) * (1 + level * 0.02), 0)  # bounty from 1x -> 2x
+        self.bounty = round(int(self.stats['bounty']) * (1 + level * 0.04), 0)  # bounty from 1x -> 3x
         if 'special' in self.stats:
             self.special = self.stats['special']
 
