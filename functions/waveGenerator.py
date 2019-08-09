@@ -3,7 +3,7 @@ import random
 valueList = {}  # list of [['enemy name', cost], [...]].
 # enemyValues file contains the base "cost" to spawn enemies. Higher cost = stronger enemy = less.
 # additionally spawning enemies with less delay in between also costs more (default = 1sec)
-with open("data/enemyValues", "r") as f:
+with open("data/enemyCost", "r") as f:
     for line in f:
         if len(line.strip()) != 0:
             newLine = line.strip().split()
