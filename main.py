@@ -137,21 +137,25 @@ def display_stats(sel_tower):
             else:
                 components.create_text(screen, (disL - 220, 560), sel_tower.preview_specialVal, False, levelTowerFont, stat_up_col)
     
-                # draw upgrade button
+    # draw upgrade button
     if sel_tower.curLevel < sel_tower.maxLevel and sel_tower.placed:
-        # upgrade button
-        pygame.draw.rect(screen, (100, 225, 100), butUpgrade)
+        # upgrade button fill colour
+        if money >= sel_tower.upCost:
+            pygame.draw.rect(screen, (100, 225, 100), butUpgrade)
+        else:  # gray it out
+            pygame.draw.rect(screen, (125, 125, 125), butUpgrade)
+        
+        # upgrade button outline
+        if butUpgrade.collidepoint(mousePos[0], mousePos[1]) and money >= sel_tower.upCost:
+            pygame.draw.rect(screen, (0, 0, 0), butUpgrade, 3)
+        else:
+            pygame.draw.rect(screen, (0, 0, 0), butUpgrade, 1)
 
         # text of upgrade button
         components.create_text(screen, (butUpgrade[0] + butUpgrade[2] // 2, butUpgrade[1] + butUpgrade[3] // 2 - 13),
                 'UPGRADE', True, levelTowerFont, (0, 0, 0))
         components.create_text(screen, (butUpgrade[0] + butUpgrade[2] // 2, butUpgrade[1] + butUpgrade[3] // 2 + 11),
                 "$" + str(int(sel_tower.upCost)), True, levelTowerFont2, (0, 0, 0))
-
-        if butUpgrade.collidepoint(mousePos[0], mousePos[1]):
-            pygame.draw.rect(screen, (0, 0, 0), butUpgrade, 3)
-        else:
-            pygame.draw.rect(screen, (0, 0, 0), butUpgrade, 1)
             
         # upgrade tower on press if you have enough money
         if (butUpgrade.collidepoint(mousePos[0], mousePos[1]) and mousePressed[0] == 1) or mousePressed[2] == 1:
@@ -487,7 +491,7 @@ while True:
     pygame.mixer.music.stop()
 
     # ---- IN-GAME SETUP and reset variables----
-    curWave = -1  # current wave, displayed value is 1 more than this (starts at -1)
+    curWave = 49  # current wave, displayed value is 1 more than this (starts at -1)
     money = 500  # starting monies
     energy = [5, 5]  # amount of power left vs maximum
     income = 150  # monies per round
@@ -671,7 +675,7 @@ while True:
                 if waveInfo[curWave][i][2] <= masterWaveTimer:
                     # delete the wave info and create a spawner from it
                     spawnerList.append(spawner.Spawner(waveInfo[curWave][i],
-                                                       enemyInfo[waveInfo[curWave][i][0]]))
+                                                       enemyInfo[waveInfo[curWave][i][0]], curWave))
                     del(waveInfo[curWave][i])
                     i -= 1
 
@@ -685,8 +689,8 @@ while True:
                     # reset timer
                     spawnerList[i].timer -= spawnerList[i].interval
                     # append an enemy object to the list
-                    enemyList.append(spawnerList[i].spawn_enemy(selectedMap.spawnList[curSpawnPoint], curSpawnPoint,
-                                                                curWave))
+                    enemyList.append(spawnerList[i].spawn_enemy(selectedMap.spawnList[curSpawnPoint], curSpawnPoint))
+
                     # alternate between spawn locations
                     curSpawnPoint += 1
                     if curSpawnPoint >= len(selectedMap.spawnList):
