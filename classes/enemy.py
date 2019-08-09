@@ -2,45 +2,19 @@ import pygame
 
 # holds info about enemies, like hp and speed
 class Enemy(object):
-    def __init__(self, attributes, spawnpoint, spawn_num, level):
+    def __init__(self, attributes, spawnpoint, spawn_num, hp_bonus, speed_bonus, regen_bonus, armour_bonus, bounty_bonus):
         # stats
         self.stats = attributes  # dict. of all stats
         self.mask = pygame.mask.from_surface(self.stats['sprite'], 24)
         self.status = []  # list of status effects like slow
-
-        # convert attributes to stats
-        # increase HP based on level:
-        # 15% for wave 1 to 15
-        # 25% for wave 16 to 30
-        # 50% for wave 31 to 50
-        # 75% from wave 51 to 75
-        # 100% for every wave afterwards
-        self.maxHP = int(int(self.stats['health']) * (1 + level * 0.15))
-        if level > 15:
-            # increase 10% again after level 15
-            self.maxHP += int(int(self.stats['health']) * (1 + (level - 15) * 0.1))
-        if level > 30:
-            # increase 25% after level 30
-            self.maxHP += int(int(self.stats['health']) * (1 + (level - 30) * 0.25))
-        if level > 50:
-            # increase 25% AGAIN!!! after level 50
-            self.maxHP += int(int(self.stats['health']) * (1 + (level - 50) * 0.25))
-        if level > 75:
-            # final increase: after level 75
-            self.maxHP += int(int(self.stats['health']) * (1 + (level - 75) * 0.25))
+        
+        # set enemy stats and apply bonuses
+        self.maxHP = int(int(self.stats['health']) * (1 + hp_bonus))
         self.curHP = self.maxHP
-        # regen bonuses max out at level 75 (+5% per level)
-        if level > 75:
-            level = 75
-        self.regeneration = float(self.stats['regeneration']) * (1 + level * 0.05)
-        if level > 30:
-            self.regeneration += float(self.stats['regeneration']) * ((1 + level - 30) * 0.05)  # additional 5% regen per level from lvl 30 to 75
-        # following stats max out at level 50
-        if level > 50:
-            level = 50
-        self.speed = float(self.stats['speed']) * (1 + level * 0.008)  # speed from 1x -> 1.4x
-        self.armour = int(int(self.stats['armour']) * (1 + level * 0.02))  # armour 1x -> 2x
-        self.bounty = round(int(self.stats['bounty']) * (1 + level * 0.04), 0)  # bounty from 1x -> 3x
+        self.speed = float(self.stats['speed']) * (1 + speed_bonus)
+        self.regen = float(self.stats['regen']) * (1 + regen_bonus)
+        self.armour = round(int(self.stats['armour']) * (1 + armour_bonus), 0)
+        self.bounty = round(int(self.stats['bounty']) * (1 + bounty_bonus), 0)
         if 'special' in self.stats:
             self.special = self.stats['special']
 
@@ -104,9 +78,9 @@ class Enemy(object):
         # delay to center the enemy and not immediately change direction
         self.direction_delay -= time * temp_speed
 
-        # regeneration
+        # regen hp
         if self.curHP < self.maxHP:
-            self.curHP += self.regeneration * time * slow_regen_multi
+            self.curHP += self.regen * time * slow_regen_multi
         else:
             self.curHP = self.maxHP
 
