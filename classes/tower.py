@@ -36,13 +36,26 @@ class Turret(object):
         self.energy = int(self.stats['energy'][0])
         self.upCost = int(self.stats['up_cost'][0])
         self.sellPrice = self.cost / 2  # float, convert to int when actually selling
+        # for offensive turrets
+        if self.type == "turret":
+            # get targeting stats
+            self.can_hit = self.stats['can_hit'][0]
 
-        # get targeting stats
         self.targeting = self.stats['targeting'][0]
         if 'targeting_val' in self.stats:
             self.targetingVal = float(self.stats['targeting_val'][0])
         else:
             self.targetingVal = 0
+
+        # range * effRange = how far the projectile actually goes
+        self.effRange = float(self.stats['effective_range'][0])
+        self.reload = 0.01
+
+        # initialize tower stats
+        self.damage = 0  # array of tower damage by level
+        self.rate = 0
+        self.range = 0  # range that it will target enemies
+        self.projSpd = 0
 
         # get special stats
         self.special = self.stats['special'][0]
@@ -58,17 +71,6 @@ class Turret(object):
             self.special = 'none'
             self.specialVal = 0
             self.specialVal2 = 0
-        
-        
-        # range * effRange = how far the projectile actually goes
-        self.effRange = float(self.stats['effective_range'][0])
-        self.reload = 0.01
-
-        # initialize tower stats
-        self.damage = 0  # array of tower damage by level
-        self.rate = 0
-        self.range = 0  # range that it will target enemies
-        self.projSpd = 0
 
         # pictures and sounds
         self.spriteBase = load_pics("images/towers/", str(self.stats['sprite_base'][0]))
@@ -148,18 +150,19 @@ class Turret(object):
         self.rotSpriteGun = components.rot_center(self.spriteGun, angle)
 
     # search for first enemy and rotate gun to face it
-    def calc_rotation(self, enemy_pos, enemy_path_left, enemy_radius, dt):
+    def calc_rotation(self, enemy_list, dt):
         self.canFire = False
         tar = []
         path_left_cur = 1000
 
-        for i in range(len(enemy_path_left)):
-            dist_to_enemy = math.sqrt(((self.pos[0] * 50 - 25) - enemy_pos[i][0]) ** 2 +
-                                      ((self.pos[1] * 50 - 25) - enemy_pos[i][1]) ** 2)
+        for i in enemy_list:
+            dist_to_enemy = math.sqrt(((self.pos[0] * 50 - 25) - i.posPx[0]) ** 2 +
+                                      ((self.pos[1] * 50 - 25) - i.posPx[1]) ** 2)
             # if the enemy is closer to the destination and within range, choose it as target
-            if enemy_path_left[i] < path_left_cur and dist_to_enemy <= self.range * 50 + float(enemy_radius[i]) * 0.7:
-                tar = [enemy_pos[i][0], enemy_pos[i][1]]
-                path_left_cur = enemy_path_left[i]
+            if (self.can_hit == "BOTH" or self.can_hit == i.movetype) and \
+                        i.distance < path_left_cur and dist_to_enemy <= self.range * 50 + float(i.radius) * 0.7:
+                tar = [i.posPx[0], i.posPx[1]]
+                path_left_cur = i.distance
 
         # tick down reload
         if self.reload > 0:
@@ -191,7 +194,7 @@ class Turret(object):
         temp_spr = components.rot_center(self.spriteProj, math.degrees(self.rotation))
         return projectile.Projectile([self.pos[0] * 50 - 25, self.pos[1] * 50 - 25], xy_vel,
                                     self.damage, self.range * self.effRange * 50, tempTargeting, tempSpecial,
-                                    temp_spr, str(self.stats['sprite_proj'][0]), self.hitSound, self.rotation)
+                                    temp_spr, str(self.stats['sprite_proj'][0]), self.hitSound, self.rotation, self.can_hit)
 
     # draws a full turret, centered on a xy coordinate. The first picture is assumed to be the base.
     # rotation is an angle in radians that the turret should rotate

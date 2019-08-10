@@ -2,10 +2,11 @@ import pygame
 import math
 
 class Projectile(object):
-    def __init__(self, xy, vel_xy, damage, range, targeting, special, sprite, exp, sound, angle):
+    def __init__(self, xy, vel_xy, damage, range, targeting, special, sprite, exp, sound, angle, can_hit):
         self.angle = angle
         self.posXYPx = xy
         self.vel = vel_xy
+        self.proj_can_hit = can_hit
         self.totalVel = math.sqrt(vel_xy[0] ** 2 + vel_xy[1] ** 2)
         self.damage = damage
         self.distance = [0, range]  # current traveled, max
@@ -17,6 +18,8 @@ class Projectile(object):
         self.rectPos = [self.posXYPx[0] - self.size[0] / 2, self.posXYPx[1] - self.size[1]]  # top left corner pos
         self.exp = exp + "-hit"
         self.sound = sound
+        self.can_hit = can_hit
+        print(self.can_hit)
         if self.targeting[0] == 'pierce':  # list of enemies that were already hit
             self.hitlist = []
 
@@ -36,7 +39,7 @@ class Projectile(object):
             for j in range(len(enemies)):
                 # xy difference
                 diff = [int(self.rectPos[0] - enemies[j].posPx[0]), int(self.rectPos[1] - enemies[j].posPx[1])]
-                if self.mask.overlap(enemies[j].mask, diff) is not None or self.targeting[0] == 'pulse':
+                if ((self.can_hit == "BOTH" or self.can_hit == enemies[j].movetype) and self.mask.overlap(enemies[j].mask, diff) is not None) or self.targeting[0] == 'pulse':
                     # draw sprite one last time before removal
                     display.blit(self.sprite,
                                  (int(self.posXYPx[0] - self.size[0] / 2), int(self.posXYPx[1] - self.size[1] / 2)))
@@ -46,7 +49,7 @@ class Projectile(object):
                             aoe = self.targeting[1] * 50
                             dist = math.sqrt((self.posXYPx[0] - enemies[k].posPx[0]) ** 2 +
                                              (self.posXYPx[1] - enemies[k].posPx[1]) ** 2)
-                            if dist <= aoe + int(enemies[k].stats['radius']) * 0.71:
+                            if dist <= aoe + int(enemies[k].stats['radius']) * 0.7 and (self.can_hit == "BOTH" or self.can_hit == enemies[k].movetype):
                                 collided.append(enemies[k])
                         return collided
                     elif self.targeting[0] == 'pierce':
