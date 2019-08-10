@@ -196,15 +196,14 @@ def display_stats(sel_tower):
 # It may be moved into unity later
 # Made by Tommy H
 # Project started 2018-08-12
+# TODO: update sprites
+# TODO: rebalancing and redoing of waves w/ air units
+# TODO: add easier way to tell the level of a tower
+# TODO: add descriptions
 # TODO: add difficulties
 # Easy: -15% cost for stuff, -15% enemy HP, -25% score
 # Normal: default values
 # Hard: +15% cost for stuff, +15% enemy HP, +25% score
-# TODO: add air units
-# ignores barriers
-# new tower: antiair gun (2x-3x dmg vs air units)
-# certain towers cant hit air units (freezer)
-# TODO: update sprites
 
 
 # ---- SETUP (only ran once) ----
@@ -303,9 +302,9 @@ armourPic = load_pics("images/UI/", "armour")
 # credits
 creditText = creditParse.parse("data/credits")
 
-# ---- LOAD CLASSES ----
+# ---- LOAD CLASSES ------------------------------------------------------------
 # names of purchasable towers (turrets, boosters)
-towerNames = ['Wall', 'Basic Turret']
+towerNames = ['Wall', 'Basic Turret', 'Flak Cannon']
 #'Freezer', 'Machinegun', 'Sniper Turret', 'Rocket Launcher',  'Laser Turret', 'Power Station', 'Bank', 'Debugger'] 
 
 # list of towers and boosters available for purchase, taken from towerNames and boosterNames
@@ -491,11 +490,11 @@ while True:
     pygame.mixer.music.stop()
 
     # ---- IN-GAME SETUP and reset variables----
-    curWave = 49  # current wave, displayed value is 1 more than this (starts at -1)
-    money = 500  # starting monies
+    curWave = -1  # current wave, displayed value is 1 more than this (starts at -1)
+    money = 500  # starting amount of money
     energy = [5, 5]  # amount of power left vs maximum
-    income = 150  # monies per round
-    life = 50  # lose 1 life per enemy; 10 per boss
+    income = 150  # money gain per round
+    life = 50  # lose life for each leaked enemy.
     currentlyInWave = False  # True when enemies are spawning
     deathTimer = -10000
 
@@ -675,7 +674,7 @@ while True:
                 if waveInfo[curWave][i][2] <= masterWaveTimer:
                     # delete the wave info and create a spawner from it
                     spawnerList.append(spawner.Spawner(waveInfo[curWave][i],
-                                                       enemyInfo[waveInfo[curWave][i][0]], curWave))
+                                                       enemyInfo[waveInfo[curWave][i][0]]))
                     del(waveInfo[curWave][i])
                     i -= 1
 
@@ -689,7 +688,7 @@ while True:
                     # reset timer
                     spawnerList[i].timer -= spawnerList[i].interval
                     # append an enemy object to the list
-                    enemyList.append(spawnerList[i].spawn_enemy(selectedMap.spawnList[curSpawnPoint], curSpawnPoint))
+                    enemyList.append(spawnerList[i].spawn_enemy(selectedMap.spawnList[curSpawnPoint], curSpawnPoint, curWave))
 
                     # alternate between spawn locations
                     curSpawnPoint += 1
@@ -703,20 +702,20 @@ while True:
 
                 i += 1
 
-            # movement and enemy display
+            # movement and land enemy display
             i = 0
             while i < len(enemyList):
-                enemyList[i].move(path[enemyList[i].path_number], dt)
-                # enemy reaches end, take off lives, dont give monies
-                if enemyList[i].reachedEnd and enemyList[i].endTimer <= 0:
-                    #  money += enemyList[i].bounty  -> this is to give money even if enemy escapes
-                    if enemyList[i].stats['type'] == 'BOSS':
-                        life -= 10
+                if enemyList[i].movetype == "GROUND":
+                    enemyList[i].move(path[enemyList[i].path_number], dt)
+                    # enemy reaches end, take off lives, and also don't provide death bounty
+                    if enemyList[i].reachedEnd and enemyList[i].endTimer <= 0:
+                        #  money += enemyList[i].bounty  -> this is to give money even if enemy escapes
+                        life -= enemyList[i].dmg
+                        del (enemyList[i])
                     else:
-                        life -= 1
-                    del (enemyList[i])
+                        screen.blit(enemyList[i].stats['sprite'], (enemyList[i].posPx[0] - 35, enemyList[i].posPx[1] - 35))
+                        i += 1
                 else:
-                    screen.blit(enemyList[i].stats['sprite'], (enemyList[i].posPx[0] - 35, enemyList[i].posPx[1] - 35))
                     i += 1
 
         # stop wave after defeating all enemies and spawners
@@ -849,21 +848,30 @@ while True:
                     pass
                 if mousePressed[0] == 1:  # error if user tries to place invalid tower
                     soundError.play()
-
-        # enemy lists and stuffs
-        enemyPosList = []
-        enemyDistLeftList = []
-        enemyRadList = []
-        for i in range(len(enemyList)):
-            enemyPosList.append(enemyList[i].posPx)
-            enemyDistLeftList.append(enemyList[i].distance)
-            enemyRadList.append(enemyList[i].stats['radius'])
+        
+        # draw flying enemies
+        # movement and land enemy display
+        if currentlyInWave:
+            i = 0
+            while i < len(enemyList):
+                if enemyList[i].movetype == "AIR":
+                    enemyList[i].move(path[enemyList[i].path_number], dt)
+                    # enemy reaches end, take off lives, and also don't provide death bounty
+                    if enemyList[i].reachedEnd and enemyList[i].endTimer <= 0:
+                        #  money += enemyList[i].bounty  -> this is to give money even if enemy escapes
+                        life -= enemyList[i].dmg
+                        del (enemyList[i])
+                    else:
+                        screen.blit(enemyList[i].stats['sprite'], (enemyList[i].posPx[0] - 35, enemyList[i].posPx[1] - 35))
+                        i += 1
+                else:
+                    i += 1
 
         # targeting and shooting
         if currentlyInWave:
             for i in range(len(placedTowers)):
-                if placedTowers[i].type == "turret":
-                    placedTowers[i].calc_rotation(enemyPosList, enemyDistLeftList, enemyRadList, dt)
+                if placedTowers[i].type == "turret": 
+                    placedTowers[i].calc_rotation(enemyList, dt)
                     if placedTowers[i].canFire:
                         projList.append(placedTowers[i].fire_projectile())
         else:  # rotate to face the first enemy if its a turret
