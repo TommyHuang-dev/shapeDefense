@@ -19,7 +19,6 @@ class Projectile(object):
         self.exp = exp + "-hit"
         self.sound = sound
         self.can_hit = can_hit
-        print(self.can_hit)
         if self.targeting[0] == 'pierce':  # list of enemies that were already hit
             self.hitlist = []
 
