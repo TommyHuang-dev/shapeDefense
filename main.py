@@ -69,6 +69,9 @@ def display_stats(sel_tower):
     # name
     components.create_text(screen, (disL - 150, 365), sel_tower.name, True,
                            levelTowerTitleFont, (0, 50, 175))
+
+    # description
+    components.create_paragraph(screen, (disL - 285, 585), sel_tower.stats['description'], levelTowerDescriptionFont, (25, 25, 25), 15, 270)
     
     # display stats
     if not butUpgrade.collidepoint(mousePos[0], mousePos[1]):
@@ -199,12 +202,11 @@ def display_stats(sel_tower):
 # TODO: update sprites
 # TODO: rebalancing and redoing of waves w/ air units
 # TODO: add easier way to tell the level of a tower
-# TODO: add descriptions
-# TODO: add difficulties
-# Easy: -15% cost for stuff, -15% enemy HP, -25% score
-# Normal: default values
-# Hard: +15% cost for stuff, +15% enemy HP, +25% score
-
+# TODO: add sprite for maxed out tower
+# TODO: add difficulties and score
+#   Easy: -15% cost for stuff, -10% enemy HP, -25% score
+#   Normal: default values
+#   Hard: +15% cost for stuff, +10% enemy HP, +25% score
 
 # ---- SETUP (only ran once) ----
 # setup pygame
@@ -238,6 +240,7 @@ levelTowerTitleFont = pygame.font.SysFont('Trebuchet MS', 24, True)
 levelTowerTitleFont.set_underline(True)
 levelTowerFont = pygame.font.SysFont('Trebuchet MS', 18, False)
 levelTowerFont2 = pygame.font.SysFont('Trebuchet MS', 20, True)
+levelTowerDescriptionFont = pygame.font.SysFont('Trebuchet MS', 15, False)
 levelNextWaveFont = pygame.font.SysFont('Trebuchet MS', 40, True)
 levelFastFont = pygame.font.SysFont('Trebuchet MS', 12, False)
 
@@ -491,9 +494,9 @@ while True:
 
     # ---- IN-GAME SETUP and reset variables----
     curWave = -1  # current wave, displayed value is 1 more than this (starts at -1)
-    money = 500  # starting amount of money
+    money = 600  # starting amount of money
     energy = [5, 5]  # amount of power left vs maximum
-    income = 150  # money gain per round
+    income = 100  # money gain per round
     life = 50  # lose life for each leaked enemy.
     currentlyInWave = False  # True when enemies are spawning
     deathTimer = -10000
@@ -713,8 +716,9 @@ while True:
                         life -= enemyList[i].dmg
                         del (enemyList[i])
                     else:
-                        screen.blit(enemyList[i].stats['sprite'], (enemyList[i].posPx[0] - 35, enemyList[i].posPx[1] - 35))
-                        i += 1
+                        if enemyList[i].movetype == "GROUND":
+                            screen.blit(enemyList[i].sprite, (enemyList[i].posPx[0] - 35, enemyList[i].posPx[1] - 35))
+                            i += 1
                 else:
                     i += 1
 
@@ -850,7 +854,7 @@ while True:
                     soundError.play()
         
         # draw flying enemies
-        # movement and land enemy display
+        # movement and air enemy display
         if currentlyInWave:
             i = 0
             while i < len(enemyList):
@@ -862,8 +866,9 @@ while True:
                         life -= enemyList[i].dmg
                         del (enemyList[i])
                     else:
-                        screen.blit(enemyList[i].stats['sprite'], (enemyList[i].posPx[0] - 35, enemyList[i].posPx[1] - 35))
+                        screen.blit(enemyList[i].rot_sprite, (enemyList[i].posPx[0] - 35, enemyList[i].posPx[1] - 35))
                         i += 1
+                        
                 else:
                     i += 1
 
