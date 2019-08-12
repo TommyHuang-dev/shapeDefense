@@ -13,7 +13,6 @@ range 0
 proj_spd 0
 effective_range 0
 up_cost 0
-up_cost_inc 0
 max_level 1
 targeting none
 special none
@@ -21,32 +20,56 @@ hit_sound none
 description It's a wall! Use it to cheaply block enemies and create longer paths.
 end
 
-9-30 | $100-500 | 0.075
+8/12/20/33/48 | $100-650 | 0.075
 name Basic Turret
 type turret
-can_hit both
+can_hit BOTH
 cost 100
 energy 0
 sprite_base basic_base
 sprite_turret basic_turret
 sprite_proj basic_shot
-damage 4 5 6 8 10
-rate 2.0 2.0 2.0 2.5 3.0
+damage 5 8 10 13 16
+rate 1.5 1.7 2.0 2.5 3.0
 range 3.25 3.25 3.25 3.25 4.0
 proj_spd 14.0 14.0 14.0 14.0 16.0
 effective_range 1.1
-up_cost 50 1 2 3
+up_cost 50 100 150 250
 max_level 5
 targeting projectile
 special none
 hit_sound basic_hit
-description A cheap and reliable turret that can be upgraded to deal a considerable amount of damage.
+description A cheap turret that can be upgraded to deal a considerable amount of damage. MANY LETTERS WAOW END asdf
+end
+
+7.5/12/21/32/50 (22.5/36/63/96/150) | $200-1600
+name Flak Cannon
+type turret
+can_hit BOTH
+cost 200
+energy 0
+sprite_base machinegun_base
+sprite_turret rocket_turret
+sprite_proj flak_shot
+damage 5 6 7 8 10
+rate 1.5 2.0 3.0 4.0 5.0
+range 6.0 6.0 6.0 6.0 6.0
+proj_spd 30 30 30 30 30
+effective_range 1.1
+up_cost 150 250 400 600
+max_level 5
+targeting splash
+targeting_val 0.5 0.5 0.5 0.5 0.5
+special antiair
+special_val 3.0 3.0 3.0 3.0 3.0
+hit_sound laser_hit
+description A high range tower that deals increased damage against air units.
 end
 
 20-144 | $250-1600 | 0.09
 name Machinegun
 type turret
-can_hit both
+can_hit BOTH
 cost 250
 energy 0
 sprite_base machinegun_base
@@ -57,25 +80,24 @@ rate 4 6 9 12
 range 4.0 4
 proj_spd 24.0
 effective_range 1.1
-up_cost 120
-up_cost_inc 30
+up_cost 200
 max_level 5
 targeting projectile
 special none
 hit_sound machinegun_hit
-description This tower has a very high rate of fire, but low damage. It is less effective against armoured units.
+description This tower has a very high rate of fire, but is less effective vs armoured units.
 end
 
 18-108 | $250-1600 | 0.0675
 name Sniper Turret
 type turret
-can_hit both
+can_hit GROUND
 cost 250
 energy 0
 sprite_base sniper_base
 sprite_turret sniper_turret
 sprite_proj sniper_shot
-damage  24 36 50 70 90
+damage 24 36 50 70 90
 rate 0.75 1.2
 range 6.0 9.0
 proj_spd 35.0 40.0
@@ -86,12 +108,13 @@ max_level 5
 targeting projectile
 special none
 hit_sound sniper_hit
+description A powerful tower with high range and is effective vs armour. Cannot hit air units.
 end
 
 10-40 | $250-1600 | 
 name Rocket Launcher
 type turret
-can_hit both
+can_hit GROUND
 cost 250
 energy 0
 sprite_base rocket_base
@@ -109,13 +132,14 @@ targeting splash
 targeting_val 0.9 1.3
 special none
 hit_sound rocket_hit
+description Fires small rockets which deal damage to multiple enemies in an area.
 end
 
 - AOEslow: val is slow strength, val2 is duration
 1.4-6 | $200-1475
 name Freezer
 type turret
-can_hit land
+can_hit GROUND
 cost 200
 energy 1
 sprite_base freezer_base
@@ -135,6 +159,30 @@ special_val 0.55 0.7 0.85
 special_val2 0.9 0.9 0.9
 hit_sound ice_hit
 description This tower does very little damage, but emits a pulsing aura which slows all enemies hit.
+end
+
+25-112 | $600-3675
+name Laser Turret
+type turret
+can_hit BOTH
+cost 600
+energy 1
+sprite_base laser_base
+sprite_turret laser_turret
+sprite_proj laser_shot
+damage 18 24 35
+rate 1.4 2.2 3.2
+range 4.5 6.5
+proj_spd 30 30
+effective_range 1.2
+up_cost 250
+up_cost_inc 75
+max_level 5
+targeting pierce
+targeting_val 2 4
+special none
+hit_sound laser_hit
+description An expensive tower which has good range, damage, and firerate. It's shots can pierce multiple enemies.
 end
 
 12-32 | $400-2100
@@ -159,53 +207,6 @@ targeting_val 2 4 6
 special armour_ignore
 special_val 0.5
 hit_sound laser_hit
-
-25-112 | $600-3675
-name Laser Turret
-type turret
-can_hit both
-cost 600
-energy 1
-sprite_base laser_base
-sprite_turret laser_turret
-sprite_proj laser_shot
-damage 18 24 35
-rate 1.4 2.2 3.2
-range 4.5 6.5
-proj_spd 30 30
-effective_range 1.2
-up_cost 250
-up_cost_inc 75
-max_level 5
-targeting pierce
-targeting_val 2 4
-special none
-hit_sound laser_hit
-end
-
-12-60 (24-180) | $220-2050
-name flak cannon
-type turret
-can_hit both
-cost 220
-energy 1
-sprite_base laser_base
-sprite_turret laser_turret
-sprite_proj laser_shot
-damage 4 6 8 10
-rate 3.0 4.5 6.0
-range 6.0
-proj_spd 30 30
-effective_range 1.1
-up_cost 130
-up_cost_inc 50
-max_level 5
-targeting projectile
-special antiair
-special_val 2.0 3.0
-hit_sound laser_hit
-end
-
 
 name Debugger
 type turret
@@ -250,6 +251,7 @@ max_level 1
 targeting none
 special none
 hit_sound none
+descrption Provides additional electricity, allowing for the use of towers that require it.
 end
 
 name damage module
@@ -334,4 +336,5 @@ targeting none
 special income
 special_val 40 75 140
 hit_sound none
+description Passively generates money at the end of each round.
 end
