@@ -71,9 +71,10 @@ def display_stats(sel_tower):
                            levelTowerTitleFont, (0, 50, 175))
 
     # description
-    components.create_paragraph(screen, (disL - 285, 585), sel_tower.stats['description'], levelTowerDescriptionFont, (25, 25, 25), 15, 270)
+    components.create_paragraph(screen, (disL - 285, 570), sel_tower.stats['description'], levelTowerDescriptionFont, (25, 25, 25), 18, 270)
     
     # display stats
+    ver_dist = 28
     if not butUpgrade.collidepoint(mousePos[0], mousePos[1]):
         stat_col = (0, 0, 100)
         if sel_tower.type == 'turret':
@@ -81,21 +82,21 @@ def display_stats(sel_tower):
             components.create_text(screen, (disL - 280, 410), '  Dmg:', False, levelTowerFont, (0, 0, 0))
             components.create_text(screen, (disL - 220, 410), str(sel_tower.damage), False, levelTowerFont, stat_col)
             # firerate
-            components.create_text(screen, (disL - 280, 440), '  Rate:', False, levelTowerFont, (0, 0, 0))
-            components.create_text(screen, (disL - 220, 440), str(round(sel_tower.rate, 2)), False, levelTowerFont, stat_col)
+            components.create_text(screen, (disL - 280, 410 + ver_dist), '  Rate:', False, levelTowerFont, (0, 0, 0))
+            components.create_text(screen, (disL - 220, 410 + ver_dist), str(round(sel_tower.rate, 2)), False, levelTowerFont, stat_col)
             # range
-            components.create_text(screen, (disL - 280, 470), 'Range:', False, levelTowerFont, (0, 0, 0))
-            components.create_text(screen, (disL - 220, 470), str(round(sel_tower.range, 2)), False, levelTowerFont, stat_col)
+            components.create_text(screen, (disL - 280, 410 + ver_dist * 2), 'Range:', False, levelTowerFont, (0, 0, 0))
+            components.create_text(screen, (disL - 220, 410 + ver_dist * 2), str(round(sel_tower.range, 2)), False, levelTowerFont, stat_col)
             # proj speed
             if sel_tower.projSpd > 0:
-                components.create_text(screen, (disL - 280, 500), ' P.Spd:', False, levelTowerFont, (0, 0, 0))
-                components.create_text(screen, (disL - 220, 500), str(round(sel_tower.projSpd, 2)), False, levelTowerFont, stat_col)
+                components.create_text(screen, (disL - 280, 410 + ver_dist * 3), ' P.Spd:', False, levelTowerFont, (0, 0, 0))
+                components.create_text(screen, (disL - 220, 410 + ver_dist * 3), str(round(sel_tower.projSpd, 2)), False, levelTowerFont, stat_col)
         if sel_tower.targeting != 'projectile' and sel_tower.targeting != 'none' and sel_tower.targeting != 'pulse':
-            components.create_text(screen, (disL - 280, 530), sel_tower.targeting + ":", False, levelTowerFont, (0, 0, 0))
-            components.create_text(screen, (disL - 220, 530), sel_tower.targetingVal, False, levelTowerFont, stat_col)
+            components.create_text(screen, (disL - 265 - len(sel_tower.targeting) * 3, 410 + ver_dist * 4), sel_tower.targeting + ":", False, levelTowerFont, (0, 0, 0))
+            components.create_text(screen, (disL - 230 + len(sel_tower.targeting) * 2, 410 + ver_dist * 4), sel_tower.targetingVal, False, levelTowerFont, stat_col)
         if sel_tower.special != 'none':
-            components.create_text(screen, (disL - 280, 560), sel_tower.special + ":", False, levelTowerFont, (0, 0, 0))
-            components.create_text(screen, (disL - 220, 560), sel_tower.specialVal, False, levelTowerFont, stat_col)
+            components.create_text(screen, (disL - 265 - len(sel_tower.special) * 3, 410 + ver_dist * 5), sel_tower.special + ":", False, levelTowerFont, (0, 0, 0))
+            components.create_text(screen, (disL - 230 + len(sel_tower.special) * 2, 410 + ver_dist * 5), sel_tower.specialVal, False, levelTowerFont, stat_col)
     
     # preview stats for next level
     elif sel_tower.curLevel < sel_tower.maxLevel: 
@@ -109,36 +110,38 @@ def display_stats(sel_tower):
             else:
                 components.create_text(screen, (disL - 220, 410), str(sel_tower.preview_damage), False, levelTowerFont, stat_col)
             # firerate
-            components.create_text(screen, (disL - 280, 440), '  Rate:', False, levelTowerFont, (0, 0, 0))
+            components.create_text(screen, (disL - 280, 410 + ver_dist), '  Rate:', False, levelTowerFont, (0, 0, 0))
             if sel_tower.rate < sel_tower.preview_rate:
-                components.create_text(screen, (disL - 220, 440), str(round(sel_tower.preview_rate, 2)), False, levelTowerFont, stat_up_col)
+                components.create_text(screen, (disL - 220, 410 + ver_dist), str(round(sel_tower.preview_rate, 2)), False, levelTowerFont, stat_up_col)
             else:
-                components.create_text(screen, (disL - 220, 440), str(round(sel_tower.preview_rate, 2)), False, levelTowerFont, stat_col)
+                components.create_text(screen, (disL - 220, 410 + ver_dist), str(round(sel_tower.preview_rate, 2)), False, levelTowerFont, stat_col)
             # range
-            components.create_text(screen, (disL - 280, 470), 'Range:', False, levelTowerFont, (0, 0, 0))
+            components.create_text(screen, (disL - 280, 410 + ver_dist * 2), 'Range:', False, levelTowerFont, (0, 0, 0))
             if sel_tower.range < sel_tower.preview_range:
-                components.create_text(screen, (disL - 220, 470), str(round(sel_tower.preview_range, 2)), False, levelTowerFont, stat_up_col)
+                components.create_text(screen, (disL - 220, 410 + ver_dist * 2), str(round(sel_tower.preview_range, 2)), False, levelTowerFont, stat_up_col)
             else:
-                components.create_text(screen, (disL - 220, 470), str(round(sel_tower.preview_range, 2)), False, levelTowerFont, stat_col)
+                components.create_text(screen, (disL - 220, 410 + ver_dist * 2), str(round(sel_tower.preview_range, 2)), False, levelTowerFont, stat_col)
             # proj speed
             if sel_tower.projSpd > 0:
-                components.create_text(screen, (disL - 280, 500), ' P.Spd:', False, levelTowerFont, (0, 0, 0))
+                components.create_text(screen, (disL - 280, 410 + ver_dist * 3), ' P.Spd:', False, levelTowerFont, (0, 0, 0))
                 if sel_tower.projSpd < sel_tower.preview_projSpd:
-                    components.create_text(screen, (disL - 220, 500), str(round(sel_tower.preview_projSpd, 2)), False, levelTowerFont, stat_up_col)
+                    components.create_text(screen, (disL - 220, 410 + ver_dist * 3), str(round(sel_tower.preview_projSpd, 2)), False, levelTowerFont, stat_up_col)
                 else:
-                    components.create_text(screen, (disL - 220, 500), str(round(sel_tower.preview_projSpd, 2)), False, levelTowerFont, stat_col)
+                    components.create_text(screen, (disL - 220, 410 + ver_dist * 3), str(round(sel_tower.preview_projSpd, 2)), False, levelTowerFont, stat_col)
+        # targeting method
         if sel_tower.targeting != 'projectile' and sel_tower.targeting != 'none' and sel_tower.targeting != 'pulse':
-            components.create_text(screen, (disL - 280, 530), sel_tower.targeting + ":", False, levelTowerFont, (0, 0, 0))
+            components.create_text(screen, (disL - 265 - len(sel_tower.targeting) * 3, 410 + ver_dist * 4), sel_tower.targeting + ":", False, levelTowerFont, (0, 0, 0))
             if sel_tower.targetingVal < sel_tower.preview_targetingVal:
-                components.create_text(screen, (disL - 220, 530), sel_tower.preview_targetingVal, False, levelTowerFont, stat_up_col)
+                components.create_text(screen, (disL - 230 + len(sel_tower.targeting) * 2, 410 + ver_dist * 4), sel_tower.preview_targetingVal, False, levelTowerFont, stat_up_col)
             else:
-                components.create_text(screen, (disL - 220, 530), sel_tower.preview_targetingVal, False, levelTowerFont, stat_col)
+                components.create_text(screen, (disL - 230 + len(sel_tower.targeting) * 2, 410 + ver_dist * 4), sel_tower.preview_targetingVal, False, levelTowerFont, stat_col)
+        # special effects
         if sel_tower.special != 'none':
-            components.create_text(screen, (disL - 280, 560), sel_tower.special + ":", False, levelTowerFont, (0, 0, 0))
+            components.create_text(screen, (disL - 265 - len(sel_tower.special) * 3, 410 + ver_dist * 5), sel_tower.special + ":", False, levelTowerFont, (0, 0, 0))
             if sel_tower.specialVal < sel_tower.preview_specialVal:
-                components.create_text(screen, (disL - 220, 560), sel_tower.preview_specialVal, False, levelTowerFont, stat_up_col)
+                components.create_text(screen, (disL - 230 + len(sel_tower.special) * 2, 410 + ver_dist * 5), sel_tower.preview_specialVal, False, levelTowerFont, stat_up_col)
             else:
-                components.create_text(screen, (disL - 220, 560), sel_tower.preview_specialVal, False, levelTowerFont, stat_up_col)
+                components.create_text(screen, (disL - 230 + len(sel_tower.special) * 2, 410 + ver_dist * 5), sel_tower.preview_specialVal, False, levelTowerFont, stat_col)
     
     # draw upgrade button
     if sel_tower.curLevel < sel_tower.maxLevel and sel_tower.placed:
@@ -226,7 +229,7 @@ pygame.display.set_caption("Shape Defense")
 
 intro = True
 
-# font stuff: ms = menu screen
+# fonts and stuff: ms = menu screen
 msLevelSelectFont = pygame.font.SysFont('Trebuchet MS', 32, False)
 msMenuButFont = pygame.font.SysFont('Trebuchet MS', 45, True)
 msHeaderFont = pygame.font.SysFont('Trebuchet MS', 40, True)
@@ -241,8 +244,8 @@ levelTowerTitleFont.set_underline(True)
 levelTowerFont = pygame.font.SysFont('Trebuchet MS', 18, False)
 levelTowerFont2 = pygame.font.SysFont('Trebuchet MS', 20, True)
 levelTowerDescriptionFont = pygame.font.SysFont('Trebuchet MS', 15, False)
-levelNextWaveFont = pygame.font.SysFont('Trebuchet MS', 40, True)
-levelFastFont = pygame.font.SysFont('Trebuchet MS', 12, False)
+levelNextWaveFont = pygame.font.SysFont('Trebuchet MS', 38, True)
+levelFastFont = pygame.font.SysFont('Trebuchet MS', 14, False)
 
 # initialize maps
 mapList = ["1", "2", "3", "4", "5", "6"]  # map file names
@@ -295,6 +298,7 @@ circleX = [0, 425, 850, 1275]
 shapesX = [-425, 0, 425, 850]
 picSpawnArrow = load_pics("images/UI/", "arrow")
 picExitArrow = load_pics("images/UI/", "arrow2")
+picTowerLevel = [load_pics("images/UI/", "level" + str(i + 1)) for i in range(5)]
 
 moneyPic = load_pics("images/UI/", "symbol_money")
 lifePic = load_pics("images/UI/", "symbol_life")
@@ -307,7 +311,7 @@ creditText = creditParse.parse("data/credits")
 
 # ---- LOAD CLASSES ------------------------------------------------------------
 # names of purchasable towers (turrets, boosters)
-towerNames = ['Wall', 'Basic Turret', 'Flak Cannon']
+towerNames = ['Wall', 'Basic Turret', 'Machinegun', 'Flak Cannon', 'Sniper Turret', 'Bank']
 #'Freezer', 'Machinegun', 'Sniper Turret', 'Rocket Launcher',  'Laser Turret', 'Power Station', 'Bank', 'Debugger'] 
 
 # list of towers and boosters available for purchase, taken from towerNames and boosterNames
@@ -360,17 +364,21 @@ butSell = pygame.Rect(disL - 115, 500, 90, 55)
 butUpgrade = pygame.Rect(disL - 115, 430, 90, 55)
 
 # menu NEXT WAVE button
-butNextWave = pygame.Rect(disL - 275, disH - 70, 250, 60)
+butNextWave = pygame.Rect(disL - 290, disH - 65, 280, 58)
 colNextWaveBut = [[175, 175, 175], [15, 215, 110]]  # colour for round in progress vs. not in progress
+
+# menu overlay button
+butOverlay = pygame.Rect(disL - 220, disH - 87, 140, 18)
+colOverlayBut = [240, 150, 50]
 
 # upgrade tower buttons (there are 4)
 butUpgradeTower = [pygame.Rect(disL - 140, 400 + i * 30, 20, 20) for i in range(6)]
 del(butUpgradeTower[3])  # delete proj_spd button
 
 
-# ---- OUTER LOOP ----
+# ------ OUTER LOOP ------
 while True:
-    # ---- INTRO SCREEN ----
+    # ------ INTRO SCREEN ------
     outro = -1
     # intro music
     musicMenu = pygame.mixer.music.load('sounds/menu.ogg')
@@ -492,12 +500,12 @@ while True:
     # stop intro song
     pygame.mixer.music.stop()
 
-    # ---- IN-GAME SETUP and reset variables----
+    # ------ IN-GAME SETUP and reset variables ------
     curWave = -1  # current wave, displayed value is 1 more than this (starts at -1)
     money = 600  # starting amount of money
-    energy = [5, 5]  # amount of power left vs maximum
+    energy = [4, 4]  # amount of power left vs maximum
     income = 100  # money gain per round
-    life = 50  # lose life for each leaked enemy.
+    life = 100  # lose life for each leaked enemy.
     currentlyInWave = False  # True when enemies are spawning
     deathTimer = -10000
 
@@ -576,8 +584,9 @@ while True:
     # fast forward
     fastForward = False
     ffCounter = 1  # multiply by this to counter the effects of fast forwarding
+    toggleUiOverlay = True  # display the levels under towers and da grid
 
-    # ---- GAME LOOP ----
+    # ------ GAME LOOP ------
     while not intro:
         # should make it 60FPS max
         # dt is the number of seconds since the last frame, use this for calculations instead of fps to make it smoother
@@ -592,6 +601,8 @@ while True:
             if event.type == pygame.MOUSEBUTTONDOWN:
                 mousePressed = pygame.mouse.get_pressed()
             if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_t:
+                    toggleUiOverlay = not toggleUiOverlay
                 # secret konami code!!! shh....
                 if event.key == cheatList[cheatVal]:
                     cheatVal += 1
@@ -642,15 +653,15 @@ while True:
             else:
                 i += 1
 
-        # ---- BACKGROUND ----
+        # ------ BACKGROUND ------
         screen.fill(selectedMap.colBackground)
         # obstacles
-        if not currentlyInWave:
+        if toggleUiOverlay:
             components.draw_grid(screen, 0, 0, disL - 300, disH, 50, selectedMap.colGrid, False)
         selectedMap.draw_obstacles(screen)
 
         # path display stuff
-        if not currentlyInWave:
+        if toggleUiOverlay:
             for i in range(len(path)):
                 lines = [[path[i][a][0] * 50 - 25, path[i][a][1] * 50 - 25] for a in range(len(path[i]))]
                 pygame.draw.lines(screen, (50, 50, 50), False, lines, 1)
@@ -668,7 +679,7 @@ while True:
             screen.blit(arrowPics[i][0], (path[i][1][0] * 50 - 50, path[i][1][1] * 50 - 50))
             screen.blit(arrowPics[i][1], (path[i][-2][0] * 50 - 50, path[i][-2][1] * 50 - 50))
 
-        # ---- ENEMY SPAWNING AND MOVEMENT ----
+        # ------ ENEMY SPAWNING AND MOVEMENT ------
         # spawning
         if currentlyInWave:
             i = 0
@@ -728,7 +739,7 @@ while True:
             # INCOME! :D
             money += income
 
-        # ---- TOWERS ----
+        # ------ TOWERS ------
         # draw placed towers:
         # tower base    
         for i in placedTowers:
@@ -955,7 +966,16 @@ while True:
             for i in range(len(enemyList)):
                 enemyList[i].draw_bar(screen, armourPic)
 
-        # ---- UI ELEMENTS ----
+        # ------ UI ELEMENTS ------
+        # if enabled, display levels of towers
+        if toggleUiOverlay:
+            for i in placedTowers:
+                if i.maxLevel > 1:
+                    if i.curLevel < i.maxLevel:
+                        screen.blit(picTowerLevel[i.curLevel - 1], [i.pos[0] * 50 - 35, i.pos[1] * 50 - 14])
+                    else:  # max level
+                        screen.blit(picTowerLevel[4], [i.pos[0] * 50 - 35, i.pos[1] * 50 - 14])
+
         # ui background
         pygame.draw.rect(screen, colPurchaseMenu, (disL - 300, 0, 300, disH), 0)
 
@@ -967,8 +987,23 @@ while True:
         pygame.draw.line(screen, (70, 70, 70), (disL - 300, butListTowers[0][1] - 18), (disL, butListTowers[0][1] - 18))
         pygame.draw.line(screen, (70, 70, 70), (disL - 300, butListTowers[0][1] + 185),
                          (disL, butListTowers[0][1] + 185))
-        pygame.draw.line(screen, (70, 70, 70), (disL - 300, disH - 80),
-                         (disL, disH - 80))
+        pygame.draw.line(screen, (70, 70, 70), (disL - 300, disH - 90),
+                         (disL, disH - 90))
+        
+        # overlay button
+        # button fill
+        pygame.draw.rect(screen, (colOverlayBut), butOverlay)
+        # button outline and click
+        if butOverlay.collidepoint(mousePos[0], mousePos[1]):
+            pygame.draw.rect(screen, (0, 0, 0), butOverlay, 1)
+            if mousePressed[0] == 1:
+                toggleUiOverlay = not toggleUiOverlay
+        else:
+            pygame.draw.rect(screen, (100, 100, 100), butOverlay, 1)
+        # button text
+        components.create_text(screen, (butOverlay[0] + butOverlay[2] // 2, butOverlay[1] + butOverlay[3] // 2),
+                    "[T]oggle overlay", True, levelFastFont, (0, 0, 0))
+        
 
         # next wave button
         colNextWaveText = [0, 0, 0]
@@ -976,11 +1011,18 @@ while True:
             pygame.draw.rect(screen, colNextWaveBut[0], butNextWave)
             pygame.draw.rect(screen, (0, 0, 0), butNextWave, 1)
             colNextWaveText = [55, 55, 55]
-            components.create_text(screen, (disL - 150, disH - 20), 'spacebar to fast forward',
+            # next wave text while in wave
+            components.create_text(screen, (butNextWave[0] + butNextWave[2] // 2, butNextWave[1] + butNextWave[3] // 2 - 5),
+                        "NEXT WAVE", True, levelNextWaveFont, colNextWaveText)
+            components.create_text(screen, (disL - 150, disH - 18), 'spacebar to fast forward',
                                    True, levelFastFont, (0, 0, 0))
         elif not currentlyInWave:  # not in wave
+            # next wave button background
             pygame.draw.rect(screen, colNextWaveBut[1], butNextWave)
             pygame.draw.rect(screen, (0, 0, 0), butNextWave, 1)
+            # next wave text while not in wave
+            components.create_text(screen, (butNextWave[0] + butNextWave[2] // 2, butNextWave[1] + butNextWave[3] // 2),
+                        "NEXT WAVE", True, levelNextWaveFont, colNextWaveText)
             # get hover
             if butNextWave.collidepoint(mousePos[0], mousePos[1]):
                 pygame.draw.rect(screen, (0, 0, 0), butNextWave, 3)
@@ -995,14 +1037,12 @@ while True:
                     # reset tower CD
                     for i in placedTowers:
                         i.reload = 0.05
+                         # towers can no longer be sold for full price once wave starts
+                        i.sellPrice -= i.totalCost // 2 
 
                     # procedurally generate waves after wave 40:
                     if curWave >= 40:
                         waveInfo.append(waveGenerator.generate(curWave + 1))
-
-        # next wave text
-        components.create_text(screen, (butNextWave[0] + butNextWave[2] // 2, butNextWave[1] + butNextWave[3] // 2),
-                               "NEXT WAVE", True, levelNextWaveFont, colNextWaveText)
 
         # switch page buttons
         if curPurchasePage > 0:  # previous page
@@ -1158,7 +1198,7 @@ while True:
                         msgTimer = 0.75
                     else:
                         pygame.draw.rect(screen, (0, 0, 0), butSell, 1)
-
+        
         # limit money to 20000
         if money > 20000:
             money = 20000
