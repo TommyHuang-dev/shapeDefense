@@ -16,7 +16,7 @@ class Explosion(object):
         for i in self.picList:
             self.rotPicList.append(functions.components.rot_center(i, math.degrees(angle)))
         self.posXYPx = xy
-        self.timer = 0.1
+        self.timer = 0.15
         self.curpic = 0
         self.stopped = False
         self.size = self.rotPicList[0].get_size()
