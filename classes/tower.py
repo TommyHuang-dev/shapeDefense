@@ -35,8 +35,7 @@ class Turret(object):
         self.cost = int(self.stats['cost'][0])
         self.energy = int(self.stats['energy'][0])
         self.upCost = int(self.stats['up_cost'][0])
-        self.totalCost = self.cost
-        self.sellPrice = self.totalCost  # sells for half of totalPrice once you upgrade or start da wave
+        self.sellPrice = self.cost / 2  # float, convert to int when actually selling
         # for offensive turrets
         if self.type == "turret":
             # get targeting stats
@@ -138,8 +137,7 @@ class Turret(object):
 
     def upgrade(self):
         # update selling price (1/2 of tower cost + all upgrades)
-        self.totalCost += self.upCost
-        self.sellPrice = self.totalCost // 2
+        self.sellPrice += self.upCost // 2
         # increment level and stuffs asdf
         self.curLevel += 1
         self.update_stats(self.curLevel)

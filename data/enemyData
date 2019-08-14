@@ -205,13 +205,13 @@ radius 12
 death_spawn_enemy none
 death_spawn_val 0
 bounty 4
-dmg 2
+dmg 1
 sprite flying2
 
 name airship
 type BOSS
 movement_type AIR
-health 45
+health 50
 regen 0.0
 speed 1.4
 armour 3
@@ -219,7 +219,7 @@ radius 19
 death_spawn_enemy flying thing
 death_spawn_val 2
 bounty 8
-dmg 5
+dmg 6
 sprite airship
 
 name blimp
