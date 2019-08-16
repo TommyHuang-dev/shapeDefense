@@ -1,26 +1,24 @@
 wave 1
-blimp
-1 0 1
+recruit
+20 0 1
 
 wave 2
 brute
-15 0 1.25
+20 0 1.2
 
 wave 3
-recruit
-8 0 1.2
 speedy
-12 2 0.75
+30 0 0.65
 
 wave 4
-brute
-4 0 0.35
-brute
-4 4 0.35
-brute
-5 7 0.3
-brute
-5 10 0.3
+recruit
+10 0 0.8
+speedy
+8 2 0.7
+recruit
+10 9.5 0.8
+speedy
+8 11.5 0.7
 
 wave 5
 normal boss
@@ -28,41 +26,41 @@ normal boss
 
 wave 6
 turtle
-4 0 0.75
+5 0 1.0
 recruit
-20 0 0.75
+20 1 0.8
 turtle
-4 14 0.75
+5 14 1.0
 
 wave 7
-tiny jelly
-20 0 0.5
-small jelly
-5 3 2
+flying thing 
+30 0 0.6
 
 wave 8
-speedy
-30 0 0.7
+recruit
+12 0 0.8
 brute
-15 1 1.4
+8 4 0.8
+speedy
+10 8 0.8
+turtle
+8 12 0.8
 
 wave 9
-recruit
-8 0 0.5
-brute
-8 3.2 0.5
 speedy
-8 7 0.5
-turtle
-8 10 0.5
+32 0 1.0
+brute
+16 0 2.0
 
 wave 10
 brute boss
 1 1 1
 
 wave 11
-landship
-4 0 1.75
+tiny jelly
+30 0 0.5
+small jelly
+7 2 2
 
 wave 12
 speedy boss
