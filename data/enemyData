@@ -64,7 +64,7 @@ speed 1.75
 radius 18
 death_spawn_enemy none
 death_spawn_val 0
-bounty 15
+bounty 20
 dmg 10
 sprite common_boss
 
@@ -78,7 +78,7 @@ speed 1.0
 radius 18
 death_spawn_enemy none
 death_spawn_val 0
-bounty 20
+bounty 30
 dmg 10
 sprite brute_boss
 
@@ -92,7 +92,7 @@ speed 3.0
 radius 16
 death_spawn_enemy none
 death_spawn_val 0
-bounty 16
+bounty 22
 dmg 10
 sprite speedy_boss
 
@@ -106,7 +106,7 @@ speed 2.0
 radius 19
 death_spawn_enemy recruit
 death_spawn_val 4
-bounty 6
+bounty 7
 dmg 5
 sprite landship
 
@@ -120,7 +120,7 @@ speed 0.9
 radius 20
 death_spawn_enemy none
 death_spawn_val 0
-bounty 25
+bounty 35
 dmg 10
 sprite turtle_boss
 
@@ -155,28 +155,28 @@ sprite small_jelly
 name big jelly
 type BOSS
 movement_type GROUND
-health 60
+health 65
 regen 15.0
-armour 3
+armour 2
 speed 1.4
 radius 16
 death_spawn_enemy small jelly
 death_spawn_val 3
-bounty 5
+bounty 10
 dmg 10
 sprite big_jelly
 
 name rick astley
 type BOSS
 movement_type GROUND
-health 400
-regen 15.0
+health 500
+regen 12.0
 speed 0.75
 armour 0
 radius 17
 death_spawn_enemy none
 death_spawn_val 0
-bounty 80
+bounty 100
 dmg 20
 sprite rick_rolled
 
@@ -211,21 +211,21 @@ sprite flying2
 name airship
 type BOSS
 movement_type AIR
-health 45
+health 50
 regen 0.0
 speed 1.4
 armour 3
 radius 19
 death_spawn_enemy flying thing
 death_spawn_val 2
-bounty 8
+bounty 10
 dmg 5
 sprite airship
 
 name blimp
 type BOSS
 movement_type AIR
-health 100
+health 110
 regen 4.0
 speed 0.9
 armour 0
