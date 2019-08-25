@@ -318,22 +318,23 @@ end
 
 name Debugger
 type turret
-can_hit air
+can_hit BOTH
 cost 1
 energy 0
 sprite_base machinegun_base
 sprite_turret machinegun_turret
 sprite_proj debugger_shot
-damage 2 4 6 8 10
-rate 5 5 5 5 5
-range 2 4 6 8 10
-proj_spd 10 20 30 40 50
+damage 10 20 40 80 160
+rate 3 3 3 3 3
+range 3 4 5 6 7
+proj_spd 12 15 18 21 24
 effective_range 1.5
 up_cost 1 1 1 1
 max_level 5
 targeting pierce
-targeting_val 5
+targeting_val 3 3 3 3 3
 special none
 hit_sound machinegun_hit
+description asdf
 end
 
