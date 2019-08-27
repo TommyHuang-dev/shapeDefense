@@ -311,7 +311,7 @@ creditText = creditParse.parse("data/credits")
 
 # ---- LOAD CLASSES ------------------------------------------------------------
 # names of purchasable towers (turrets, boosters)
-towerNames = ['Wall', 'Basic Turret', 'Machinegun', 'Flak Cannon', 'Sniper Turret', 'Bank', 'Debugger']
+towerNames = ['Wall', 'Basic Turret', 'Machinegun', 'Flak Cannon', 'Sniper Turret', 'Rocket Launcher', 'Bank']
 #'Freezer', 'Machinegun', 'Sniper Turret', 'Rocket Launcher',  'Laser Turret', 'Power Station', 'Bank', 'Debugger'] 
 
 # list of towers and boosters available for purchase, taken from towerNames and boosterNames
@@ -501,7 +501,7 @@ while True:
     pygame.mixer.music.stop()
 
     # ------ IN-GAME SETUP and reset variables ------
-    curWave = 38  # current wave, displayed value is 1 more than this (starts at -1)
+    curWave = -1  # current wave, displayed value is 1 more than this (starts at -1)
     money = 600  # starting amount of money
     energy = [4, 4]  # amount of power left vs maximum
     income = 100  # money gain per round
