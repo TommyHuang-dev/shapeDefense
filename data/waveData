@@ -1,8 +1,6 @@
 wave 1
 recruit
 20 0 1
-flying thing 
-30 0 0.6
 
 wave 2
 brute
@@ -279,7 +277,3 @@ big jelly
 wave 40
 rick astley
 12 2 2.75
-
-wave 41
-flying thing mk2
-50 3 0.25

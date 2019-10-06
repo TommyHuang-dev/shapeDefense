@@ -157,6 +157,8 @@ class Enemy(object):
                     self.rotation = round(self.rotation / 90) * 90
 
                 self.rot_sprite = functions.components.rot_center(self.sprite, self.rotation)
+
+                pygame.mask.from_surface(self.rot_sprite, 24)
             
             self.distance -= temp_speed * time
             self.posPx[0] -= self.movement_dir[0] * time * temp_speed * 50

@@ -96,7 +96,7 @@ while True:
     mousePressed =  pygame.mouse.get_pressed()
 
     # clickity click 
-    screen.fill([200, 200, 235])
+    screen.fill([200, 220, 235])
     
     # wow I actually made this function useful
     functions.components.draw_grid(screen, 0, 0, disL, disH, 25, (150, 150, 150), False)
