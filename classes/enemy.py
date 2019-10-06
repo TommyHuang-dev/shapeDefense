@@ -146,12 +146,17 @@ class Enemy(object):
                 self.movement_dir = [self.posPx[0] - path[-1][0] * 50 + 25, self.posPx[1] - path[-1][1] * 50 + 25]
                 temp_total = math.sqrt(self.movement_dir[0] ** 2 + self.movement_dir[1] ** 2)  # pythagorean theorem dat shit
                 self.movement_dir = [self.movement_dir[0] / temp_total, self.movement_dir[1] / temp_total]
-                self.rotation = math.atan2(-self.movement_dir[1], self.movement_dir[0]) + math.pi
+                self.rotation = math.degrees(math.atan2(-self.movement_dir[1], self.movement_dir[0]) + math.pi)
                 self.recalcTimer[0] = self.recalcTimer[1]
                 self.distance = temp_total / 50  # distance! :D
 
                 # rotating sprite
-                self.rot_sprite = functions.components.rot_center(self.sprite, math.degrees(self.rotation))
+                # snap to 90 degree angles
+                
+                if self.rotation % 90 > 89 or self.rotation % 90 < 1:
+                    self.rotation = round(self.rotation / 90) * 90
+
+                self.rot_sprite = functions.components.rot_center(self.sprite, self.rotation)
             
             self.distance -= temp_speed * time
             self.posPx[0] -= self.movement_dir[0] * time * temp_speed * 50
