@@ -508,7 +508,7 @@ while True:
     money = 600  # starting amount of money
     energy = [5, 5]  # amount of power left vs maximum
     income = 100  # money gain per round
-    life = 100  # lose life for each leaked enemy.
+    life = 50  # lose life for each leaked enemy.
     currentlyInWave = False  # True when enemies are spawning
     deathTimer = -10000
 
@@ -875,8 +875,6 @@ while True:
                 selectedTower.draw_tower_full(screen, [mousePos[0], mousePos[1]])
                 if selectedTower.type == "turret":
                     selectedTower.draw_range(screen, valid, xy=[mousePos[0], mousePos[1]])
-                elif selectedTower.type == "booster":
-                    pass
                 if mousePressed[0] == 1:  # error if user tries to place invalid tower
                     soundError.play()
         
