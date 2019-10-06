@@ -278,10 +278,12 @@ mapInfo = []
 for i in range(len(mapList)):
     mapInfo.append(map.Map(mapList[i]))
     levelButCol.append([mapInfo[i].colBackground, mapInfo[i].colObs])
-    if i % 2 == 0:
-        levelBut.append(pygame.Rect(470, 360 + (i // 2) * 100, 80, 80))
+    if i % 3 == 0:
+        levelBut.append(pygame.Rect(380, 360 + (i // 3) * 100, 80, 80))
+    if i % 3 == 1:
+        levelBut.append(pygame.Rect(470, 360 + (i // 3) * 100, 80, 80))
     else:
-        levelBut.append(pygame.Rect(570, 360 + (i // 2) * 100, 80, 80))
+        levelBut.append(pygame.Rect(560, 360 + (i // 3) * 100, 80, 80))
 
 # create list of menu levelBut (e.g. play, settings, etc.)
 
@@ -311,7 +313,8 @@ creditText = creditParse.parse("data/credits")
 
 # ---- LOAD CLASSES ------------------------------------------------------------
 # names of purchasable towers (turrets, boosters)
-towerNames = ['Wall', 'Basic Turret', 'Machinegun', 'Flak Cannon', 'Sniper Turret', 'Rocket Launcher', 'Bank']
+towerNames = ['Wall', 'Basic Turret', 'Machinegun', 'Flak Cannon', 'Sniper Turret', 'Rocket Launcher', 'Freezer', 'Laser Turret', 'Power Station', 'Bank'
+, 'damage module', 'rate module', 'range module']
 #'Freezer', 'Machinegun', 'Sniper Turret', 'Rocket Launcher',  'Laser Turret', 'Power Station', 'Bank', 'Debugger'] 
 
 # list of towers and boosters available for purchase, taken from towerNames and boosterNames
@@ -503,7 +506,7 @@ while True:
     # ------ IN-GAME SETUP and reset variables ------
     curWave = -1  # current wave, displayed value is 1 more than this (starts at -1)
     money = 600  # starting amount of money
-    energy = [4, 4]  # amount of power left vs maximum
+    energy = [5, 5]  # amount of power left vs maximum
     income = 100  # money gain per round
     life = 100  # lose life for each leaked enemy.
     currentlyInWave = False  # True when enemies are spawning
@@ -602,6 +605,7 @@ while True:
                 mousePressed = pygame.mouse.get_pressed()
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_t:
+                    soundClick.play()
                     toggleUiOverlay = not toggleUiOverlay
                 # secret konami code!!! shh....
                 if event.key == cheatList[cheatVal]:
@@ -764,12 +768,14 @@ while True:
                                                     placedTowers[i].pos[1] * 50 - 25])
 
         # unselect a tower
-        if (mousePos[0] > disL - 300 and mousePressed[0] == 1 or keys[pygame.K_ESCAPE]) and selectedTower != 'none':
+        if (mousePos[0] > disL - 300 and mousePressed[0] == 1 or keys[pygame.K_ESCAPE] or mousePressed[2] == 1) \
+                    and selectedTower != 'none':    
             mousePressed = [0, 0]  # so you don't select another tower when unselecting
-            selectedTower = 'none'
+            selectedTower = 'none' 
 
         # choose where to place down the tower, click to place
         if selectedTower != 'none':
+
             # calculate the validity of the current placement
             valid = False
             if 10 <= mousePos[0] <= disL - 310 and 10 <= mousePos[1] <= disH - 10 and selectedMap.calc_valid(mousePos)\
@@ -997,6 +1003,7 @@ while True:
         if butOverlay.collidepoint(mousePos[0], mousePos[1]):
             pygame.draw.rect(screen, (0, 0, 0), butOverlay, 1)
             if mousePressed[0] == 1:
+                soundClick.play()
                 toggleUiOverlay = not toggleUiOverlay
         else:
             pygame.draw.rect(screen, (100, 100, 100), butOverlay, 1)
