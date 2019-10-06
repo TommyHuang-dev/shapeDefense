@@ -248,7 +248,7 @@ levelNextWaveFont = pygame.font.SysFont('Trebuchet MS', 38, True)
 levelFastFont = pygame.font.SysFont('Trebuchet MS', 14, False)
 
 # initialize maps
-mapList = ["1", "2", "3", "4", "5", "6"]  # map file names
+mapList = ["1", "2", "3", "4", "5", "6", "7", "8", "9"]  # map file names
 selectedMap = "none"  # map class
 
 # initialize sounds
@@ -279,11 +279,11 @@ for i in range(len(mapList)):
     mapInfo.append(map.Map(mapList[i]))
     levelButCol.append([mapInfo[i].colBackground, mapInfo[i].colObs])
     if i % 3 == 0:
-        levelBut.append(pygame.Rect(380, 360 + (i // 3) * 100, 80, 80))
-    if i % 3 == 1:
-        levelBut.append(pygame.Rect(470, 360 + (i // 3) * 100, 80, 80))
+        levelBut.append(pygame.Rect(420, 360 + (i // 3) * 100, 80, 80))
+    elif i % 3 == 1:
+        levelBut.append(pygame.Rect(510, 360 + (i // 3) * 100, 80, 80))
     else:
-        levelBut.append(pygame.Rect(560, 360 + (i // 3) * 100, 80, 80))
+        levelBut.append(pygame.Rect(600, 360 + (i // 3) * 100, 80, 80))
 
 # create list of menu levelBut (e.g. play, settings, etc.)
 
@@ -453,7 +453,7 @@ while True:
                                        i + 1, True, msLevelSelectFont, (15, 15, 15))
 
             # draw prompt msg
-            components.create_text(screen, (int(levelBut[0][0] + levelBut[1][0] + levelBut[0][2] * 1 + 10) / 2, 315),
+            components.create_text(screen, (int(levelBut[1][0] + levelBut[1][2] / 2), 315),
                                    "Choose a level", True, msHeaderFont, (0, 0, 0))
 
         elif butPressed == "credits":
@@ -571,18 +571,28 @@ while True:
     pathRect2 = [pygame.Rect(path[i][-2][0] * 50 - 50, path[i][-2][1] * 50 - 50, 50, 50) for i in range(len(path))]
     # arrowPics
     arrowPics = []
-    for i in range(len(path)):
-        # go right
-        if path[i][0][0] < path[i][1][0]:
-            arrowPics.append([components.rot_center(picSpawnArrow, 0), components.rot_center(picExitArrow, 0)])
-        # go down
-        elif path[i][0][1] < path[i][1][1]:
-            arrowPics.append([components.rot_center(picSpawnArrow, 270), components.rot_center(picExitArrow, 270)])
-        # go left
-        elif path[i][0][0] > path[i][1][0]:
-            arrowPics.append([components.rot_center(picSpawnArrow, 180), components.rot_center(picExitArrow, 180)])
-        else:  # go up
-            arrowPics.append([components.rot_center(picSpawnArrow, 90), components.rot_center(picExitArrow, 90)])
+    for i in path:
+        rot = [0, 0]  # rotation of spawn, exit arrows
+        # entrances
+        if i[0][0] < i[1][0]:  # right
+            rot[0] = 0
+        elif i[0][1] < i[1][1]:  # down
+            rot[0] = 270
+        elif i[0][0] > i[1][0]:  # left
+            rot[0] = 180
+        else:  # up
+            rot[0] = 90
+        # exits
+        if i[-1][0] > i[-2][0]:  # right
+            rot[1] = 0
+        elif i[-1][1] > i[-2][1]:  # down
+            rot[1] = 270
+        elif i[-1][0] < i[-2][0]:  # left
+            rot[1] = 180
+        else:  # up
+            rot[1] = 90
+
+        arrowPics.append([components.rot_center(picSpawnArrow, rot[0]), components.rot_center(picExitArrow, rot[1])])
 
     # fast forward
     fastForward = False

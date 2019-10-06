@@ -37,21 +37,30 @@ def find_a_path(start, end, obs):
 
     ret_path = [end]
     bt_moves = searched_map[end[0]][end[1]]
+    cur_dir = [0, 0]
     while ret_path[0] != start:
         bt_moves -= 1
+        # check current direction
+        if cur_dir != [0, 0] and searched_map[ret_path[0][0] + cur_dir[0]][ret_path[0][1] + cur_dir[1]] == bt_moves:
+            ret_path.insert(0, [ret_path[0][0] + cur_dir[0], ret_path[0][1] + cur_dir[1]])
+
         # insert items to the beginning if a lower number is found
         # up
-        if ret_path[0][1] - 1 >= 0 and searched_map[ret_path[0][0]][ret_path[0][1] - 1] == bt_moves:
+        elif ret_path[0][1] - 1 >= 0 and searched_map[ret_path[0][0]][ret_path[0][1] - 1] == bt_moves:
             ret_path.insert(0, [ret_path[0][0], ret_path[0][1] - 1])
+            cur_dir = [0, -1]
         # down
         elif ret_path[0][1] + 1 <= 16 and searched_map[ret_path[0][0]][ret_path[0][1] + 1] == bt_moves:
             ret_path.insert(0, [ret_path[0][0], ret_path[0][1] + 1])
+            cur_dir = [0, 1]
         # left
         elif ret_path[0][0] - 1 >= 0 and searched_map[ret_path[0][0] - 1][ret_path[0][1]] == bt_moves:
             ret_path.insert(0, [ret_path[0][0] - 1, ret_path[0][1]])
+            cur_dir = [-1, 0]
         # right
         elif ret_path[0][0] + 1 <= 21 and searched_map[ret_path[0][0] + 1][ret_path[0][1]] == bt_moves:
             ret_path.insert(0, [ret_path[0][0] + 1, ret_path[0][1]])
+            cur_dir = [1, 0]
         else:
             return -1
 
