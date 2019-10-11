@@ -298,16 +298,15 @@ cost 1
 energy 0
 sprite_base machinegun_base
 sprite_turret machinegun_turret
-sprite_proj debugger_shot
-damage 10 20 40 80 160
-rate 3 3 3 3 3
-range 3 4 5 6 7
-proj_spd 12 15 18 21 24
-effective_range 1.5
+sprite_proj machinegun_shot
+damage 1 1 1 1 1
+rate 10 10 10 10 10
+range 5 5 5 5 5
+proj_spd 25 25 25 25 25
+effective_range 1.0
 up_cost 1 1 1 1
 max_level 5
-targeting pierce
-targeting_val 3 3 3 3 3
+targeting projectile
 special none
 hit_sound machinegun_hit
 description asdf

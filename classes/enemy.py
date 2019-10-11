@@ -13,7 +13,7 @@ class Enemy(object):
         self.status = []  # list of status effects like slow
         self.movetype = self.stats['movement_type']
         
-        # enemy % bonuses based on level
+        # enemy % b onuses based on level
         # no scaling limit
         # hp bonus: arithmetic series
         # increases at a base rate of 10% per wave. Rate increases by 1% (+10%, +11%, +12%...). Bonus +30% after level 50
@@ -58,7 +58,7 @@ class Enemy(object):
         self.distance = 1000  # distance from end
         self.radius = float(self.stats['radius'])
         if self.movetype == "AIR":
-            self.recalcTimer = [0, 0.5]  # recalculate pathing 2 times per sec
+            self.recalcTimer = [0, 2]  # recalculate pathing once per 2sec
             self.rotation = 0.0  # rotation in radians for air units
 
         # positional (Px = pixel)
@@ -157,8 +157,7 @@ class Enemy(object):
                     self.rotation = round(self.rotation / 90) * 90
 
                 self.rot_sprite = functions.components.rot_center(self.sprite, self.rotation)
-
-                pygame.mask.from_surface(self.rot_sprite, 24)
+                self.mask = pygame.mask.from_surface(self.rot_sprite, 24)
             
             self.distance -= temp_speed * time
             self.posPx[0] -= self.movement_dir[0] * time * temp_speed * 50
