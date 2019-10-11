@@ -46,7 +46,7 @@ movement_type GROUND
 health 16
 regen 0.75
 armour 4
-speed 1.8
+speed 1.6
 radius 13
 death_spawn_enemy none
 death_spawn_val 0
@@ -185,7 +185,7 @@ type NORMAL
 movement_type AIR
 health 12
 regen 0
-speed 1.8
+speed 1.6
 armour 0
 radius 10
 death_spawn_enemy none
@@ -199,7 +199,7 @@ type NORMAL
 movement_type AIR
 health 24
 regen 0.0
-speed 2.0
+speed 1.8
 armour 2
 radius 12
 death_spawn_enemy none
