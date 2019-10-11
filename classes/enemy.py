@@ -27,7 +27,7 @@ class Enemy(object):
         if level > 50:
             self.hp_bonus += (level - 50) * (0.3)
             level = 50
-        self.speed_bonus = 0.008 * level  # max +40% (1.5x)
+        self.speed_bonus = 0.008 * level  # max +40% (1.4x)
         # regen bonus: increases at base rate of +4%. Rate increases after level 20 and level 40
         self.regen_bonus = level * (0.05)  # max + 540% (6.4x)
         if level > 20:
