@@ -314,7 +314,7 @@ creditText = creditParse.parse("data/credits")
 # ---- LOAD CLASSES ------------------------------------------------------------
 # names of purchasable towers (turrets, boosters)
 towerNames = ['Wall', 'Basic Turret', 'Machinegun', 'Flak Cannon', 'Sniper Turret', 'Rocket Launcher', 'Freezer', 'Laser Turret', 'Power Station', 'Bank'
-, 'damage module', 'rate module', 'range module']
+, 'damage module', 'rate module', 'range module', 'Debugger']
 #'Freezer', 'Machinegun', 'Sniper Turret', 'Rocket Launcher',  'Laser Turret', 'Power Station', 'Bank', 'Debugger'] 
 
 # list of towers and boosters available for purchase, taken from towerNames and boosterNames
@@ -640,7 +640,7 @@ while True:
             fastForward = False
         if fastForward:
             fps = 120
-            dt *= 3
+            dt *= 3 
             ffCounter = 1/3
         else:
             fps = 60
@@ -891,7 +891,8 @@ while True:
                         life -= enemyList[i].dmg
                         del (enemyList[i])
                     else:
-                        screen.blit(enemyList[i].rot_sprite, (enemyList[i].posPx[0] - 35, enemyList[i].posPx[1] - 35))
+                        screen.blit(enemyList[i].rot_sprite, (enemyList[i].posPx[0] - enemyList[i].rot_sprite.get_rect()[2] // 2, 
+                                                                enemyList[i].posPx[1] - enemyList[i].rot_sprite.get_rect()[3] // 2))
                         i += 1
                         
                 else:
@@ -1257,3 +1258,4 @@ while True:
 
         if -100 < deathTimer < 0:
             intro = True
+            fps = 60
