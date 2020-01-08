@@ -43,7 +43,7 @@ hit_sound basic_hit
 description A cheap turret that can be upgraded to deal a considerable amount of damage.
 end
 
-18/28/48/72/110 | $275-1450
+20/30/49/72/110 | $275-1375
 name Machinegun
 type turret
 can_hit BOTH
@@ -52,17 +52,17 @@ energy 0
 sprite_base machinegun_base
 sprite_turret machinegun_turret
 sprite_proj machinegun_shot
-damage 3 4 6 8 11
-rate 6.0 7.0 8.0 9.0 10.0
+damage 4 5 7 9 11
+rate 5.0 6.0 7.0 8.0 10.0
 range 3.75 3.75 3.75 3.75 3.75
 proj_spd 25 25 25 25 25
 effective_range 1.1
-up_cost 150 260 300 465
+up_cost 140 220 300 440
 max_level 5
 targeting projectile
 special none
 hit_sound machinegun_hit
-description This tower has a very high rate of fire, but is less effective vs armoured units.
+description This tower has a very high rate of fire, but is less effective against armoured units.
 end
 
 6/11/20/32/50 (18/33/60/96/150) | $225-1700
@@ -130,7 +130,7 @@ effective_range 1.2
 up_cost 200 320 470 660
 max_level 5
 targeting splash
-targeting_val 0.8 0.8 1.0 1.0 1.3
+targeting_val 0.9 0.9 1.1 1.1 1.3
 special none
 hit_sound rocket_hit
 description Fires rockets which explode, dealing damage to multiple enemies in an area. CANNOT ATTACK AIR UNITS.
@@ -208,7 +208,7 @@ end
 
 name damage module
 type booster
-cost 1200
+cost 1000
 energy 1
 sprite_base dmg_module
 sprite_turret none
@@ -229,7 +229,7 @@ end
 
 name rate module
 type booster
-cost 1200
+cost 1000
 energy 1
 sprite_base rate_module
 sprite_turret none
@@ -250,7 +250,7 @@ end
 
 name range module
 type booster
-cost 1000
+cost 800
 energy 1
 sprite_base range_module
 sprite_turret none
