@@ -9,4 +9,6 @@ Money is earned by killing enemies and at the end of each round, which can be us
 Wave will get progressively harder: Enemies will be more numerous and also gain strength each passing wave.
 Defend for as long as you can!
 
+Includes 9 different levels, 17 different enemies, and more than 10 unique buildings to construct!
+
 read modding_info.txt if you would like to change around the stats of various towers (WIP)
