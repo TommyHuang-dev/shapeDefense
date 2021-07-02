@@ -106,7 +106,7 @@ effective_range 1.2
 up_cost 250 325 500 700
 max_level 5
 targeting pierce
-targeting_val 2 2 2 2 2
+targeting_val 1 1 1 1 1
 special slow
 special_val 0 0 0.5 0.75 1.0
 special_val2 0 0 0.3 0.3 0.3
