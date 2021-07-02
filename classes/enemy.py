@@ -16,7 +16,7 @@ class Enemy(object):
         # enemy % b onuses based on level
         # no scaling limit
         # hp bonus: arithmetic series
-        # increases at a base rate of 10% per wave. Rate increases by 1% (+10%, +11%, +12%...). Bonus +30% after level 50
+        # increases at a base rate of 10% per wave. Rate increases by 1% (+10%, +11%, +12%...). Additional +30% after level 50
         # lvl 10: 250% hp
         # lvl 30: 850% hp
         # lvl 50: 1850% hp
@@ -28,7 +28,7 @@ class Enemy(object):
             self.hp_bonus += (level - 50) * (0.3)
             level = 50
         self.speed_bonus = 0.008 * level  # max +40% (1.4x)
-        # regen bonus: increases at base rate of +4%. Rate increases after level 20 and level 40
+        # regen bonus: increases at base rate of +5%. Rate increases after level 20 and level 40
         self.regen_bonus = level * (0.05)  # max + 540% (6.4x)
         if level > 20:
             self.regen_bonus += (level - 20) * (0.07)

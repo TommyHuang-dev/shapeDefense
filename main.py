@@ -505,8 +505,8 @@ while True:
 
     # ------ IN-GAME SETUP and reset variables ------
     curWave = -1  # current wave, displayed value is 1 more than this (starts at -1)
-    money = 600  # starting amount of money
-    energy = [5, 5]  # amount of power left vs maximum
+    money = 500  # starting amount of money
+    energy = [4, 4]  # amount of power left vs maximum
     income = 100  # money gain per round
     life = 50  # lose life for each leaked enemy.
     currentlyInWave = False  # True when enemies are spawning
