@@ -2,7 +2,7 @@
 
 name Wall
 type wall
-cost 30
+cost 25
 energy 0
 sprite_base wall_base
 sprite_turret none
@@ -21,7 +21,7 @@ description It's a wall! Use it to cheaply block enemies and create longer paths
 end
 
 
-5/8.75/14/22.4/36 | $100/160/250/400/625
+12/19.5/28/37.5/61.25 | $100/150/225/325/525
 name Basic Turret
 type turret
 can_hit BOTH
@@ -30,12 +30,12 @@ energy 0
 sprite_base basic_base
 sprite_turret basic_turret
 sprite_proj basic_shot
-damage 5 7 10 14 18
-rate 1.0 1.25 1.4 1.6 2.0
+damage 10 15 20 25 35
+rate 1.2 1.3 1.4 1.5 1.75
 range 3.25 3.25 3.25 3.25 4.0
 proj_spd 16 16 16 16 18
 effective_range 1.1
-up_cost 60 90 150 225
+up_cost 50 75 100 200
 max_level 5
 targeting projectile
 special none
@@ -43,21 +43,21 @@ hit_sound basic_hit
 description A cheap turret that can be upgraded to deal a considerable amount of damage.
 end
 
-20/30/49/72/110 | $275-1375
+45/72/120/180/264 | $300/450/700/1050/1550
 name Machinegun
 type turret
 can_hit BOTH
-cost 275
+cost 300
 energy 0
 sprite_base machinegun_base
 sprite_turret machinegun_turret
 sprite_proj machinegun_shot
-damage 4 5 7 9 11
-rate 5.0 6.0 7.0 8.0 10.0
+damage 9 12 15 18 22
+rate 5.0 6.0 8.0 10.0 12.0
 range 3.75 3.75 3.75 3.75 3.75
 proj_spd 25 25 25 25 25
 effective_range 1.1
-up_cost 140 220 300 440
+up_cost 150 250 350 500
 max_level 5
 targeting projectile
 special none
@@ -65,7 +65,7 @@ hit_sound machinegun_hit
 description This tower has a very high rate of fire, but is less effective against armoured units.
 end
 
-6/11/20/32/50 (18/33/60/96/150) | $225-1700
+12/28/48/72/110 (36/84/144/216/330) | $225/425/725/1150/1800
 name Flak Cannon
 type turret
 can_hit BOTH
@@ -74,46 +74,47 @@ energy 0
 sprite_base flak_base
 sprite_turret flak_turret
 sprite_proj flak_shot
-damage 6 7 8 9 10
-rate 1.0 1.6 2.5 3.5 5.0
+damage 12 14 16 18 20  6 7 8 9 10
+rate 1.0 2.0 3.0 4.0 5.5
 range 6.0 6.0 6.0 6.0 6.0
 proj_spd 22 22 22 22 22
 effective_range 1.1
-up_cost 175 300 400 600
+up_cost 200 300 425 650
 max_level 5
 targeting splash
-targeting_val 0.6 0.6 0.6 0.6 0.6
+targeting_val 0.65 0.65 0.65 0.65 0.65
 special antiair
 special_val 3.0 3.0 3.0 3.0 3.0
 hit_sound flak_hit
 description A long range tower that deals massively increased damage against air units.
 end
 
-16/27/42/65/98 | $350-2000
+28/44/63/90/144 | $375/625/950/1450/2150
 name Sniper Turret
 type turret
 can_hit BOTH
-cost 350
+cost 375
 energy 0
 sprite_base sniper_base
 sprite_turret sniper_turret
 sprite_proj sniper_shot
-damage 20 30 42 54 70
-rate 0.8 0.9 1.0 1.2 1.4
-range 5.75 6.5 6.5 7.5 7.5
+damage 40 55 70 90 120   20 30 42 54 70
+rate 0.7 0.8 0.9 1.0 1.2
+range 5.75 6.0 6.25 6.5 7.0
 proj_spd 32.0 36.0 36.0 40.0 40.0
 effective_range 1.2
-up_cost 220 300 460 670
+up_cost 250 325 500 700
 max_level 5
-targeting projectile
+targeting pierce
+targeting_val 2 2 2 2 2
 special slow
 special_val 0 0 0.5 0.75 1.0
 special_val2 0 0 0.3 0.3 0.3
 hit_sound sniper_hit
-description A powerful tower with high very range and damage. It's attack can be upgraded to momentarily stun enemies.
+description A powerful tower with a long range piercing attack and damage. Can be upgraded to momentarily stun enemies.
 end
 
-9/14/20/31/40 | $350-2000
+20/28.8/35/63/82.5 | $250/400/650/1100/1725
 name Rocket Launcher
 type turret
 can_hit GROUND
@@ -122,12 +123,12 @@ energy 0
 sprite_base rocket_base
 sprite_turret rocket_turret
 sprite_proj rocket_shot
-damage 10 14 18 22 25
-rate 0.9 1.0 1.2 1.4 1.6
+damage 25 32 35 45 55
+rate 0.8 0.9 1.0 1.4 1.5
 range 4.5 4.5 4.5 4.5 5.0
-proj_spd 15.0 15.0 15.0 16.0 16.0
+proj_spd 15.0 15.0 15.0 15.0 16.0
 effective_range 1.2
-up_cost 200 320 470 660
+up_cost 150 250 450 625
 max_level 5
 targeting splash
 targeting_val 0.9 0.9 1.1 1.1 1.3
@@ -136,49 +137,49 @@ hit_sound rocket_hit
 description Fires rockets which explode, dealing damage to multiple enemies in an area. CANNOT ATTACK AIR UNITS.
 end
 
-- AOEslow: val is slow strength, val2 is duration
-0.8-4.8 | $275-1800
+- AOEslow: val is slow and regen reduction strength, val2 is duration
+0/2.5/3.5/4.95/7.2 | $225/500/775/1125/1525
 name Freezer
 type turret
 can_hit GROUND
-cost 275
+cost 225
 energy 1
 sprite_base freezer_base
 sprite_turret none
 sprite_proj ice_shot
-damage 1 2 3 4 6
-rate 0.8 0.8 0.8 0.8 0.8
-range 1.5 1.7 2.0 2.3 2.6
+damage 0 5 7 9 12
+rate 0.5 0.5 0.5 0.55 0.6
+range 1.6 1.8 2.0 2.2 2.5
 proj_spd 0 0 0 0 0
 effective_range -1
-up_cost 275 340 410 500
+up_cost 275 275 350 400
 max_level 5
 targeting pulse
 special slow
-special_val 0.5 0.6 0.7 0.8 0.9
-special_val2 0.8 0.8 0.8 0.8 0.8 
+special_val 0.6 0.7 0.75 0.8 0.85
+special_val2 0.9 1.0 1.1 1.1 1.1
 hit_sound ice_hit
-description This tower does very little damage, but emits a pulsing aura which slows all enemies nearby.
+description Deals little damage, but emits a pulse that slows all enemies nearby and reduces their regneration.
 end
 
-24/40/61/91/135 | $650-4000
+60/78.5/100/137.5/180 | $550/850/1300/2000/3000
 name Laser Turret
 type turret
 can_hit BOTH
-cost 650
+cost 550
 energy 1
 sprite_base laser_base
 sprite_turret laser_turret
 sprite_proj laser_shot
-damage 15 22 28 35 45
-rate 1.6 1.8 2.2 2.6 3.0
+damage 30 35 40 50 60
+rate 2.0/2.25/2.5/2.75/3.0
 range 5.25 5.5 5.5 5.5 6.0
 proj_spd 30 30 30 30 30
 effective_range 1.2
-up_cost 425 700 950 1275
+up_cost 300 450 700 1000
 max_level 5
 targeting pierce
-targeting_val 2 2 3 3 4
+targeting_val 2 3 4 5 6
 special none
 hit_sound laser_hit
 description An expensive tower with good range, damage, and firerate. It's shots can pierce multiple enemies.
@@ -189,7 +190,7 @@ end
 name Power Station
 type utility
 cost 600
-energy -3
+energy -2
 sprite_base power_station
 sprite_turret none
 sprite_proj none
@@ -208,7 +209,7 @@ end
 
 name damage module
 type booster
-cost 1000
+cost 900
 energy 1
 sprite_base dmg_module
 sprite_turret none
@@ -229,7 +230,7 @@ end
 
 name rate module
 type booster
-cost 1000
+cost 900
 energy 1
 sprite_base rate_module
 sprite_turret none
@@ -250,7 +251,7 @@ end
 
 name range module
 type booster
-cost 800
+cost 750
 energy 1
 sprite_base range_module
 sprite_turret none
@@ -272,7 +273,7 @@ end
 name Bank
 type utility
 cost 700
-energy 0
+energy 1
 sprite_base bank
 sprite_turret none
 sprite_proj none
@@ -298,8 +299,8 @@ energy 0
 sprite_base machinegun_base
 sprite_turret machinegun_turret
 sprite_proj machinegun_shot
-damage 1 1 1 1 1
-rate 10 10 10 10 10
+damage 1 4 16 64 256
+rate 5 5 5 5 5
 range 5 5 5 5 5
 proj_spd 25 25 25 25 25
 effective_range 1.0
