@@ -313,8 +313,8 @@ creditText = creditParse.parse("data/credits")
 
 # ---- LOAD CLASSES ------------------------------------------------------------
 # names of purchasable towers (turrets, boosters)
-towerNames = ['Wall', 'Basic Turret', 'Machinegun', 'Flak Cannon', 'Sniper Turret', 'Rocket Launcher', 'Freezer', 'Laser Turret', 'Power Station', 'Bank'
-, 'damage module', 'rate module', 'range module', 'Debugger']
+towerNames = ['Wall', 'Basic Turret', 'Machinegun', 'Flak Cannon', 'Sniper Turret', 'Rocket Launcher', 'Freezer', 'Laser Turret', 'Power Station',
+  'damage module', 'rate module', 'range module',  'Bank']
 #'Freezer', 'Machinegun', 'Sniper Turret', 'Rocket Launcher',  'Laser Turret', 'Power Station', 'Bank', 'Debugger'] 
 
 # list of towers and boosters available for purchase, taken from towerNames and boosterNames

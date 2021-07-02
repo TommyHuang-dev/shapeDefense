@@ -292,24 +292,3 @@ hit_sound none
 description Passively generates money at the end of each round.
 end
 
-name Debugger
-type turret
-can_hit BOTH
-cost 1
-energy 0
-sprite_base machinegun_base
-sprite_turret machinegun_turret
-sprite_proj machinegun_shot
-damage 1 4 16 64 256
-rate 5 5 5 5 5
-range 5 5 5 5 5
-proj_spd 25 25 25 25 25
-effective_range 1.0
-up_cost 1 1 1 1
-max_level 5
-targeting projectile
-special none
-hit_sound machinegun_hit
-description asdf
-end
-
