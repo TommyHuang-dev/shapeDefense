@@ -83,22 +83,22 @@ class Turret(object):
 
         # update all stats to match da level one
         self.update_stats(self.curLevel)
-        if self.maxLevel > 1:
-            self.upgrade_preview(self.curLevel)
+        self.upgrade_preview(self.curLevel)
         self.placed = False  # becomes true after the tower is placed down
         self.pos = [0, 0]
         tar = []  # targetting purposes
 
     def upgrade_preview(self, cur_level):
-        # preview da stats
-        self.preview_damage = int(round(float(self.stats['damage'][cur_level]) * (1 + self.dmgBoost), 0))
-        self.preview_rate = float(float(self.stats['rate'][cur_level]) * (1 + self.rateBoost))
-        self.preview_range = float(float(self.stats['range'][cur_level]) * (1 + self.rangeBoost))
-        self.preview_projSpd = float(float(self.stats['proj_spd'][cur_level]) * (1 + self.projBoost))
-        if 'targeting_val' in self.stats:
-            self.preview_targetingVal = float(self.stats['targeting_val'][cur_level])
-        if 'special_val' in self.stats:
-            self.preview_specialVal = float(self.stats['special_val'][cur_level])
+        if self.maxLevel > 1 and self.curLevel < self.maxLevel:
+            # preview da stats if not at max level and has an upgrade
+            self.preview_damage = int(round(float(self.stats['damage'][cur_level]) * (1 + self.dmgBoost), 0))
+            self.preview_rate = float(float(self.stats['rate'][cur_level]) * (1 + self.rateBoost))
+            self.preview_range = float(float(self.stats['range'][cur_level]) * (1 + self.rangeBoost))
+            self.preview_projSpd = float(float(self.stats['proj_spd'][cur_level]) * (1 + self.projBoost))
+            if 'targeting_val' in self.stats:
+                self.preview_targetingVal = float(self.stats['targeting_val'][cur_level])
+            if 'special_val' in self.stats:
+                self.preview_specialVal = float(self.stats['special_val'][cur_level])
 
     def update_stats(self, cur_level):
         # final upgrade cost = initial cost + (increase * (level - 1))

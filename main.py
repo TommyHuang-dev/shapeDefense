@@ -75,7 +75,7 @@ def display_stats(sel_tower):
     
     # display stats
     ver_dist = 28
-    if not butUpgrade.collidepoint(mousePos[0], mousePos[1]):
+    if (not butUpgrade.collidepoint(mousePos[0], mousePos[1])) or sel_tower.curLevel == sel_tower.maxLevel:
         stat_col = (0, 0, 100)
         if sel_tower.type == 'turret':
             # damage

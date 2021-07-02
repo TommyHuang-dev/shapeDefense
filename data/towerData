@@ -218,12 +218,12 @@ damage 0 0 0
 rate 0 0 0
 range 1 0 0 
 proj_spd 0 0 0
-effective_range 0 0
+effective_range 0 0 0
 up_cost 0
 max_level 1
 targeting none
 special damage
-special_val 0.25
+special_val 0.25 0.25
 hit_sound none
 description Boosts the damage of adjacent towers by 25%.
 end
@@ -239,12 +239,12 @@ damage 0 0 0
 rate 0 0 0
 range 1 0 0
 proj_spd 0 0 0
-effective_range 0
+effective_range 0 0 0
 up_cost 325
 max_level 1
 targeting none
 special rate
-special_val 0.3
+special_val 0.3 0.3
 hit_sound none
 description Boosts the firerate of adjacent towers by 30%
 end
@@ -260,17 +260,17 @@ damage 0 0 0
 rate 0 0 0
 range 1 1 1
 proj_spd 0 0 0
-effective_range 0
+effective_range 0 0 0
 up_cost 325
 max_level 1
 targeting none
 special range
-special_val 0.3
+special_val 0.3 0.3
 hit_sound none
 description Boosts the range and projectile speed of adjacent towers by 30%.
 end
 
-$ 400/1250/2500
+$ 400/1075/2500
 name Bank
 type utility
 cost 400
@@ -278,16 +278,16 @@ energy 1
 sprite_base bank
 sprite_turret none
 sprite_proj none
-damage 0 0 0
-rate 0 0 0
-range 0 0 0
-proj_spd 0 0 0
-effective_range 0 0 0
-up_cost 850 1250
+damage 0 0 0 0 0
+rate 0 0 0 0 0
+range 0 0 0 0 0
+proj_spd 0 0 0 0 0
+effective_range 0 0 0 0 0
+up_cost 675 1425
 max_level 3
 targeting none
 special income
-special_val 50 150 300
+special_val 50 125 250
 hit_sound none
 description Passively generates money at the end of each round.
 end
