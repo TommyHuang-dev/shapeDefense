@@ -270,9 +270,10 @@ hit_sound none
 description Boosts the range and projectile speed of adjacent towers by 30%.
 end
 
+$ 400/1250/2500
 name Bank
 type utility
-cost 700
+cost 400
 energy 1
 sprite_base bank
 sprite_turret none
@@ -282,11 +283,11 @@ rate 0 0 0
 range 0 0 0
 proj_spd 0 0 0
 effective_range 0 0 0
-up_cost 650 1200
+up_cost 850 1250
 max_level 3
 targeting none
 special income
-special_val 50 100 200
+special_val 50 150 300
 hit_sound none
 description Passively generates money at the end of each round.
 end
