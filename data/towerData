@@ -65,7 +65,7 @@ hit_sound machinegun_hit
 description This tower has a very high rate of fire, but is less effective against armoured units.
 end
 
-12/28/48/72/110 (36/84/144/216/330) | $225/425/725/1150/1800
+12/28/48/72/110 (36/84/144/216/330) | $225/450/775/1200/1775
 name Flak Cannon
 type turret
 can_hit BOTH
@@ -79,7 +79,7 @@ rate 1.0 2.0 3.0 4.0 5.5
 range 6.0 6.0 6.0 6.0 6.0
 proj_spd 22 22 22 22 22
 effective_range 1.1
-up_cost 200 300 425 650
+up_cost 225 325 425 575
 max_level 5
 targeting splash
 targeting_val 0.65 0.65 0.65 0.65 0.65
@@ -108,7 +108,7 @@ max_level 5
 targeting pierce
 targeting_val 1 1 1 1 1
 special slow
-special_val 0 0 0.5 0.75 1.0
+special_val 0 0 0.5 0.75 0.95
 special_val2 0 0 0.3 0.3 0.3
 hit_sound sniper_hit
 description A powerful tower with a long range piercing attack and damage. Can be upgraded to momentarily stun enemies.
@@ -189,7 +189,7 @@ end
 
 name Power Station
 type utility
-cost 600
+cost 1000
 energy -2
 sprite_base power_station
 sprite_turret none

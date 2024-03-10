@@ -35,7 +35,7 @@ class Enemy(object):
         if level > 40:
             self.regen_bonus += (level - 40) * (0.08)
         self.armour_bonus = 0.03 * level  # max +150% (2.5x)
-        self.bounty_bonus = 0.04 * level  # max +200% (3x)
+        self.bounty_bonus = 0.02 * level  # max +100% (2x)
 
         # set enemy stats and apply bonuses
         self.maxHP = int(int(self.stats['health']) * (1 + self.hp_bonus))

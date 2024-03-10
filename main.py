@@ -1182,14 +1182,12 @@ while True:
                                         adjacentTowerList.append(i)
                                 # update wall connections
                                 i = 0
-                                while i < len(adjacentTowerList):
+                                while i < len(adjacentTowerList):  # TODO fix this
                                     if placedTowers[viewedTower].type == "wall" and adjacentTowerList[i].type == "wall":
                                         if [placedTowers[viewedTower].pos, adjacentTowerList[i].pos] in wallConnect:
-                                            print('hi')
                                             del(wallConnect[wallConnect.index([placedTowers[viewedTower].pos, adjacentTowerList[i].pos])])
                                             i -= 1
                                         if [adjacentTowerList[i].pos, placedTowers[viewedTower].pos] in wallConnect:
-                                            print('bye')
                                             del(wallConnect[wallConnect.index([adjacentTowerList[i].pos, placedTowers[viewedTower].pos])])
                                             i -= 1
                                     i += 1

@@ -52,7 +52,7 @@ wave 10
 brute
 8 0 0.5
 brute boss
-1 1.5 1
+1 1.0 1
 
 wave 11
 tiny jelly
@@ -94,9 +94,11 @@ turtle boss
 
 wave 17
 brute
-30 0 1.25
+20 0 2.0
 turtle
-30 2 1.25
+20 2 2.0
+airship
+6 1 4.5
 
 wave 18
 turtle boss
@@ -109,8 +111,8 @@ big jelly
 1 10 1
 
 wave 20
-normal boss
-7 1.0 2.0
+blimp
+4 1.0 3.0
 
 wave 21
 recruit
@@ -264,4 +266,4 @@ big jelly
 
 wave 40
 rick astley
-12 2 2.75
+12 2 3.0
