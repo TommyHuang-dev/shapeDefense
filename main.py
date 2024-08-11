@@ -1043,7 +1043,7 @@ while True:
             components.create_text(screen, (butNextWave[0] + butNextWave[2] // 2, butNextWave[1] + butNextWave[3] // 2),
                         "NEXT WAVE", True, levelNextWaveFont, colNextWaveText)
             # get hover
-            if butNextWave.collidepoint(mousePos[0], mousePos[1]):
+            if butNextWave.collidepoint(mousePos[0], mousePos[1]) or keys[pygame.K_SPACE]:
                 pygame.draw.rect(screen, (0, 0, 0), butNextWave, 3)
                 # START NEXT WAVE :O
                 if mousePressed[0] == 1 or keys[pygame.K_SPACE]:
