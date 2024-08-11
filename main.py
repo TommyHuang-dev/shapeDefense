@@ -934,8 +934,8 @@ while True:
                             spawnedEnemy = enemyInfo[enemyHit[j].stats["death_spawn_enemy"]]
                             for k in range(int(enemyHit[j].stats["death_spawn_val"])):
                                 enemyList.append(enemy.Enemy(spawnedEnemy, enemyHit[j].tileLoc, enemyHit[j].path_number, curWave))
-                                enemyList[-1].posPx[0] += random.randint(-5, 5)
-                                enemyList[-1].posPx[1] += random.randint(-5, 5)
+                                enemyList[-1].posPx[0] += random.randint(-4, 4)
+                                enemyList[-1].posPx[1] += random.randint(-4, 4)
                                 enemyList[-1].status.append(['slow', 1.0, k*0.1 + random.uniform(0,0.05)])
                         # delete if from the table
                         del(enemyList[enemyList.index(enemyHit[j])])

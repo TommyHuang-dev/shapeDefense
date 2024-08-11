@@ -63,7 +63,7 @@ class Enemy(object):
 
         # positional (Px = pixel)
         self.tileLoc = spawnpoint
-        self.posPx = [spawnpoint[0] * 50 - 25 + random.uniform(-5, 5), spawnpoint[1] * 50 - 25 + random.uniform(-5, 5)]
+        self.posPx = [spawnpoint[0] * 50 - 25 + random.uniform(-4, 4), spawnpoint[1] * 50 - 25 + random.uniform(-4, 4)]
         self.reachedEnd = False
         self.secSpawn = attributes['death_spawn_enemy']
         self.secValue = int(attributes['death_spawn_val'])
