@@ -102,7 +102,7 @@ airship
 
 wave 18
 turtle boss
-4 1.0 3
+4 1.0 4.5
 
 wave 19
 small jelly
@@ -240,7 +240,7 @@ speedy boss
 
 wave 35
 turtle boss
-15 1 2.4
+15 1 2.5
 
 wave 36
 landship
