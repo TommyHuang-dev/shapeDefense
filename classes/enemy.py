@@ -13,7 +13,7 @@ class Enemy(object):
         self.status = []  # list of status effects like slow
         self.movetype = self.stats['movement_type']
         
-        # enemy % b onuses based on level
+        # enemy % bonuses based on level
         # no scaling limit
         # hp bonus: arithmetic series
         # increases at a base rate of 10% per wave. Rate increases by 1% (+10%, +11%, +12%...). Additional +30% after level 50
@@ -27,14 +27,14 @@ class Enemy(object):
         if level > 50:
             self.hp_bonus += (level - 50) * (0.3)
             level = 50
-        self.speed_bonus = 0.008 * level  # max +40% (1.4x)
+        self.speed_bonus = 0.006 * level  # max +30% (1.4x)
         # regen bonus: increases at base rate of +5%. Rate increases after level 20 and level 40
         self.regen_bonus = level * (0.05)  # max + 540% (6.4x)
         if level > 20:
             self.regen_bonus += (level - 20) * (0.07)
         if level > 40:
             self.regen_bonus += (level - 40) * (0.08)
-        self.armour_bonus = 0.03 * level  # max +150% (2.5x)
+        self.armour_bonus = 0.04 * level  # max +200% (3x)
         self.bounty_bonus = 0.02 * level  # max +100% (2x)
 
         # set enemy stats and apply bonuses
