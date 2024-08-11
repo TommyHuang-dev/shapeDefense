@@ -67,8 +67,10 @@ def display_stats(sel_tower):
                                        False, levelTowerFont2, (0, 0, 0))
 
     # name
-    components.create_text(screen, (disL - 150, 365), sel_tower.name, True,
+    components.create_text(screen, (disL - 150, 360), sel_tower.name, True,
                            levelTowerTitleFont, (0, 50, 175))
+    components.create_text(screen, (disL - 150, 385), str(round(sel_tower.total_damage_dealt)), True,
+                           levelTowerDescriptionFont, (50, 50, 50))
 
     # description
     components.create_paragraph(screen, (disL - 285, 570), sel_tower.stats['description'], levelTowerDescriptionFont, (25, 25, 25), 18, 270)
@@ -923,7 +925,8 @@ while True:
                 # apply damages and stuffs
                 for j in range(len(enemyHit)):
                     # inflict damage
-                    enemyHit[j].inflict_damage(projList[i].damage, projList[i].special)
+                    damage_dealt = enemyHit[j].inflict_damage(projList[i].damage, projList[i].special)
+                    projList[i].source_tower.total_damage_dealt += damage_dealt
                     # enemy dies
                     if enemyHit[j].curHP <= 0:
                         money += enemyHit[j].bounty

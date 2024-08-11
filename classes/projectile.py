@@ -2,7 +2,7 @@ import pygame
 import math
 
 class Projectile(object):
-    def __init__(self, xy, vel_xy, damage, range, targeting, special, sprite, exp, sound, angle, can_hit):
+    def __init__(self, source_tower, xy, vel_xy, damage, range, targeting, special, sprite, exp, sound, angle, can_hit):
         self.angle = angle
         self.posXYPx = xy
         self.vel = vel_xy
@@ -19,6 +19,7 @@ class Projectile(object):
         self.exp = exp + "-hit"
         self.sound = sound
         self.can_hit = can_hit
+        self.source_tower = source_tower
         if self.targeting[0] == 'pierce':  # list of enemies that were already hit
             self.hitlist = []
 

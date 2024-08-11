@@ -20,6 +20,7 @@ class Turret(object):
         # keeping track of tower and stat levels
         # initialize stats
         self.name = name
+        self.total_damage_dealt = 0
         self.rotation = math.pi / 2
         self.type = self.stats['type'][0]
         self.curLevel = 1
@@ -194,7 +195,7 @@ class Turret(object):
         self.canFire = False
         xy_vel = [self.projSpd * math.cos(self.rotation) * 50, self.projSpd * -math.sin(self.rotation) * 50]
         temp_spr = components.rot_center(self.spriteProj, math.degrees(self.rotation))
-        return projectile.Projectile([self.pos[0] * 50 - 25, self.pos[1] * 50 - 25], xy_vel,
+        return projectile.Projectile(self, [self.pos[0] * 50 - 25, self.pos[1] * 50 - 25], xy_vel,
                                     self.damage, self.range * self.effRange * 50, tempTargeting, tempSpecial,
                                     temp_spr, str(self.stats['sprite_proj'][0]), self.hitSound, self.rotation, self.can_hit)
 
