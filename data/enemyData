@@ -114,7 +114,7 @@ name turtle boss
 type BOSS
 movement_type GROUND
 health 240
-regen 5.0
+regen 4.0
 armour 9
 speed 0.9
 radius 20
