@@ -511,7 +511,7 @@ while True:
     money = 600  # starting amount of money
     energy = [4, 4]  # amount of power left vs maximum
     income = 100  # additional money gain per round
-    life = 50  # lose life for each leaked enemy.
+    life = 100  # lose life for each leaked enemy.
     currentlyInWave = False  # True when enemies are spawning
     deathTimer = -10000
 
@@ -620,16 +620,16 @@ while True:
                 if event.key == pygame.K_t:
                     soundClick.play()
                     toggleUiOverlay = not toggleUiOverlay
+                if event.key == K_SPACE and currentlyInWave:
+                    fastForward = not fastForward
                 # secret konami code!!! shh....
                 if event.key == cheatList[cheatVal]:
                     cheatVal += 1
                     if cheatVal > len(cheatList) - 1:
                         # give a ton of money and life
                         cheatVal = 0
-                        money = 20000
+                        money = 50000
                         life = 500
-                if event.key == K_SPACE and currentlyInWave:
-                    fastForward = not fastForward
                 else:  # reset value if the cheat wasnt properly done
                     cheatVal = 0
 
