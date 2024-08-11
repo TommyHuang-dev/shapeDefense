@@ -11,6 +11,7 @@ from classes import enemy
 import os.path
 import time
 import pygame
+from pygame import K_SPACE
 import random
 import math
 import time
@@ -627,6 +628,8 @@ while True:
                         cheatVal = 0
                         money = 20000
                         life = 500
+                if event.key == K_SPACE and currentlyInWave:
+                    fastForward = not fastForward
                 else:  # reset value if the cheat wasnt properly done
                     cheatVal = 0
 
@@ -635,11 +638,7 @@ while True:
         keys = pygame.key.get_pressed()
         hovered = False  # whether or not the mouse is hovering over a tower purchase button
 
-        # fast forward
-        if keys[pygame.K_SPACE]:
-            fastForward = True
-        else:
-            fastForward = False
+        # set fast forward  
         if fastForward:
             fps = 120
             dt *= 3 
