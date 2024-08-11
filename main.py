@@ -1215,9 +1215,9 @@ while True:
                     else:
                         pygame.draw.rect(screen, (0, 0, 0), butSell, 1)
         
-        # limit money to 20000
-        if money > 20000:
-            money = 20000
+        # limit money to 50000
+        if money > 50000:
+            money = 50000
 
         # info about money, life, etc.
         # life
