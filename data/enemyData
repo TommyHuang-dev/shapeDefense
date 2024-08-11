@@ -45,7 +45,7 @@ type NORMAL
 movement_type GROUND
 health 30
 regen 1.5
-armour 8
+armour 7
 speed 1.6
 radius 13
 death_spawn_enemy none
@@ -113,9 +113,9 @@ sprite landship
 name turtle boss
 type BOSS
 movement_type GROUND
-health 250
+health 240
 regen 6.0
-armour 10
+armour 9
 speed 0.9
 radius 20
 death_spawn_enemy none
@@ -200,7 +200,7 @@ movement_type AIR
 health 45
 regen 0.0
 speed 1.8
-armour 4
+armour 3
 radius 12
 death_spawn_enemy none
 death_spawn_val 0

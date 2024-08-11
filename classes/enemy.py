@@ -13,7 +13,7 @@ class Enemy(object):
         self.status = []  # list of status effects like slow
         self.movetype = self.stats['movement_type']
         
-        # enemy % bonuses based on level
+        # enemy scaling % bonuses based on level
         # no scaling limit
         # hp bonus: arithmetic series
         # increases at a base rate of 10% per wave. Rate increases by 1% (+10%, +11%, +12%...). Additional +30% after level 50
