@@ -183,6 +183,7 @@ class Enemy(object):
         elif damage > 0:  # minimum of 0.5 damage each hit if the attack deals damage
             self.curHP -= 0.5
             return 0.5
+        return 0
 
     # draw da hp bar and armour symbol
     def draw_bar(self, display, a_pic):
