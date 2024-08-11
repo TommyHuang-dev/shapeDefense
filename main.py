@@ -505,9 +505,9 @@ while True:
 
     # ------ IN-GAME SETUP and reset variables ------
     curWave = -1  # current wave, displayed value is 1 more than this (starts at -1)
-    money = 500  # starting amount of money
+    money = 600  # starting amount of money
     energy = [4, 4]  # amount of power left vs maximum
-    income = 100  # money gain per round
+    income = 100  # additional money gain per round
     life = 50  # lose life for each leaked enemy.
     currentlyInWave = False  # True when enemies are spawning
     deathTimer = -10000
@@ -1043,7 +1043,7 @@ while True:
             if butNextWave.collidepoint(mousePos[0], mousePos[1]):
                 pygame.draw.rect(screen, (0, 0, 0), butNextWave, 3)
                 # START NEXT WAVE :O
-                if mousePressed[0] == 1:
+                if mousePressed[0] == 1 or keys[pygame.K_SPACE]:
                     soundNextWave.play()
                     curWave += 1
                     currentlyInWave = True
