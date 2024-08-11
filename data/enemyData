@@ -8,7 +8,7 @@ speed 2.4
 radius 10
 death_spawn_enemy none
 death_spawn_val 0
-bounty 3
+bounty 4
 dmg 1
 sprite recruit
 
@@ -22,7 +22,7 @@ speed 1.5
 radius 12
 death_spawn_enemy none
 death_spawn_val 0
-bounty 5
+bounty 6
 dmg 1
 sprite brute
 
@@ -36,7 +36,7 @@ speed 4.0
 radius 9
 death_spawn_enemy none
 death_spawn_val 0
-bounty 3
+bounty 4
 dmg 1
 sprite speedy
 
@@ -45,12 +45,12 @@ type NORMAL
 movement_type GROUND
 health 30
 regen 1.5
-armour 9
+armour 8
 speed 1.6
 radius 13
 death_spawn_enemy none
 death_spawn_val 0
-bounty 6
+bounty 7
 dmg 1
 sprite turtle
 
@@ -99,9 +99,9 @@ sprite speedy_boss
 name landship
 type BOSS
 movement_type GROUND
-health 70
+health 60
 regen 0
-armour 3
+armour 4
 speed 2.0
 radius 19
 death_spawn_enemy recruit
@@ -113,9 +113,9 @@ sprite landship
 name turtle boss
 type BOSS
 movement_type GROUND
-health 240
+health 250
 regen 6.0
-armour 12
+armour 10
 speed 0.9
 radius 20
 death_spawn_enemy none
@@ -156,8 +156,8 @@ name big jelly
 type BOSS
 movement_type GROUND
 health 120
-regen 30.0
-armour 2
+regen 40.0
+armour 0
 speed 1.4
 radius 16
 death_spawn_enemy small jelly
@@ -197,7 +197,7 @@ sprite flying1
 name flying thing mk2
 type NORMAL
 movement_type AIR
-health 50
+health 45
 regen 0.0
 speed 1.8
 armour 4
@@ -213,7 +213,7 @@ type BOSS
 movement_type AIR
 health 120
 regen 0.0
-speed 1.2
+speed 1.0
 armour 6
 radius 19
 death_spawn_enemy flying thing
@@ -227,7 +227,7 @@ type BOSS
 movement_type AIR
 health 275
 regen 10.0
-speed 0.9
+speed 0.8
 armour 0
 radius 18
 death_spawn_enemy none
