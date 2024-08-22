@@ -6,8 +6,8 @@ regen 0.0
 armour 0
 speed 2.5
 radius 10
-death_spawn_enemy flying thing
-death_spawn_val 1
+death_spawn_enemy none
+death_spawn_val 0
 bounty 4
 dmg 1
 sprite recruit
