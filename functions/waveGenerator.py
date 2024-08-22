@@ -19,14 +19,21 @@ def generate(wave):
     # wave 35 has 336 powerTotal and 23 powerRate
     # wave 38 has 975 powerTotal and 26 powerRate
     # wave 40 has 960 powerTotal and 32 powerRate
+    # TODO rescale this
     powerRandom = random.uniform(-3,3)  # make total power and rate inversely related
-    powerTotal = (wave * 17) ** 1.04 + powerRandom * 50
+    powerTotal = (wave * 16) ** 1.05 + powerRandom * 50
+    
+    # rate of enemy spawns
     powerRate = 1.5 + wave * 0.6 - powerRandom * 1.0
+    
     # number of different enemy types to spawn
-    numEnemies = random.randint(2, 4)
+    numEnemies = random.randint(3, 5)
 
-    # 'boss' waves have a larger variety of enemies and more of them
-    if wave % 5 == 0:
+    # some waves have a larger variety of enemies and more of them
+    if wave % 20 == 0:
+        numEnemies += 2
+        powerTotal *= 1.5
+    elif wave % 5 == 0:
         numEnemies += 1
         powerTotal *= 1.25
     
