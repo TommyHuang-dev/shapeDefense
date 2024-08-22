@@ -21,7 +21,7 @@ def generate(wave):
     
     # TODO rescale this
     powerTotal = 12 * (wave ** 1.2) * (1 + powerRandom)
-    powerRate = 3 + 0.7 * wave * (1 - powerRandom)
+    powerRate = 4 + 0.7 * wave * (1 - powerRandom)
     
     # number of different enemy types to spawn
     numEnemies = random.randint(3, 5)

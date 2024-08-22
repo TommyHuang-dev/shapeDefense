@@ -1,212 +1,196 @@
 wave 1
 recruit 
-20 0 1
+24 0 1
 
 wave 2
 brute
-18 0 1.25
+20 0 1.25
 
 wave 3
-speedy
-30 0 0.75
+recruit
+40 0 0.75
 
 wave 4
-recruit
-15 0 0.8
 brute
-15 12 1.0
+10 0 1
+speedy
+20 3 1.4
 
 wave 5
-normal boss
-1 0 1
+recruit 
+8 0 1.0
+brute
+6 0.2 1.0
+recruit 
+8 10 1.0
+brute
+6 10.2 1.0
+recruit 
+8 20 1.0
+brute
+6 20.2 1.0
 
 wave 6
-flying thing 
-30 0 0.6
+recruit
+30 0 0.8
+turtle
+10 2 1.5
 
 wave 7
-turtle
-6 0 1.2
 recruit
-20 1 1.0
-turtle
-6 20 1.2
+16 0 2
+brute
+16 0.5 2
+speedy
+16 1.0 2
 
 wave 8
-speedy
-10 1 1.2
-recruit
-12 0 1.0
-speedy
-12 16 1.2
-recruit
-15 15 1.0
+flying thing 
+40 0 0.6
 
 wave 9
-flying thing
-25 0.5 1.0
-brute
-20 0 1.2
+recruit
+50 0 0.7
+landship
+4 3 4
 
 wave 10
-brute
-8 0 0.5
-brute boss
-1 1.0 1
+normal boss
+2 1 1.5
 
 wave 11
-tiny jelly
-30 0 0.8
-small jelly
-10 2 2.5
+speedy
+32 0 1.25
+flying thing
+20 0 2.0
 
 wave 12
-speedy boss
-1 5 0
+brute
+25 0 1.5
 turtle
-16 0 0.8
+25 0.2 1.5
 
 wave 13
-flying thing mk2
-4 4 4
-recruit
-60 0 0.5
+small jelly
+20 0 2
 
 wave 14
-landship
-6 0 4
+brute
+20 0 1.5
+turtle
+20 8 1.5
+speedy
+20 24 1.2
+recruit
+20 32 1.2
 
 wave 15
 brute
-10 0 3.0
-turtle
-10 0.4 3.0
-recruit
-12 0.8 3.0
-speedy
-12 1.2 3.0
-flying thing
-15 2.0 2.4
+24 0 1.2
+brute boss
+2 6 6
 
 wave 16
-turtle boss
-1 0 1
+tiny jelly
+60 0 0.5
+flying thing mk2
+12 1 2.5
 
 wave 17
-brute
-20 0 2.0
 turtle
-20 2 2.0
-airship
-6 1 4.5
+40 0 1
+small jelly
+8 10 4
 
 wave 18
 turtle boss
-4 1.0 4.5
+1 1 1
 
 wave 19
-small jelly
-14 0 1
-big jelly
-1 10 1
+brute
+20 0 2.0
+speedy
+20 0 2.0
+flying thing
+40 0 1.0
 
 wave 20
-blimp
-4 1.0 3.0
+speedy
+30 0 1
+speedy boss
+4 2 5
 
 wave 21
-recruit
-35 0 0.6
-speedy
-35 20 0.45
 landship
-6 2 6
+12 0 2.4
+turtle
+24 0 1.2
 
 wave 22
-turtle boss
-2 2 20
-turtle
-30 0 1.2
+turtle bosss
+4 2 4
 
 wave 23
-turtle
-10 0 0.4
-speedy
-12 1 0.3
-turtle
-11 9 0.4
-speedy
-13 10 0.33
-turtle
-12 19 0.4
-speedy
-14 20 0.3
+recruit
+32 0 1.5
+flying thing
+20 2 2.0
+flying thing mk2
+15 4 2.5
 
 wave 24
+flying thing mk2
+20 0 1.6
 brute
-70 0 0.5
-speedy boss
-5 3 8
+12 0 0.35
+brute
+12 12 0.35
+brute
+12 24 0.35
 
 wave 25
-landship
-4 2.5 10
-landship
-4 3.0 10
-small jelly
-40 0 1.2
+flying thing
+30 0 0.8
+blimp
+2 10 5
 
 wave 26
-brute boss
-2 0 7
-speedy boss
-2 2 7
-small jelly
-12 3 1.0
+recruit
+20 0 1.8
+brute
+20 3 1.8
+flying thing
+20 6 1.8
+speedy
+20 9 1.8
+turtle
+20 12 1.8
 
 wave 27
-turtle
-100 0 0.5
+normal boss
+6 0 4
+speedy boss
+3 2 4
+brute boss
+3 12 4
 
 wave 28
-big jelly
-1 2 1
-brute
-15 0 0.4
-big jelly
-2 10 4
-brute
-20 8 0.3
-big jelly
-2 20 4
-brute
-20 18 0.3
+landship
+16 0 2.5
+flying thing mk2
+16 1 2.5
 
 wave 29
-recruit
-15 0 2.0
-brute
-15 0.2 2.0
-speedy
-15 0.4 2.0
 turtle
-15 0.6 2.0
-small jelly
-15 0.8 2.0
-landship
-10 1.5 2.6
+100 0 0.6
 
 wave 30
-turtle boss
-4 2 8.25
-brute boss
-4 3 8.25
-normal boss
-4 4 8.25
+tiny jelly
+48 0 0.3
+small jelly
+12 10 1.0
 big jelly
-2 21 8.25
-speedy boss
-4 5 8.25
+6 20 3.0
 
 wave 31
 tiny jelly

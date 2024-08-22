@@ -99,14 +99,14 @@ sprite speedy_boss
 name landship
 type BOSS
 movement_type GROUND
-health 70
+health 75
 regen 0
 armour 7
 speed 2.0
 radius 19
 death_spawn_enemy recruit
-death_spawn_val 5
-bounty 12
+death_spawn_val 4
+bounty 15
 dmg 6
 sprite landship
 
@@ -218,7 +218,7 @@ armour 6
 radius 19
 death_spawn_enemy flying thing
 death_spawn_val 2
-bounty 20
+bounty 25
 dmg 5
 sprite airship
 
