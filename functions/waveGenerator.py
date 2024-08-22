@@ -20,7 +20,7 @@ def generate(wave):
     powerRandom = random.uniform(-0.2,0.2)  # make total power and rate inversely related
     
     # TODO rescale this
-    powerTotal = 12 * (wave ** 1.2) * powerRandom
+    powerTotal = 12 * (wave ** 1.2) * (1 + powerRandom)
     powerRate = 3 + 0.7 * wave * (1 - powerRandom)
     
     # number of different enemy types to spawn
@@ -45,6 +45,7 @@ def generate(wave):
     #   2 seconds between groups
     # 3: Staggered
     #   Similar to regular, but groups start spawning with a small staggered interval
+    #   spawn rate is divided among enemies, but has a small boost
     formation = random.randint(0, 3)
     outputWave = [[random.choice(list(valueList))] for _ in range(numEnemies)]
     totalTime = 0
@@ -61,8 +62,8 @@ def generate(wave):
             totalTime += interval * (num - 1) + 2
         else:  # staggered
             num = round(strength/valueList[outputWave[i][0]], 0)
-            delay = 2 * i + random.uniform(0, 1)
-            interval = valueList
+            delay = 3 * i + random.uniform(0, 1)
+            interval = valueList[outputWave[i][0]] / (powerRate * 1.1 / numEnemies)
         
         outputWave[i] = [outputWave[i][0], num, delay, interval]
 
