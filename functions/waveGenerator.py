@@ -14,17 +14,14 @@ with open("data/enemyCost", "r") as f:
 
 # outputs a new random wave with format: [['name', num, delay, interval], ['speedy', 12, 2.0, 0.75]]
 def generate(wave):
-    # total amount of power the wave will have. For reference:
-    # wave 1 has 20 powerTotal and 1 powerRate
-    # wave 35 has 336 powerTotal and 23 powerRate
-    # wave 38 has 975 powerTotal and 26 powerRate
-    # wave 40 has 960 powerTotal and 32 powerRate
-    # TODO rescale this
-    powerRandom = random.uniform(-3,3)  # make total power and rate inversely related
-    powerTotal = (wave * 16) ** 1.05 + powerRandom * 50
+    # powerTotal is the total strength of the spawned enemies
+    # powerRate is the rate they spawn
+    # power total and power rate are inversely correlated
+    powerRandom = random.uniform(-0.2,0.2)  # make total power and rate inversely related
     
-    # rate of enemy spawns
-    powerRate = 1.5 + wave * 0.6 - powerRandom * 1.0
+    # TODO rescale this
+    powerTotal = 12 * (wave ** 1.2) * powerRandom
+    powerRate = 3 + 0.7 * wave * (1 - powerRandom)
     
     # number of different enemy types to spawn
     numEnemies = random.randint(3, 5)
@@ -32,35 +29,40 @@ def generate(wave):
     # some waves have a larger variety of enemies and more of them
     if wave % 20 == 0:
         numEnemies += 2
-        powerTotal *= 1.5
+        powerTotal *= 1.4
+        powerRate *= 1.2
     elif wave % 5 == 0:
         numEnemies += 1
-        powerTotal *= 1.25
+        powerTotal *= 1.2
+        powerRate *= 1.1
     
     # Formation is how they will spawn (e.g. in groups, or just regularly):
-    # 0,1: Regular: all enemies start spawning at beginning and spawn at uniform intervals
-    # 2: Group: first enemy starts spawning, then 2nd enemy once 1st enemy is done, etc. (250% spawn speed, 2sec between groups)
-    # 3: Mixed group: all enemies spawn rapidly for a few seconds (2.5x rate for 5sec) then stop spawning for a few seconds (3sec)
-    formation = random.randint(1, 3)
-    
-    # choose enemies
-    outputWave = [[random.choice(list(valueList))] for i in range(numEnemies)]
+    # 0,1: Regular 
+    #   all enemies start spawning at beginning and spawn at uniform intervals.
+    #   spawn rate is divided among enemies
+    # 2: Group
+    #   first enemy starts spawning, then 2nd enemy once 1st enemy is done, etc. 
+    #   2 seconds between groups
+    # 3: Staggered
+    #   Similar to regular, but groups start spawning with a small staggered interval
+    formation = random.randint(0, 3)
+    outputWave = [[random.choice(list(valueList))] for _ in range(numEnemies)]
     totalTime = 0
     for i in range(numEnemies):
-        # split the total power into each enemy
         strength = powerTotal / numEnemies
-    
-        if formation == 0:  # group
-            pass
-        if formation == 1:  # mixed group
-            num = round(strength/valueList[outputWave[i][0]], 0)
+        if formation == 0 or formation == 1:  # regular
+            num = round(strength / valueList[outputWave[i][0]], 0)
+            delay = random.uniform(0, 2)
+            interval = valueList[outputWave[i][0]] / (powerRate / numEnemies)
+        elif formation == 2:  # groupsed
+            num = round(strength / valueList[outputWave[i][0]], 0)
             delay = random.uniform(0, 1) + totalTime
-            interval = valueList[outputWave[i][0]] / (powerRate * 2.5/numEnemies)
-            totalTime += (interval * (num -1)) + 3
-        else:  # regular, default
+            interval = valueList[outputWave[i][0]] / powerRate
+            totalTime += interval * (num - 1) + 2
+        else:  # staggered
             num = round(strength/valueList[outputWave[i][0]], 0)
-            delay = random.uniform(0, 1)
-            interval = valueList[outputWave[i][0]] / (powerRate/numEnemies)
+            delay = 2 * i + random.uniform(0, 1)
+            interval = valueList
         
         outputWave[i] = [outputWave[i][0], num, delay, interval]
 
